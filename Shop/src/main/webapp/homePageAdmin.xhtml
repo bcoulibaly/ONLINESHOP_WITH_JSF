@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title><ui:insert name="title">Kundenverwaltung</ui:insert></title>
+	<link rel="stylesheet" href="resources/CSS/alleKunden.css"
+		type="text/css" />
+	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
+	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
+</h:head>
+
+<h:body>
+
+	<b:navBar brand="BELISO SHOP" brandImg="resources/IMAGES/logo1.png"
+		brand-img-style="width:60px;
+				height:30px" fluid="true"
+		sticky="true">
+		<b:navbarLinks pull="right">
+			<b:navCommandLink href="#">
+				<b:iconAwesome name="fa-group" spin="true" />
+				<h:outputLabel value="	Contact" />
+			</b:navCommandLink>
+			<b:navCommandLink href="#">
+				<h:outputLabel value="Impressum" />
+				<b:iconAwesome name="fa-info" spin="true" />
+			</b:navCommandLink>
+			<b:navCommandLink href="#">
+				<b:iconAwesome name="fa-leaf" spin="true" />
+				<h:outputLabel value="Ueber uns" />
+			</b:navCommandLink>
+			
+			
+			<b:dropButton value="#{loginHandler.user.benutzername}">
+				<b:iconAwesome name="user" />
+				<b:navLink value="Profil editieren" href="#"></b:navLink>
+				<b:navLink></b:navLink>
+				<b:navLink onclick="#{loginHandler.loggout()}" value="Abmelden" ></b:navLink>
+			</b:dropButton>
+		</b:navbarLinks>
+	</b:navBar>
+
+	<hr width="80%" align="center" />
+	<h2 id="headPage" align="center">
+		<ui:insert name="headPage">HomePage Admin</ui:insert>
+	</h2>
+	<hr width="80%" align="center" />
+	<div id="content" align="center">
+		<h:form>
+			<ui:insert name="content">
+				<h4 style="color: white;">
+					<ui:insert>Alle Kunden</ui:insert>
+				</h4>
+				<h:commandButton action="#{kundenHandler.neu()}"
+					value="Neuer Kunde anlegen" />
+				<h:dataTable var="kunde" value="#{kundenHandler.kundenListe}"
+					rowClasses="odd,even" headerClass="header" cellspacing="5px">
+					<!-- 					<f:facet name="header">Alle Kunden</f:facet> -->
+					<h:column>
+						<f:facet name="header">Anrede</f:facet>
+						<h:outputText value="#{kunde.anrede}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Vorname</f:facet>
+						<h:outputText value="#{kunde.vorname}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Nachname</f:facet>
+						<h:outputText value="#{kunde.name}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Benutzername</f:facet>
+						<h:outputText value="#{kunde.benutzername}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Password</f:facet>
+						<h:outputText value="#{kunde.passwort}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Strasse</f:facet>
+						<h:outputText value="#{kunde.strasse}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Geburtsdatum</f:facet>
+						<h:outputFormat value="#{kunde.geburtsdatum}">
+							<f:convertDateTime pattern="dd.MM.yy" />
+						</h:outputFormat>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Rolle</f:facet>
+						<h:outputFormat value="#{kunde.rolle}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">bearbeiten</f:facet>
+						<h:commandButton value="bearbeiten" />
+					</h:column>
+					<p:column>
+						<f:facet name="header">löschen</f:facet>
+						<h:commandButton value="löschen" />
+						<b:iconAwesome />
+					</p:column>
+				</h:dataTable>
+
+				<br />
+				<h4 style="color: white;">
+					<ui:insert>Alle Artikeln</ui:insert>
+				</h4>
+				<p:commandButton action="#{artikelHandler.neuArtikel}"
+					value="Neues Artikel anlegen" />
+				<h:dataTable var="artikel" value="#{artikelHandler.artikelListe}"
+					rowClasses="odd,even" headerClass="header">
+					<h:column>
+						<f:facet name="header">Name</f:facet>
+						<h:outputText value="#{artikel.name}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Beschreibung</f:facet>
+						<h:outputText value="#{artikel.beschreibung}" />
+					</h:column>
+					<h:column>
+						<f:facet name="header">Preis</f:facet>
+						<h:outputLabel value="#{artikel.preis}">€</h:outputLabel>
+					</h:column>
+					<h:column>
+						<f:facet name="header">Image</f:facet>
+						<h:graphicImage width="80px" height="50px"
+							url="/resources/IMAGES/ARTIKEL/#{artikel.image}" />
+					</h:column>
+
+					<h:column>
+						<f:facet name="header">Anzahl</f:facet>
+						<h:outputFormat value="#{artikel.anzahl}" />
+					</h:column>
+				</h:dataTable>
+			</ui:insert>
+		</h:form>
+	</div>
+
+	<div id="footer">
+		<ui:insert name="footer">
+			<span>Copyright 2019 | Ben Inza Coulibaly | Amadou Sow |
+				Lionel Babou</span>
+		</ui:insert>
+	</div>
+</h:body>
+
+</html>

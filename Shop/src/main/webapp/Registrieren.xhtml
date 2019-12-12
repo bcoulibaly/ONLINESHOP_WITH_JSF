@@ -1,0 +1,180 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+
+	<title><ui:insert name="title">LoginSeite</ui:insert></title>
+	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
+	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
+
+	<style type="text/css">
+		.label {
+			width: 20%;
+			padding: 4px;
+		}
+		
+		.value {
+			width: 80%;
+			padding: 4px;
+		}
+		
+		.grid {
+			width: 100%;
+		}
+		
+		.error {
+			color: red;
+		}
+		
+		.outputLabel {
+			font-weight: bold;
+		}
+		
+		.grid {
+			width: 33%;
+			padding: 4px;
+		}
+	</style>
+
+</h:head>
+<h:body>
+
+	<b:navBar brand="BELISO SHOP" brandImg="resources/IMAGES/logo1.png"
+		brand-img-style="width:60px;
+				height:30px" fluid="true"
+		sticky="true">
+		<b:navbarLinks pull="right">
+			<b:navCommandLink href="#">
+				<b:iconAwesome name="group" spin="true" />
+				<h:outputLabel value="	Contact" />
+			</b:navCommandLink>
+			<b:navCommandLink href="#">
+				<h:outputLabel value="Impressum" />
+				<b:iconAwesome name="info" spin="true" />
+			</b:navCommandLink>
+			<b:navCommandLink href="#">
+				<b:iconAwesome name="leaf" spin="true" />
+				<h:outputLabel value="Ueber uns" />
+			</b:navCommandLink>
+		</b:navbarLinks>
+	</b:navBar>
+
+	<h:form>
+		<p:growl id="growl" sticky="true" showDetail="true" />
+
+		<p:wizard flowListener="#{kundenHandler.onFlowProcess}">
+			<p:tab id="personal" title="Personal">
+				<p:panel header="Personal Details">
+					<p:messages />
+
+					<h:panelGrid columns="2" columnClasses="label, value">
+
+						<h:outputLabel value="Anrede:" for="anrede" />
+						<h:panelGroup>
+							<p:selectOneMenu id="anrede"
+								value="#{kundenHandler.merkeKunde.anrede}">
+								<f:selectItem itemLabel="HERR" itemValue="HERR" />
+								<f:selectItem itemLabel="FRAU" itemValue="FRAU" />
+								<f:selectItem itemLabel="OTHER" itemValue="OTHER" />
+							</p:selectOneMenu>
+						</h:panelGroup>
+
+						<h:outputText value="Firstname: *" />
+						<p:inputText value="#{userWizard.user.firstname}" required="true"
+							label="Firstname" />
+
+						<h:outputText value="Lastname: *" />
+						<p:inputText value="#{userWizard.user.lastname}" required="true"
+							label="Lastname" />
+
+						<h:outputText value="Geburtsdatum: " />
+						<h:panelGroup>
+							<p:calendar id="geburtsdatum"
+								value="#{kundenHandler.merkeKunde.geburtsdatum}"
+								pattern="dd.MM.yyyy" required="true"
+								requiredMessage="Geburtsdatum fehlt" />
+						</h:panelGroup>
+
+						<h:outputText value="Email: *" />
+						<p:inputText value="#{userWizard.user.email}" required="true"
+							label="Email" />
+
+						<h:outputText value="Skip to last: " />
+						<h:selectBooleanCheckbox value="#{userWizard.skip}" />
+					</h:panelGrid>
+				</p:panel>
+			</p:tab>
+
+			<p:tab id="address" title="Address">
+				<p:panel header="Address Details">
+					<p:messages />
+					<h:panelGrid columns="2" columnClasses="label, value">
+						<h:outputText value="Street: " />
+						<p:inputText value="#{kundenHandler.merkeKunde.strasse}" />
+
+						<h:outputText value="Postal Code: " />
+						<p:inputText value="#{kundenHandler.merkeKunde.plz}" />
+
+						<h:outputText value="City: " />
+						<p:inputText value="#{kundenHandler.merkeKunde.ort}" />
+
+						<h:outputText value="Skip to last: " />
+						<h:selectBooleanCheckbox value="#{userWizard.skip}" />
+					</h:panelGrid>
+				</p:panel>
+			</p:tab>
+
+			<p:tab id="confirm" title="Confirmation">
+				<p:panel header="Confirmation">
+					<h:panelGrid id="confirmation" columns="3"
+						columnClasses="grid,grid,grid">
+						<h:panelGrid columns="2" columnClasses="label, value">
+							<h:outputText value="Firstname: " />
+							<h:outputText value="#{kundenHandler.merkeKunde.vorname}"
+								styleClass="outputLabel" />
+
+							<h:outputText value="Lastname: " />
+							<h:outputText value="#{kundenHandler.merkeKunde.name}"
+								styleClass="outputLabel" />
+
+							<h:outputText value="Age: " />
+							<h:outputText value="12" styleClass="outputLabel" />
+						</h:panelGrid>
+
+						<h:panelGrid columns="2" columnClasses="label, value">
+							<h:outputText value="Street: " />
+							<h:outputText value="#{kundenHandler.merkeKunde.strasse}"
+								styleClass="outputLabel" />
+
+							<h:outputText value="Postal: " />
+							<h:outputText value="#{kundenHandler.merkeKunde.plz}"
+								styleClass="outputLabel" />
+
+							<h:outputText value="City: " />
+							<h:outputText value="#{kundenHandler.merkeKunde.ort}"
+								styleClass="outputLabel" />
+						</h:panelGrid>
+
+						<h:panelGrid columns="2" columnClasses="label, value">
+							<h:outputText value="Email: " />
+							<h:outputText value="#{kundenHandler.merkeKunde.email}"
+								styleClass="outputLabel" />
+							<h:outputText />
+							<h:outputText />
+						</h:panelGrid>
+					</h:panelGrid>
+
+					<p:commandButton value="Submit"
+						action="#{kundenHandler.speichern()}" update="growl"
+						process="@this" />
+				</p:panel>
+			</p:tab>
+		</p:wizard>
+
+	</h:form>
+</h:body>
+</html>

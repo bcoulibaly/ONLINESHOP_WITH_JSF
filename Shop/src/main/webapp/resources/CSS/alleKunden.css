@@ -1,0 +1,44 @@
+@charset "utf-8";
+
+#content {
+	padding: 10px;
+	font-size: 15px;
+	background-color: #35324e;
+	height:80%;
+}
+
+}
+table {
+	text-align:center;
+	border-collapse: collapse;
+	border-bottom: 1px solid #000000;
+}
+
+label {
+	color:black;
+}
+#header{
+	text-align: center;
+	font-size: 16px;
+}
+#neuerKundeButton{
+	float: left;
+}
+th {
+	background-color: #ccd2d3;
+	padding: 5px 5px 5px 5px;
+	text-align: center;
+}
+
+td {
+	padding: 0px 5px 0px 5px;
+	text-align:center;
+}
+
+tr.odd {
+	background-color: #edf4f5;
+}
+
+tr.even {
+	background-color: #dae0e1;
+}
