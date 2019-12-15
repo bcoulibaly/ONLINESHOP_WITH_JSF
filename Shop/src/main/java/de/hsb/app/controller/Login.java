@@ -94,7 +94,7 @@ public class Login implements Serializable {
 			return "loginSeite";
 	}
 	
-	public String loggout() {
+	public String logout() {
 		user = null;
 		return "loginSeite";
 	}

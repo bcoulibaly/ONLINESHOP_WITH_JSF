@@ -3,7 +3,8 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+	xmlns:p="http://primefaces.org/ui" 
+	xmlns:b="http://bootsfaces.net/ui">
 
 <h:head>
 	<title><ui:insert name="title">Kundenverwaltung</ui:insert></title>
@@ -14,34 +15,31 @@
 </h:head>
 
 <h:body>
-
+<h:form>
 	<b:navBar brand="BELISO SHOP" brandImg="resources/IMAGES/logo1.png"
 		brand-img-style="width:60px;
-				height:30px" fluid="true"
-		sticky="true">
-		<b:navbarLinks pull="right">
+				height:30px" fluid="true" sticky="true">
+		<b:navbarLinks pull="right" >
 			<b:navCommandLink href="#">
-				<b:iconAwesome name="fa-group" spin="true" />
-				<h:outputLabel value="	Contact" />
+				<b:iconAwesome name="group" spin="true" />
+				<h:outputLabel value="Contact" />
 			</b:navCommandLink>
 			<b:navCommandLink href="#">
 				<h:outputLabel value="Impressum" />
-				<b:iconAwesome name="fa-info" spin="true" />
+				<b:iconAwesome name="info" spin="true" />
 			</b:navCommandLink>
 			<b:navCommandLink href="#">
-				<b:iconAwesome name="fa-leaf" spin="true" />
+				<b:iconAwesome name="leaf" spin="true" />
 				<h:outputLabel value="Ueber uns" />
 			</b:navCommandLink>
-			
-			
-			<b:dropButton value="#{loginHandler.user.benutzername}">
-				<b:iconAwesome name="user" />
-				<b:navLink value="Profil editieren" href="#"></b:navLink>
-				<b:navLink></b:navLink>
-				<b:navLink onclick="#{loginHandler.loggout()}" value="Abmelden" ></b:navLink>
+						
+			<b:dropButton  iconAwesome="user" value="#{loginHandler.user.benutzername}">
+				<b:navCommandLink value="Profil editieren" href="#" ></b:navCommandLink>
+				<b:navCommandLink action="#{loginHandler.logout()}" value="Abmelden" ></b:navCommandLink>
 			</b:dropButton>
 		</b:navbarLinks>
 	</b:navBar>
+</h:form>
 
 	<hr width="80%" align="center" />
 	<h2 id="headPage" align="center">
@@ -100,7 +98,7 @@
 					<p:column>
 						<f:facet name="header">löschen</f:facet>
 						<h:commandButton value="löschen" />
-						<b:iconAwesome />
+						<b:iconAwesome name="user-times" />
 					</p:column>
 				</h:dataTable>
 
