@@ -13,7 +13,14 @@ import javax.faces.model.DataModel;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import javax.transaction.HeuristicMixedException;
+import javax.transaction.HeuristicRollbackException;
+import javax.transaction.NotSupportedException;
+import javax.transaction.RollbackException;
+import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
+
+import org.primefaces.event.FlowEvent;
 
 import de.hsb.app.Model.Kunde;
 import de.hsb.app.Model.Rolle;
@@ -30,27 +37,26 @@ public class Login implements Serializable {
 	private EntityManager entityManager;
 	@Resource
 	private UserTransaction userTransaction;
-	
+
 	private String benutzername;
 	private String passwort;
 	private Kunde user;
-	
+
 	@ManagedProperty(value = "#{kundenHandler.kundenListe}")
 	private DataModel<Kunde> kunden;
-	
+
 //	@ManagedProperty(value = "#{kundenHandler}")
 //	private KundenHandler kundenHandler;
 //	
 //	
-	
+
 	public Login() {
-	
+
 	}
-	
 
 	@SuppressWarnings("unchecked")
 	public String login() {
-		
+
 		Query query = entityManager
 				.createQuery("Select k from Kunde k " + "where k.benutzername = :username and k.passwort = :passwort ");
 		query.setParameter("username", benutzername);
@@ -66,7 +72,7 @@ public class Login implements Serializable {
 		List<Kunde> kunden = query.getResultList();
 		if (kunden.size() == 1) {
 			user = kunden.get(0);
-			
+
 			if (user.getRolle() == Rolle.ADMIN) {
 				return "homePageAdmin";
 			} else {
@@ -74,33 +80,60 @@ public class Login implements Serializable {
 			}
 
 		} else {
-			FacesContext.getCurrentInstance().addMessage(
-					null,
-					new FacesMessage(FacesMessage.SEVERITY_ERROR,
-							"Falsches Passwort",
-							"Ihr Passwort oder Benutzername ist falsch"));
+			FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+					"Falsches Passwort", "Ihr Passwort oder Benutzername ist falsch"));
 			return null;
 		}
 	}
-	
+
+	public String registrieren() {
+		user = new Kunde();
+		return "registrieren";
+	}
+
+	public String registrierungSpeichern() {
+		try {
+			System.out.println("Speichern wurde aufgerufen");
+			userTransaction.begin();
+
+			entityManager.persist(user);
+			kunden.setWrappedData(entityManager.createNamedQuery("SelectKunden").getResultList());
+
+			userTransaction.commit();
+		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
+				| HeuristicMixedException | HeuristicRollbackException e) {
+			e.printStackTrace();
+		}
+		return "loginSeite";
+	}
+
+	public String onFlowProcess(FlowEvent event) {
+		return event.getNewStep();
+	}
+
 	public String checkLoggedIn() {
-		if(user!=null) {
-			if(user.getRolle() == Rolle.ADMIN)
+		if (user != null) {
+			if (user.getRolle() == Rolle.ADMIN)
 				return "homePageAdmin";
 			else
-				return "shop";
-		}
-		else
+				return "home";
+		} else
 			return "loginSeite";
 	}
-	
+
 	public String logout() {
 		user = null;
 		return "loginSeite";
 	}
-	
+
 	public String abbrechen() {
-		return "";
+		if (user != null)
+			if (user.getRolle() == Rolle.ADMIN)
+				return "homePageAdmin";
+			else
+				return "home";
+		else
+			return "shopView";
 	}
 
 	public EntityManager getEm() {

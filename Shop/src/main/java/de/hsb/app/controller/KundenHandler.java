@@ -91,22 +91,7 @@ public class KundenHandler {
 		}
 		return "homePageAdmin";
 	}
-	public String registrieren() {
-		try {
-			System.out.println("Speichern wurde aufgerufen");
-			userTransaction.begin();
-			
-			
-			entityManager.persist(merkeKunde);
-			kundenListe.setWrappedData(entityManager.createNamedQuery("SelectKunden").getResultList());
-			
-			userTransaction.commit();
-		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
-				| HeuristicMixedException | HeuristicRollbackException e) {
-			e.printStackTrace();
-		}
-		return "loginSeite";
-	}
+	
 	
 	public boolean isSkip() {
         return skip;

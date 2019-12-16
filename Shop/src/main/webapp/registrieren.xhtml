@@ -50,7 +50,7 @@
 		<b:navbarLinks pull="right">
 			<b:navCommandLink href="#">
 				<b:iconAwesome name="group" spin="true" />
-				<h:outputLabel value="	Contact" />
+				<h:outputLabel value="Contact" />
 			</b:navCommandLink>
 			<b:navCommandLink href="#">
 				<h:outputLabel value="Impressum" />
@@ -66,7 +66,7 @@
 	<h:form>
 		<p:growl id="growl" sticky="true" showDetail="true" />
 
-		<p:wizard flowListener="#{kundenHandler.onFlowProcess}">
+		<p:wizard flowListener="#{loginHandler.onFlowProcess}">
 			<p:tab id="personal" title="Personal">
 				<p:panel header="Personal Details">
 					<p:messages />
@@ -75,36 +75,33 @@
 
 						<h:outputLabel value="Anrede:" for="anrede" />
 						<h:panelGroup>
-							<p:selectOneMenu id="anrede"
-								value="#{kundenHandler.merkeKunde.anrede}">
+							<b:selectOneMenu id="anrede"
+								value="#{loginHandler.user.anrede}">
 								<f:selectItem itemLabel="HERR" itemValue="HERR" />
 								<f:selectItem itemLabel="FRAU" itemValue="FRAU" />
 								<f:selectItem itemLabel="OTHER" itemValue="OTHER" />
-							</p:selectOneMenu>
+							</b:selectOneMenu>
 						</h:panelGroup>
 
 						<h:outputText value="Firstname: *" />
-						<p:inputText value="#{userWizard.user.firstname}" required="true"
+						<p:inputText value="#{loginHandler.user.vorname}" required="true"
 							label="Firstname" />
 
 						<h:outputText value="Lastname: *" />
-						<p:inputText value="#{userWizard.user.lastname}" required="true"
+						<p:inputText value="#{loginHandler.user.name}" required="true"
 							label="Lastname" />
 
 						<h:outputText value="Geburtsdatum: " />
 						<h:panelGroup>
 							<p:calendar id="geburtsdatum"
-								value="#{kundenHandler.merkeKunde.geburtsdatum}"
+								value="#{loginHandler.user.geburtsdatum}"
 								pattern="dd.MM.yyyy" required="true"
 								requiredMessage="Geburtsdatum fehlt" />
 						</h:panelGroup>
 
 						<h:outputText value="Email: *" />
-						<p:inputText value="#{userWizard.user.email}" required="true"
+						<p:inputText value="#{loginHandler.user.email}" required="true"
 							label="Email" />
-
-						<h:outputText value="Skip to last: " />
-						<h:selectBooleanCheckbox value="#{userWizard.skip}" />
 					</h:panelGrid>
 				</p:panel>
 			</p:tab>
@@ -114,16 +111,13 @@
 					<p:messages />
 					<h:panelGrid columns="2" columnClasses="label, value">
 						<h:outputText value="Street: " />
-						<p:inputText value="#{kundenHandler.merkeKunde.strasse}" />
+						<p:inputText value="#{loginHandler.user.strasse}" />
 
 						<h:outputText value="Postal Code: " />
-						<p:inputText value="#{kundenHandler.merkeKunde.plz}" />
+						<p:inputText value="#{loginHandler.user.plz}" />
 
 						<h:outputText value="City: " />
-						<p:inputText value="#{kundenHandler.merkeKunde.ort}" />
-
-						<h:outputText value="Skip to last: " />
-						<h:selectBooleanCheckbox value="#{userWizard.skip}" />
+						<p:inputText value="#{loginHandler.user.ort}" />
 					</h:panelGrid>
 				</p:panel>
 			</p:tab>
@@ -134,11 +128,11 @@
 						columnClasses="grid,grid,grid">
 						<h:panelGrid columns="2" columnClasses="label, value">
 							<h:outputText value="Firstname: " />
-							<h:outputText value="#{kundenHandler.merkeKunde.vorname}"
+							<h:outputText value="#{loginHandler.user.vorname}"
 								styleClass="outputLabel" />
 
 							<h:outputText value="Lastname: " />
-							<h:outputText value="#{kundenHandler.merkeKunde.name}"
+							<h:outputText value="#{loginHandler.user.name}"
 								styleClass="outputLabel" />
 
 							<h:outputText value="Age: " />
@@ -147,21 +141,21 @@
 
 						<h:panelGrid columns="2" columnClasses="label, value">
 							<h:outputText value="Street: " />
-							<h:outputText value="#{kundenHandler.merkeKunde.strasse}"
+							<h:outputText value="#{loginHandler.user.strasse}"
 								styleClass="outputLabel" />
 
 							<h:outputText value="Postal: " />
-							<h:outputText value="#{kundenHandler.merkeKunde.plz}"
+							<h:outputText value="#{loginHandler.user.plz}"
 								styleClass="outputLabel" />
 
 							<h:outputText value="City: " />
-							<h:outputText value="#{kundenHandler.merkeKunde.ort}"
+							<h:outputText value="#{loginHandler.user.ort}"
 								styleClass="outputLabel" />
 						</h:panelGrid>
 
 						<h:panelGrid columns="2" columnClasses="label, value">
 							<h:outputText value="Email: " />
-							<h:outputText value="#{kundenHandler.merkeKunde.email}"
+							<h:outputText value="#{loginHandler.user.email}"
 								styleClass="outputLabel" />
 							<h:outputText />
 							<h:outputText />
@@ -169,7 +163,7 @@
 					</h:panelGrid>
 
 					<p:commandButton value="Submit"
-						action="#{kundenHandler.speichern()}" update="growl"
+						action="#{loginHandler.registrierungSpeichern()}" update="growl"
 						process="@this" />
 				</p:panel>
 			</p:tab>
