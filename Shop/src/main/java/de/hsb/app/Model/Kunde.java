@@ -11,8 +11,11 @@ import javax.persistence.Id;
 import javax.persistence.NamedQuery;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
+
+import org.hibernate.validator.constraints.Email;
 
 @NamedQuery(name="SelectKunden", query="Select k from Kunde k") 
 @Entity
@@ -22,21 +25,31 @@ public class Kunde implements Serializable{
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
+	@NotNull
 	@Column(name = "Kunde_ID")
 	private Integer id;
+	
+	@NotNull
 	@Column(name = "NAME")
 	private String name;
+	
+	@NotNull
 	@Column(name = "VORNAME")
 	private String vorname;
+	
+	@NotNull
 	@Column(name = "PASSWORD")
 	private String passwort;
+	
 	@Size(min = 5, max = 100)
 	@Column(name = "STRASSE")
 	private String strasse;
 	
 	@Column(name = "EMAIL")
+	@Email
 	private String email;
-	
+
+	@Size(min = 3, max = 10)
 	@Column(name = "PLZ")
 	private String plz;
 	
@@ -44,12 +57,15 @@ public class Kunde implements Serializable{
 	@Column(name = "Ort")
 	private String ort;
 	
+	@Size(min = 3, max = 100)
 	@Column(name = "BENUTZERNAME")
 	private String benutzername;
 	
+	@NotNull
 	@Column(name = "ANREDE")
 	private Anrede anrede;
 	
+	@NotNull
 	@Column(name = "ROLLE")
 	private Rolle rolle;
 	

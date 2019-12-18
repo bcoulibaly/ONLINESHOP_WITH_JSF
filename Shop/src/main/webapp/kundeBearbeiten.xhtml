@@ -7,7 +7,7 @@
 
 <h:head>
 
-	<title><ui:insert name="title">LoginSeite</ui:insert></title>
+	<title><ui:insert name="title">KundenBearbeiten</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
 	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
 
@@ -43,31 +43,36 @@
 
 </h:head>
 <h:body>
-
-	<b:navBar brand="BELISO SHOP" brandImg="resources/IMAGES/logo1.png"
-		brand-img-style="width:60px;
+	<h:form>
+		<b:navBar brand="BELISO SHOP" brandImg="resources/IMAGES/logo1.png"
+			brand-img-style="width:60px;
 				height:30px" fluid="true"
-		sticky="true">
-		<b:navbarLinks pull="right">
-			<b:navCommandLink href="#">
-				<b:iconAwesome name="group" spin="true" />
-				<h:outputLabel value="Contact" />
-			</b:navCommandLink>
-			<b:navCommandLink href="#">
-				<h:outputLabel value="Impressum" />
-				<b:iconAwesome name="info" spin="true" />
-			</b:navCommandLink>
-			<b:navCommandLink href="#">
-				<b:iconAwesome name="leaf" spin="true" />
-				<h:outputLabel value="Ueber uns" />
-			</b:navCommandLink>
-		</b:navbarLinks>
-	</b:navBar>
-
+			sticky="true">
+			<b:navbarLinks pull="right">
+				<b:navCommandLink href="#">
+					<b:iconAwesome name="group" spin="true" />
+					<h:outputLabel value="Contact" />
+				</b:navCommandLink>
+				<b:navCommandLink href="#">
+					<h:outputLabel value="Impressum" />
+					<b:iconAwesome name="info" spin="true" />
+				</b:navCommandLink>
+				<b:navCommandLink href="#">
+					<b:iconAwesome name="leaf" spin="true" />
+					<h:outputLabel value="Ueber uns" />
+				</b:navCommandLink>
+				<b:dropButton iconAwesome="user"
+					value="#{loginHandler.user.benutzername}">
+					<b:navCommandLink action="#{loginHandler.logout()}"
+						value="Abmelden"></b:navCommandLink>
+				</b:dropButton>
+			</b:navbarLinks>
+		</b:navBar>
+	</h:form>
 	<h:form>
 		<p:growl id="growl" sticky="true" showDetail="true" />
 
-		<p:wizard flowListener="#{loginHandler.onFlowProcess}">
+		<p:wizard flowListener="#{kundenHandler.onFlowProcess}">
 			<p:tab id="personal" title="Personal">
 				<p:panel header="Personal Details">
 					<p:messages />
@@ -76,30 +81,28 @@
 
 						<h:outputLabel value="Anrede:" for="anrede" />
 						<h:panelGroup>
-							<b:selectOneMenu id="anrede"
-								action="#{loginHandler.user.anrede}">
-								<f:selectItems value="#{kundenHandler.anredeValues}" var="status"
-									itemValue="#{status}" itemLabel="#{status.label}" />
+							<b:selectOneMenu id="anrede"  value="#{kundenHandler.merkeKunde.anrede}">
+								<f:selectItem itemLabel="#{kundenHandler.merkeKunde.anrede.label}" itemValue="#{kundenHandler.merkeKunde.anrede}" />
 							</b:selectOneMenu>
 						</h:panelGroup>
 
 						<h:outputText value="Firstname: *" />
-						<p:inputText value="#{loginHandler.user.vorname}" required="true"
+						<p:inputText value="#{kundenHandler.merkeKunde.vorname}" required="true"
 							label="Firstname" />
 
 						<h:outputText value="Lastname: *" />
-						<p:inputText value="#{loginHandler.user.name}" required="true"
+						<p:inputText value="#{kundenHandler.merkeKunde.name}" required="true"
 							label="Lastname" />
 
 						<h:outputText value="Geburtsdatum: " />
 						<h:panelGroup>
 							<p:calendar id="geburtsdatum"
-								value="#{loginHandler.user.geburtsdatum}" pattern="dd.MM.yyyy"
+								value="#{kundenHandler.merkeKunde.geburtsdatum}" pattern="dd.MM.yyyy"
 								required="true" requiredMessage="Geburtsdatum fehlt" />
 						</h:panelGroup>
 
 						<h:outputText value="Email: *" />
-						<p:inputText value="#{loginHandler.user.email}" required="true"
+						<p:inputText value="#{kundenHandler.merkeKunde.email}" required="true"
 							label="Email" />
 					</h:panelGrid>
 				</p:panel>
@@ -110,13 +113,13 @@
 					<p:messages />
 					<h:panelGrid columns="2" columnClasses="label, value">
 						<h:outputText value="Street: " />
-						<p:inputText value="#{loginHandler.user.strasse}" />
+						<p:inputText value="#{kundenHandler.merkeKunde.strasse}" />
 
 						<h:outputText value="Postal Code: " />
-						<p:inputText value="#{loginHandler.user.plz}" />
+						<p:inputText value="#{kundenHandler.merkeKunde.plz}" />
 
 						<h:outputText value="City: " />
-						<p:inputText value="#{loginHandler.user.ort}" />
+						<p:inputText value="#{kundenHandler.merkeKunde.ort}" />
 					</h:panelGrid>
 				</p:panel>
 			</p:tab>
@@ -127,34 +130,34 @@
 						columnClasses="grid,grid,grid">
 						<h:panelGrid columns="2" columnClasses="label, value">
 							<h:outputText value="Firstname: " />
-							<h:outputText value="#{loginHandler.user.vorname}"
+							<h:outputText value="#{kundenHandler.merkeKunde.vorname}"
 								styleClass="outputLabel" />
 
 							<h:outputText value="Lastname: " />
-							<h:outputText value="#{loginHandler.user.name}"
+							<h:outputText value="#{kundenHandler.merkeKunde.name}"
 								styleClass="outputLabel" />
 
 							<h:outputText value="Age: " />
-							<h:outputText value="12" styleClass="outputLabel" />
+							<h:outputText value="#{kundenHandler.merkeKunde.geburtsdatum}" styleClass="outputLabel" />
 						</h:panelGrid>
 
 						<h:panelGrid columns="2" columnClasses="label, value">
 							<h:outputText value="Street: " />
-							<h:outputText value="#{loginHandler.user.strasse}"
+							<h:outputText value="#{kundenHandler.merkeKunde.strasse}"
 								styleClass="outputLabel" />
 
 							<h:outputText value="Postal: " />
-							<h:outputText value="#{loginHandler.user.plz}"
+							<h:outputText value="#{kundenHandler.merkeKunde.plz}"
 								styleClass="outputLabel" />
 
 							<h:outputText value="City: " />
-							<h:outputText value="#{loginHandler.user.ort}"
+							<h:outputText value="#{kundenHandler.merkeKunde.ort}"
 								styleClass="outputLabel" />
 						</h:panelGrid>
 
 						<h:panelGrid columns="2" columnClasses="label, value">
 							<h:outputText value="Email: " />
-							<h:outputText value="#{loginHandler.user.email}"
+							<h:outputText value="#{kundenHandler.merkeKunde.email}"
 								styleClass="outputLabel" />
 							<h:outputText />
 							<h:outputText />
@@ -162,7 +165,7 @@
 					</h:panelGrid>
 
 					<p:commandButton value="Submit"
-						action="#{loginHandler.registrierungSpeichern()}" update="growl"
+						action="#{kundenHandler.speichern()}" update="growl"
 						process="@this" />
 				</p:panel>
 			</p:tab>

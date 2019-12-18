@@ -3,8 +3,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
-	xmlns:p="http://primefaces.org/ui" 
-	xmlns:b="http://bootsfaces.net/ui">
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
 
 <h:head>
 	<title><ui:insert name="title">Kundenverwaltung</ui:insert></title>
@@ -15,31 +14,34 @@
 </h:head>
 
 <h:body>
-<h:form>
-	<b:navBar brand="BELISO SHOP" brandImg="resources/IMAGES/logo1.png"
-		brand-img-style="width:60px;
-				height:30px" fluid="true" sticky="true">
-		<b:navbarLinks pull="right" >
-			<b:navCommandLink href="#">
-				<b:iconAwesome name="group" spin="true" />
-				<h:outputLabel value="Contact" />
-			</b:navCommandLink>
-			<b:navCommandLink href="#">
-				<h:outputLabel value="Impressum" />
-				<b:iconAwesome name="info" spin="true" />
-			</b:navCommandLink>
-			<b:navCommandLink href="#">
-				<b:iconAwesome name="leaf" spin="true" />
-				<h:outputLabel value="Ueber uns" />
-			</b:navCommandLink>
-						
-			<b:dropButton  iconAwesome="user" value="#{loginHandler.user.benutzername}">
-				<b:navCommandLink value="Profil editieren" href="#" ></b:navCommandLink>
-				<b:navCommandLink action="#{loginHandler.logout()}" value="Abmelden" ></b:navCommandLink>
-			</b:dropButton>
-		</b:navbarLinks>
-	</b:navBar>
-</h:form>
+	<h:form>
+		<b:navBar brand="BELISO SHOP" brandImg="resources/IMAGES/logo1.png"
+			brand-img-style="width:60px;
+				height:30px" fluid="true"
+			sticky="true">
+			<b:navbarLinks pull="right">
+				<b:navCommandLink href="#">
+					<b:iconAwesome name="group" spin="true" />
+					<h:outputLabel value="Contact" />
+				</b:navCommandLink>
+				<b:navCommandLink href="#">
+					<h:outputLabel value="Impressum" />
+					<b:iconAwesome name="info" spin="true" />
+				</b:navCommandLink>
+				<b:navCommandLink href="#">
+					<b:iconAwesome name="leaf" spin="true" />
+					<h:outputLabel value="Ueber uns" />
+				</b:navCommandLink>
+
+				<b:dropButton iconAwesome="user-circle"
+					value="#{loginHandler.user.benutzername}">
+					<b:navCommandLink value="Profil editieren" href="#"></b:navCommandLink>
+					<b:navCommandLink action="#{loginHandler.logout()}"
+						value="Abmelden"></b:navCommandLink>
+				</b:dropButton>
+			</b:navbarLinks>
+		</b:navBar>
+	</h:form>
 
 	<hr width="80%" align="center" />
 	<h2 id="headPage" align="center">
@@ -52,11 +54,15 @@
 				<h4 style="color: white;">
 					<ui:insert>Alle Kunden</ui:insert>
 				</h4>
-				<h:commandButton action="#{kundenHandler.neu()}"
-					value="Neuer Kunde anlegen" />
+				<b:commandButton action="#{kundenHandler.neu()}"
+					value="Neuer Kunde anlegen" iconAwesome="user-plus"/>
 				<h:dataTable var="kunde" value="#{kundenHandler.kundenListe}"
 					rowClasses="odd,even" headerClass="header" cellspacing="5px">
 					<!-- 					<f:facet name="header">Alle Kunden</f:facet> -->
+					<h:column>
+						<f:facet name="header">ID</f:facet>
+						<h:outputText value="#{kunde.id}" />
+					</h:column>
 					<h:column>
 						<f:facet name="header">Anrede</f:facet>
 						<h:outputText value="#{kunde.anrede}" />
@@ -74,10 +80,6 @@
 						<h:outputText value="#{kunde.benutzername}" />
 					</h:column>
 					<h:column>
-						<f:facet name="header">Password</f:facet>
-						<h:outputText value="#{kunde.passwort}" />
-					</h:column>
-					<h:column>
 						<f:facet name="header">Strasse</f:facet>
 						<h:outputText value="#{kunde.strasse}" />
 					</h:column>
@@ -92,13 +94,12 @@
 						<h:outputFormat value="#{kunde.rolle}" />
 					</h:column>
 					<h:column>
-						<f:facet name="header">bearbeiten</f:facet>
-						<h:commandButton value="bearbeiten" />
+						<f:facet name="header">Bearbeiten</f:facet>
+						<b:commandButton iconAwesome="user-cog" action="#{kundenHandler.kundeBearbeiten()}"/>
 					</h:column>
 					<p:column>
-						<f:facet name="header">löschen</f:facet>
-						<h:commandButton value="löschen" />
-						<b:iconAwesome name="user-times" />
+						<f:facet name="header">Löschen</f:facet>
+						<b:commandButton iconAwesome="user-times" icon-size="2x"/>
 					</p:column>
 				</h:dataTable>
 

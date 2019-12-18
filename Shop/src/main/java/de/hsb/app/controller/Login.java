@@ -22,6 +22,7 @@ import javax.transaction.UserTransaction;
 
 import org.primefaces.event.FlowEvent;
 
+import de.hsb.app.Model.Anrede;
 import de.hsb.app.Model.Kunde;
 import de.hsb.app.Model.Rolle;
 
@@ -87,7 +88,10 @@ public class Login implements Serializable {
 	}
 
 	public String registrieren() {
+		System.out.println("Neue Kunde wird registriert");
 		user = new Kunde();
+		user.setAnrede(Anrede.OTHER);
+		user.setRolle(Rolle.KUNDE);
 		return "registrieren";
 	}
 

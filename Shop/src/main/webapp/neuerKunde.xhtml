@@ -51,16 +51,7 @@
 		<h:form>
 			<h:panelGrid var="kunde" value="#{kundenHandler.merkeKunde}"
 				columns="2" headerClass="header" footerClass="footer">
-				
-				<h:outputLabel value="Anrede:" for="anrede" />
-				<h:panelGroup>
-					<p:selectOneMenu id="anrede" value="#{kundenHandler.merkeKunde.anrede}">
-				        <f:selectItem itemLabel="HERR" itemValue="HERR" />
-				        <f:selectItem itemLabel="FRAU" itemValue="FRAU" />
-				        <f:selectItem itemLabel="OTHER" itemValue="OTHER" />
-    				</p:selectOneMenu>
-				</h:panelGroup>
-				
+							
 				<h:outputLabel value="Vorname:" for="vorname" />
 				<h:panelGroup>
 					<h:inputText id="vorname" required="true" requiredMessage="Vorname fehlt"

@@ -31,7 +31,7 @@ public class KundenHandler {
 	private EntityManager entityManager;
 	@Resource
 	private UserTransaction userTransaction;
-	
+
 	private DataModel<Kunde> kundenListe;
 	private Kunde merkeKunde;
 	private Kunde selectedUser;
@@ -48,7 +48,7 @@ public class KundenHandler {
 			userTransaction.begin();
 
 			entityManager.persist(new Kunde("Ben", "Coulibaly", new GregorianCalendar(1997, 4, 3).getTime(),
-					"bcoulibaly", "beniboy",Rolle.ADMIN, Anrede.HERR));
+					"bcoulibaly", "beniboy", Rolle.ADMIN, Anrede.HERR));
 			entityManager.persist(new Kunde("Lionel", "Ngoubayou", new GregorianCalendar(1990, 9, 15).getTime(),
 					"lngoubayou", "lgoubayou", Rolle.KUNDE, Anrede.HERR));
 			entityManager.persist(new Kunde("Amadou", "Sow", new GregorianCalendar(1994, 5, 21).getTime(), "asow",
@@ -59,31 +59,32 @@ public class KundenHandler {
 			userTransaction.commit();
 		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
 				| HeuristicMixedException | HeuristicRollbackException e) {
-			
+
 			e.printStackTrace();
 		}
 	}
-	
+
 	public String neu() {
 		merkeKunde = new Kunde();
-		
+		merkeKunde.setRolle(Rolle.ADMIN);
+
 		return "neuerKunde";
 	}
-	
-	public String kundeBearbeiten(Kunde kunde) {
-		merkeKunde = kunde;
-		return "Registrieren";
+
+	public String kundeBearbeiten() {
+		merkeKunde = kundenListe.getRowData();
+		return "kundeBearbeiten";
 	}
 
 	public String speichern() {
 		try {
 			System.out.println("Speichern wurde aufgerufen");
 			userTransaction.begin();
-			
+
 			merkeKunde = entityManager.merge(merkeKunde);
 			entityManager.persist(merkeKunde);
 			kundenListe.setWrappedData(entityManager.createNamedQuery("SelectKunden").getResultList());
-			
+
 			userTransaction.commit();
 		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
 				| HeuristicMixedException | HeuristicRollbackException e) {
@@ -91,28 +92,25 @@ public class KundenHandler {
 		}
 		return "homePageAdmin";
 	}
-	
-	
+
 	public boolean isSkip() {
-        return skip;
-    }
- 
-    public void setSkip(boolean skip) {
-        this.skip = skip;
-    }
-     
-    public String onFlowProcess(FlowEvent event) {
-        if(skip) {
-            skip = false;   //reset in case user goes back
-            return "confirm";
-        }
-        else {
-            return event.getNewStep();
-        }
-    }
-	
+		return skip;
+	}
+
+	public void setSkip(boolean skip) {
+		this.skip = skip;
+	}
+
+	public String onFlowProcess(FlowEvent event) {
+			return event.getNewStep();
+	}
+
 	public Rolle[] getRolleValues() {
 		return Rolle.values();
+	}
+
+	public Anrede[] getAnredeValues() {
+		return Anrede.values();
 	}
 
 	public DataModel<Kunde> getKundenListe() {
