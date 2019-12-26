@@ -2,13 +2,20 @@
 
 body, html {
 	height: 100%;
-	font-family: Verdana, Arial, Helvetica, sans-serif;
+	font-family: Felix Titling, Tw Cen MT, Verdana, Arial, Helvetica, sans-serif;
 	font-size: 15px;
-	background: linear-gradient(90deg, #00DBDE, #2E64FE);
+	/* background: linear-gradient(90deg, #00DBDE, #2E64FE); */
+	background: linear-gradient(90deg, #edd77e, #5cdbca);
 }
 
 * {
 	box-sizing: border-box;
+}
+
+#top{
+	background: #a6975e;
+	color :white;
+	background: linear-gradient(90deg, #edd77e, #5cdbca);
 }
 
 .jumbotron {
@@ -21,13 +28,27 @@ body, html {
 		font-size: 10px;
 	}
 }
+.loginClass{
+	margin-top:200px;
+	margin-left:260px;
+	border: 2px solid linear-gradient(#00DBDE, #2E64FE);
+	
+}
+.content-container{
+	width: 80%;
+	margin: auto;
+	border: 1px solid linear-gradient(90deg,#2E64FE, #00DBDE);
+	align-content: center;
+}
 
 #footer {
-	position: absolute;
+	
+	margin-top : 52px;
+	padding-top: 10px;
+	position: relative;
 	bottom: 0;
 	height: 50px;
-	align-items: center;
 	text-align: center;
-	width: 100%;
-	background: linear-gradient(90deg, #00DBDE, #2E64FE);
+	width: 100%;	
+	color :white;
 }

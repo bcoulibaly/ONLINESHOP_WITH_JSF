@@ -3,8 +3,7 @@
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
-	xmlns:p="http://primefaces.org/ui"
-	xmlns:b="http://bootsfaces.net/ui">
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
 
 <h:head>
 	<title><ui:insert name="title">LoginSeite</ui:insert></title>
@@ -14,85 +13,81 @@
 
 <h:body>
 
-		<b:navBar id="top" brand="BELISO SHOP"
-			brandImg="resources/IMAGES/logo1.png"
-			brand-img-style="width:60px;
+	<b:navBar id="top" brand="BELISO SHOP"
+		brandImg="resources/IMAGES/logo1.png"
+		brand-img-style="width:60px;
 				height:30px" fluid="true"
-			sticky="true" look="primary">
-			<b:navbarLinks pull="right">
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="group" spin="true"/>
-					<h:outputLabel value="Contact" />
-				</b:navCommandLink>
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="info" />
-					<h:outputLabel value="Impressum" />
-				</b:navCommandLink>
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="leaf" />
-					<h:outputLabel value="Ueber uns" />
-				</b:navCommandLink>
-			</b:navbarLinks>
-		</b:navBar>
+		sticky="true" look="primary">
+		<b:navbarLinks pull="right">
+			<b:navCommandLink href="#">
+				<b:iconAwesome name="group" />
+				<h:outputLabel value="Contact" />
+			</b:navCommandLink>
+			<b:navCommandLink href="#">
+				<b:iconAwesome name="balance-scale" />
+				<h:outputLabel value="Impressum" />
+			</b:navCommandLink>
+			<b:navCommandLink href="#">
+				<b:iconAwesome name="leaf" />
+				<h:outputLabel value="Ueber uns" />
+			</b:navCommandLink>
+		</b:navbarLinks>
+	</b:navBar>
 
 
-	<b:jumbotron>
-			<h3>Willkommen auf BELISO SHOP</h3>
-			<p>hier finden Sie alles was Sie suchen. Wenn sie noch keine Kunde bei uns seid also registrieren Sie sich um tolle Angebotte zu erhalten.</p>
-	</b:jumbotron>
-
-	<b:container  id="content" style="width:100%; margin:auto;">
-		<b:container style="width:30%;margin:auto;">
-			<h:form id="loginForm">
-				<b:panel style="margin-x:auto;" title="LOGIN" look="success" collapsible="false">
-					<b:row>
-						<b:column medium-screen="12">
-							<h:outputText value="Username:" for="username" />
-						</b:column>
-						<b:column medium-screen="12">
-							<b:inputText placeholder="Username eingeben" id="username"
-								value="#{loginHandler.benutzername}" autocomplete="false">
-								<f:facet name="prepend">
-									<b:icon name="user" />
-								</f:facet>
-							</b:inputText>
-						</b:column>
-					</b:row>
-					<b:row>
-						<b:column medium-screen="12">
-							<h:outputText value="Password:" />
-						</b:column>
-						<b:column medium-screen="12">
-							<b:inputSecret placeholder="Passwort eingeben" id="password"
-								value="#{loginHandler.passwort}" autocomplete="false" >
-								<f:facet name="prepend">
-									<b:iconAwesome name="key" />
-								</f:facet>
-							</b:inputSecret>
-						</b:column>
-					</b:row>
-					<b:row>
-						<b:column span="4" offset="2">
-							<b:commandButton value="Login" action="#{loginHandler.login}"
-								 style="width:100%; background-color:#00DBDE;"/>
-						</b:column>
-						<b:column span="4">
-							<b:commandButton value="Registrieren"
-								action="#{loginHandler.registrieren}"
-								style="width:100%; background-color:#2E64FE;" />
-						</b:column>
-					</b:row>
-				</b:panel>
-			</h:form>
+	<h:form id="loginForm">
+		<b:container styleClass="loginClass">
+			<b:growl id="message" sticky="true" showDetail="true" />
+			<b:panel style="width:50%;margin:auto;" title="LOGIN" look="success"
+				collapsible="false">
+				<b:row>
+					<b:column medium-screen="12">
+						<h:outputText value="Username:" for="username" />
+					</b:column>
+					<b:column medium-screen="12">
+						<b:inputText placeholder="Username eingeben" id="username"
+							value="#{loginHandler.benutzername}" autocomplete="false">
+							<f:facet name="prepend">
+								<b:icon name="user" />
+							</f:facet>
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column medium-screen="12">
+						<h:outputText value="Password:" />
+					</b:column>
+					<b:column medium-screen="12">
+						<b:inputSecret placeholder="Passwort eingeben" id="password"
+							value="#{loginHandler.passwort}" autocomplete="false">
+							<f:facet name="prepend">
+								<b:iconAwesome name="key" />
+							</f:facet>
+						</b:inputSecret>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="4" offset="2">
+						<b:commandButton value="Login" autoUpdate="loginForm"
+							action="#{loginHandler.login}"
+							style="width:100%; background-color:#00DBDE;" />
+					</b:column>
+					<b:column span="4">
+						<b:commandButton value="Registrieren" autoUpdate="loginForm"
+							action="#{loginHandler.registrieren}"
+							style="width:100%; background-color:#2E64FE;" />
+					</b:column>
+				</b:row>
+			</b:panel>
 		</b:container>
-	</b:container>
+	</h:form>
 
-	<div id="footer">
+	<b:container id="footer">
 		<ui:insert name="footer">
 			<span>Copyright 2019 | Ben Inza Coulibaly | Amadou Sow |
 				Lionel Babou</span>
 		</ui:insert>
-	</div>
+	</b:container>
 </h:body>
 
 </html>

@@ -1,15 +1,17 @@
 package de.hsb.app.controller;
 
 import java.io.Serializable;
+import java.util.GregorianCalendar;
 import java.util.List;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
-import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.RequestScoped;
+import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
 import javax.faces.model.DataModel;
+import javax.faces.model.ListDataModel;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
@@ -27,7 +29,7 @@ import de.hsb.app.Model.Kunde;
 import de.hsb.app.Model.Rolle;
 
 @ManagedBean(name = "loginHandler")
-@RequestScoped
+@SessionScoped
 public class Login implements Serializable {
 
 	/**
@@ -42,42 +44,55 @@ public class Login implements Serializable {
 	private String benutzername;
 	private String passwort;
 	private Kunde user;
-
-	@ManagedProperty(value = "#{kundenHandler.kundenListe}")
-	private DataModel<Kunde> kunden;
+	
+	private DataModel<Kunde> kundenList;
 
 //	@ManagedProperty(value = "#{kundenHandler}")
 //	private KundenHandler kundenHandler;
-//	
-//	
-
+	
 	public Login() {
+	}
+	
+	@PostConstruct
+	public void init() {
 
+		try {
+			userTransaction.begin();
+
+			entityManager.persist(new Kunde("Ben", "Coulibaly", new GregorianCalendar(1997, 4, 3).getTime(),
+					"bcoulibaly", "beniboy", Rolle.ADMIN, Anrede.HERR));
+			entityManager.persist(new Kunde("Lionel", "Ngoubayou", new GregorianCalendar(1990, 9, 15).getTime(),
+					"lngoubayou", "lgoubayou", Rolle.KUNDE, Anrede.HERR));
+			entityManager.persist(new Kunde("Amadou", "Sow", new GregorianCalendar(1994, 5, 21).getTime(), "asow",
+					"asow", Rolle.KUNDE, Anrede.HERR));
+			kundenList = new ListDataModel<Kunde>();
+			kundenList.setWrappedData(entityManager.createNamedQuery("SelectKunden").getResultList());
+
+			userTransaction.commit();
+		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
+				| HeuristicMixedException | HeuristicRollbackException e) {
+
+			e.printStackTrace();
+		}
 	}
 
 	@SuppressWarnings("unchecked")
 	public String login() {
 
-		Query query = entityManager
-				.createQuery("Select k from Kunde k " + "where k.benutzername = :username and k.passwort = :passwort ");
-		query.setParameter("username", benutzername);
+		Query query = entityManager.createQuery("select k from Kunde k "
+				+ "where k.benutzername = :benutzername and k.passwort = :passwort ");
+		query.setParameter("benutzername", benutzername);
 		query.setParameter("passwort", passwort);
-
-		if (kunden.isRowAvailable()) {
-			user = kunden.getRowData();
-//			merkeKunde.setArtikelDaten(new ArrayList<Artikel>());
-		}
-
-		System.out.println(benutzername + " " + passwort);
-
+		
 		List<Kunde> kunden = query.getResultList();
+
 		if (kunden.size() == 1) {
 			user = kunden.get(0);
 
 			if (user.getRolle() == Rolle.ADMIN) {
-				return "homePageAdmin";
+				return "/homePageAdmin.xhtml?faces-redirect=true";
 			} else {
-				return "home";
+				return "/home.xhtml?faces-redirect=true";
 			}
 
 		} else {
@@ -90,25 +105,43 @@ public class Login implements Serializable {
 	public String registrieren() {
 		System.out.println("Neue Kunde wird registriert");
 		user = new Kunde();
-		user.setAnrede(Anrede.OTHER);
 		user.setRolle(Rolle.KUNDE);
-		return "registrieren";
+		return "/registrieren.xhtml?faces-redirect=true";
 	}
 
+	public String log() {
+		return "/loginSeite.xhtml?faces-redirect=true";
+	}
+
+	@SuppressWarnings("unchecked")
 	public String registrierungSpeichern() {
 		try {
-			System.out.println("Speichern wurde aufgerufen");
+
 			userTransaction.begin();
 
-			entityManager.persist(user);
-			kunden.setWrappedData(entityManager.createNamedQuery("SelectKunden").getResultList());
+			Query query = entityManager.createQuery(
+					"Select k from Kunde k " + "where k.benutzername = :username and k.passwort = :passwort ");
+			query.setParameter("username", user.getBenutzername());
+			query.setParameter("passwort", user.getPasswort());
+
+			List<Kunde> tmpKundeList = query.getResultList();
+
+			if (tmpKundeList.size() == 0 || tmpKundeList == null) {
+				user = entityManager.merge(user);
+				entityManager.persist(user);
+				kundenList.setWrappedData(entityManager.createNamedQuery("SelectKunden")
+						.getResultList());
+			} else
+				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
+						"benutzername", "Ihr Passwort oder Benutzername sind bereit Vorhanden"));
 
 			userTransaction.commit();
 		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
-		return "loginSeite";
+		user = null;
+		return "/loginSeite.xhtml?faces-redirect=true";
 	}
 
 	public String onFlowProcess(FlowEvent event) {
@@ -118,26 +151,26 @@ public class Login implements Serializable {
 	public String checkLoggedIn() {
 		if (user != null) {
 			if (user.getRolle() == Rolle.ADMIN)
-				return "homePageAdmin";
+				return "/homePageAdmin.xhtml?faces-redirect=true";
 			else
-				return "home";
+				return "/home.xhtml?faces-redirect=true";
 		} else
-			return "loginSeite";
+			return "/loginSeite.xhtml?faces-redirect=true";
 	}
 
 	public String logout() {
 		user = null;
-		return "loginSeite";
+		return "/loginSeite.xhtml?faces-redirect=true";
 	}
 
 	public String abbrechen() {
 		if (user != null)
 			if (user.getRolle() == Rolle.ADMIN)
-				return "homePageAdmin";
+				return "/homePageAdmin.xhtml?faces-redirect=true";
 			else
-				return "home";
+				return "/home.xhtml?faces-redirect=true";
 		else
-			return "shopView";
+			return "/shopView,.xhtml?faces-redirect=true";
 	}
 
 	public EntityManager getEm() {
@@ -172,20 +205,12 @@ public class Login implements Serializable {
 		this.user = user;
 	}
 
-	public DataModel<Kunde> getKunden() {
-		return this.kunden;
+	public DataModel<Kunde> getKundenList() {
+		return this.kundenList;
 	}
 
-	public void setKunden(DataModel<Kunde> kunden) {
-		this.kunden = kunden;
+	public void setKundenList(DataModel<Kunde> kunden) {
+		this.kundenList = kunden;
 	}
-
-//	public KundenHandler getKundenHandler() {
-//		return kundenHandler;
-//	}
-//
-//	public void setKundenHandler(KundenHandler kundenHandler) {
-//		this.kundenHandler = kundenHandler;
-//	}
 
 }

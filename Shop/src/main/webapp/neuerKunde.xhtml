@@ -14,34 +14,42 @@
 </h:head>
 
 <h:body>
-	<p:growl id="message" placementFrom="top" show-detail="true"
+<f:event listener="#{loginHandler.checkLoggedIn()}" type="preRenderView" />
+
+	<b:growl id="message" placementFrom="top" show-detail="true"
          global-only="false"
          show-summary="true" allow-dismiss="true"
          animation-enter="animated bounceInDown"
          animation-exit="animated flipOutX"
          escape="true"/>
-         
+ <h:form>
 	<b:navBar brand="BELISO SHOP"
 			brandImg="resources/IMAGES/logo1.png"
 			brand-img-style="width:60px;
 				height:30px" fluid="true"
-			sticky="true">
+			sticky="true" look="primary">
 			<b:navbarLinks style="text-color:white;" pull="right">
 				<b:navCommandLink href="#">
-					<b:iconAwesome name="group" spin="true"/>
-					<h:outputLabel value="	Contact" />
-				</b:navCommandLink>
-				<b:navCommandLink href="#">
-					<h:outputLabel value="Impressum" />
-					<b:iconAwesome name="info"  spin="true"/>
-				</b:navCommandLink>
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="leaf" spin="true"/>
-					<h:outputLabel value="Ueber uns" />
-				</b:navCommandLink>
+				<b:iconAwesome name="group" />
+				<h:outputLabel value="Contact" />
+			</b:navCommandLink>
+			<b:navCommandLink href="#">
+				<b:iconAwesome name="balance-scale" />
+				<h:outputLabel value="Impressum" />
+			</b:navCommandLink>
+			<b:navCommandLink href="#">
+				<b:iconAwesome name="leaf" />
+				<h:outputLabel value="Ueber uns" />
+			</b:navCommandLink>
+			<b:dropButton iconAwesome="user-circle" style="margin-right:50px;"
+					value="#{loginHandler.user.benutzername}">
+					<b:navCommandLink value="Profil editieren" href="#" />
+					<b:navCommandLink action="#{loginHandler.logout()}"
+						value="Abmelden" />
+				</b:dropButton>
 			</b:navbarLinks>
 		</b:navBar>
-		
+</h:form>		
 	<hr width="80%" align="center" />
 	<h2 id="headPage" align="center">
 		<ui:insert name="headPage">Neue Kunde erstellen</ui:insert>
@@ -49,67 +57,62 @@
 	<hr width="80%" align="center" />
 	<div id="content" align="center">
 		<h:form>
-			<h:panelGrid var="kunde" value="#{kundenHandler.merkeKunde}"
+			<b:panelGrid var="kunde" value="#{kundenHandler.merkeKunde}"
 				columns="2" headerClass="header" footerClass="footer">
 							
 				<h:outputLabel value="Vorname:" for="vorname" />
-				<h:panelGroup>
-					<h:inputText id="vorname" required="true" requiredMessage="Vorname fehlt"
+				
+					<b:inputText id="vorname" required="true" requiredMessage="Vorname fehlt"
 						value="#{kundenHandler.merkeKunde.vorname}" />
-				</h:panelGroup>
+				
 
 				<h:outputLabel value="Name:" for="name" />
-				<h:panelGroup>
-					<h:inputText id="name"  required="true" requiredMessage="Name fehlt" value="#{kundenHandler.merkeKunde.name}" />
-				</h:panelGroup>
+				
+					<b:inputText id="name"  required="true" requiredMessage="Name fehlt" value="#{kundenHandler.merkeKunde.name}" />
+				
 
 				<h:outputLabel value="Gebursdatum:" for="geburtsdatum" />
-				<h:panelGroup>
-					<p:calendar id="geburtsdatum"
+				
+					<b:datepicker id="geburtsdatum" change-year="true" showButtonPanel="true"
 						value="#{kundenHandler.merkeKunde.geburtsdatum}"
-						pattern="dd.MM.yyyy" required="true"
+						mode="dd.MM.yyyy" required="true"
 						requiredMessage="Geburtsdatum fehlt" />
-				</h:panelGroup>
+				
 
 				<h:outputLabel value="Straße" for="street" />
-				<h:panelGroup>
-					<h:inputText id="adresse"  required="true" requiredMessage="Adresse fehlt"
+				
+					<b:inputText id="adresse"  required="true" requiredMessage="Adresse fehlt"
 						value="#{kundenHandler.merkeKunde.strasse}" />
-				</h:panelGroup>
+				
 				
 				<h:outputLabel value="PLZ" for="plz" />
-				<h:panelGroup>
-					<h:inputText id="plz"  required="true" requiredMessage="Adresse fehlt"
+				<b:inputText id="plz"  required="true" requiredMessage="Adresse fehlt"
 						value="#{kundenHandler.merkeKunde.plz}" />
-				</h:panelGroup>
+				
 				
 				<h:outputLabel value="Ort" for="ort" />
-				<h:panelGroup>
-					<h:inputText id="ort"  required="true" requiredMessage="Adresse fehlt"
+				
+					<b:inputText id="ort"  required="true" requiredMessage="Adresse fehlt"
 						value="#{kundenHandler.merkeKunde.ort}" />
-				</h:panelGroup>
+				
 
 				<h:outputLabel value="Benutzername:" for="benutzername" />
-				<h:panelGroup>
-					<h:inputText id="benutzername"  required="true" requiredMessage="Vorname fehlt"
+				
+					<p:inputText id="benutzername"  required="true" requiredMessage="Vorname fehlt"
 						value="#{kundenHandler.merkeKunde.benutzername}" />
-				</h:panelGroup>
 
-				<h:outputLabel value="Passwort:" for="inlineFeedback" />
-				<h:panelGroup>
-					<p:password id="inlineFeedback" value="#{kundenHandler.merkeKunde.passwort}" feedback="true" inline="true" />
-				</h:panelGroup>
+				<h:outputLabel value="Passwort:" for="pwd1" />
+				<b:inputSecret id="pwd1" value="#{kundenHandler.merkeKunde.passwort}" match="pwd2" feedback="true" inline="true" />
+				
+				<h:outputLabel value="Passwort Wiederholen:" for="pwd2" />
+					<b:inputSecret id="pwd2" value="#{kundenHandler.merkeKunde.passwort}" feedback="true" inline="true" />
+				
 				<h:outputLabel value="Rolle:" for="rolle" />
-				<h:panelGroup>
-					<p:selectOneMenu id="rolle" value="#{kundenHandler.merkeKunde.rolle}">
-				        <f:selectItem itemLabel="ADMIN" itemValue="ADMIN" />
-				        <f:selectItem itemLabel="KUNDE" itemValue="KUNDE" />
-    				</p:selectOneMenu>
-				</h:panelGroup>
-			</h:panelGrid>
+					<h:outputLabel id="rolle" value="#{kundenHandler.merkeKunde.rolle}"/>
+				</b:panelGrid>
 			<br />
-			<h:commandButton action="#{kundenHandler.speichern}" value="Speichern" />
-			<h:commandButton action="/homePageAdmin.jsf" value="Abbrechen" immediate="true"/>
+			<b:commandButton action="#{kundenHandler.speichern}" value="Speichern" look="success"/>
+			<b:commandButton action="#{loginHandler.abbrechen}" value="Abbrechen" immediate="true" look="primary"/>
 		</h:form>
 		<br />
 	</div>

@@ -51,10 +51,10 @@ public class ArtikelHandler {
 
 			entityManager.persist(new Artikel("artikel1", "Das sollte eine Beschribung sein", 154.00,
 					"Microsoft_Surface_Laptop_2.jpg", 12));
-			entityManager.persist(new Artikel("Artikel2", "Das sollte eben auch eine Beschreibung sein", 189.00,
-					"Handy.png", 19));
-			entityManager.persist(new Artikel("Artikel3", "Auch eine Beschreibung des Artikels 3", 499.00,
-					"canon_photo.png", 40));
+			entityManager.persist(
+					new Artikel("Artikel2", "Das sollte eben auch eine Beschreibung sein", 189.00, "Handy.png", 19));
+			entityManager.persist(
+					new Artikel("Artikel3", "Auch eine Beschreibung des Artikels 3", 499.00, "canon_photo.png", 40));
 			artikelListe = new ListDataModel<Artikel>();
 			artikelListe.setWrappedData(entityManager.createNamedQuery("SelectArtikel").getResultList());
 
@@ -67,7 +67,7 @@ public class ArtikelHandler {
 
 	public String neuArtikel() {
 		merkeArtikel = new Artikel();
-		return "neuerArtikel";
+		return "/neuerArtikel?faces-redirect=true";
 	}
 
 	public String speichernArtikel() {
@@ -83,35 +83,51 @@ public class ArtikelHandler {
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
-		return "homePageAdmin";
+		return "/homePageAdmin?faces-redirect=true";
 	}
-	
+
 	public String abbrechen(Kunde kunde) {
 		merkeArtikel = null;
 		if (kunde.getRolle() == Rolle.ADMIN) {
-			return "homePageAdmin";
+			return "/homePageAdmin?faces-redirect=true";
 		} else {
-			return "home";
+			return "/home?faces-redirect=true";
 		}
 	}
-	
+
+	public String löschen() {
+		try {
+			userTransaction.begin();
+
+			entityManager.remove(artikelListe.getRowData());
+			artikelListe.setWrappedData(entityManager.createNamedQuery("SelectArtikel").getResultList());
+
+			userTransaction.commit();
+
+		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
+				| HeuristicMixedException | HeuristicRollbackException e) {
+			e.printStackTrace();
+		}
+		return "/homePageAdmin.xhtml?faces-redirect=true";
+	}
+
 	public void saveImage() {
-		try{
+		try {
 			Path folder = Paths.get("/path/to/uploads");
-			String filename = FilenameUtils.getBaseName(uploadedFile.getFileName()); 
-			String extension = FilenameUtils.getExtension(uploadedFile.getFileName());		
+			String filename = FilenameUtils.getBaseName(uploadedFile.getFileName());
+			String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
 			InputStream input = uploadedFile.getInputstream();
 			Path file = Files.createTempFile(folder, filename + "-", "." + extension);
-		    Files.copy(input, file, StandardCopyOption.REPLACE_EXISTING);
-		    merkeArtikel.setName(filename);
-		    System.out.println("Uploaded file successfully saved in " + file);
+			Files.copy(input, file, StandardCopyOption.REPLACE_EXISTING);
+			merkeArtikel.setName(filename);
+			System.out.println("Uploaded file successfully saved in " + file);
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		
-        FacesMessage message = new FacesMessage("Succesful", uploadedFile.getFileName() + " is uploaded.");
-        FacesContext.getCurrentInstance().addMessage(null, message);
-    }
+
+		FacesMessage message = new FacesMessage("Succesfull", uploadedFile.getFileName() + " is uploaded.");
+		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
 
 	public EntityManager getEntityManager() {
 		return entityManager;

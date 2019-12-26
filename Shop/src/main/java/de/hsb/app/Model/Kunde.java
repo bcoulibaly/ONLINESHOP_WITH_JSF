@@ -29,15 +29,12 @@ public class Kunde implements Serializable{
 	@Column(name = "Kunde_ID")
 	private Integer id;
 	
-	@NotNull
 	@Column(name = "NAME")
 	private String name;
 	
-	@NotNull
 	@Column(name = "VORNAME")
 	private String vorname;
 	
-	@NotNull
 	@Column(name = "PASSWORD")
 	private String passwort;
 	
@@ -61,11 +58,10 @@ public class Kunde implements Serializable{
 	@Column(name = "BENUTZERNAME")
 	private String benutzername;
 	
-	@NotNull
 	@Column(name = "ANREDE")
 	private Anrede anrede;
 	
-	@NotNull
+	
 	@Column(name = "ROLLE")
 	private Rolle rolle;
 	

@@ -1,20 +1,21 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui"
-      xmlns:p="http://primefaces.org/ui">
-      
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+
 <h:head>
 	<title><ui:insert name="title">Kundenverwaltung</ui:insert></title>
-	<link rel="stylesheet" href="resources/CSS/alleKunden.css" type="text/css" />
+	<link rel="stylesheet" href="resources/CSS/alleKunden.css"
+		type="text/css" />
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
 	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
 </h:head>
 
 <h:body>
-	
+	<h:form>
+
 		<b:navBar id="top" brand="BELISO SHOP"
 			brandImg="resources/IMAGES/logo1.png"
 			brand-img-style="width:60px;
@@ -22,67 +23,67 @@
 			sticky="true">
 			<b:navbarLinks pull="right">
 				<b:navCommandLink href="#">
-					<b:iconAwesome name="group" spin="true"/>
-					<h:outputLabel value="	Contact" />
+					<b:iconAwesome name="group" />
+					<h:outputLabel value="Contact" />
 				</b:navCommandLink>
 				<b:navCommandLink href="#">
+					<b:iconAwesome name="balance-scale" />
 					<h:outputLabel value="Impressum" />
-					<b:iconAwesome name="info" />
 				</b:navCommandLink>
 				<b:navCommandLink href="#">
 					<b:iconAwesome name="leaf" />
 					<h:outputLabel value="Ueber uns" />
 				</b:navCommandLink>
-				<b:navCommandLink action="#{loginHandler.login()}">
+				<b:navCommandLink action="#{loginHandler.log}">
 					<b:iconAwesome name="user" />
 					<h:outputLabel value="Einloggen" />
 				</b:navCommandLink>
 			</b:navbarLinks>
 		</b:navBar>
-	
-	<b:jumbotron >
-		<ui:insert>
-			<h3>Willkommen auf BELISO SHOP</h3>
-			<p>hier finden Sie alles was Sie suchen. Wenn sie noch keine Kunde bei uns seid also registrieren Sie sich um tolle Angebotte zu erhalten.</p>
-		</ui:insert>
-	</b:jumbotron>
-	
-	<b:container id="content" style="width:100%;">
-		<p:dataGrid var="ca" value="#{artikelHandler.artikelListe}" columns="3"
-					rows="12" paginator="true"
-					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="9,12,15">
 
+		<b:container styleClass="content-container">
+			<b:jumbotron>
+				<ui:insert>
+					<h3>Willkommen auf BELISO SHOP</h3>
+					<p>hier finden Sie alles was Sie suchen. Wenn sie noch keine
+						Kunde bei uns seid also registrieren Sie sich um tolle Angebotte
+						zu erhalten.</p>
+				</ui:insert>
+			</b:jumbotron>
+			<p:dataGrid var="ca" value="#{artikelHandler.artikelListe}"
+				columns="3" rows="12" paginator="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="9,12,15">
 
-
-					<p:panel header="#{ca.beschreibung}" style="text-align:center">
-						<h:panelGrid columns="1" style="width:80%">
-							<p:graphicImage class="imgArt" value="/resources/#{ca.image}" />
-
-							<h:outputText value="preis: #{ca.preis} €;" />
-
-							<p:commandLink value="info"
-								oncomplete="PF('carDialog').show()" title="View Detail">
+				<b:panel header="#{ca.beschreibung}" style="text-align:center">
+					<b:panelGrid columns="2">
+						<p:graphicImage style="width:100%;height:150px;"
+							value="/resources/IMAGES/ARTIKEL/#{ca.image}" />
+						<b:buttonGroup>
+							<h:outputText value="preis: #{ca.preis} €" />
+							<br />
+							<b:commandLink value="info" oncomplete="PF('carDialog').show()"
+								title="View Detail">
 								<h:outputText styleClass="ui-icon ui-icon-search"
 									style="margin:0 auto;" />
 								<f:setPropertyActionListener value="#{ca}"
 									target="#{artikelHandler.merkeArtikel}" />
-							</p:commandLink>
-
-							<p:commandLink value="kaufen"
-								oncomplete="PF('Dialog').show()" title="View Detail">
+							</b:commandLink>
+							<br />
+							<b:commandLink value="kaufen" oncomplete="PF('Dialog').show()"
+								title="View Detail">
 								<h:outputText styleClass="ui-icon ui-icon-search"
 									style="margin:0 auto;" />
 								<f:setPropertyActionListener value="#{ca}"
 									target="#{artikelHandler.merkeArtikel}" />
-							</p:commandLink>
+							</b:commandLink>
+						</b:buttonGroup>
+					</b:panelGrid>
+				</b:panel>
 
-						</h:panelGrid>
-					</p:panel>
-
-				</p:dataGrid>
-	</b:container>
-
+			</p:dataGrid>
+		</b:container>
+	</h:form>
 	<div id="footer">
 		<ui:insert name="footer">
 			<span>© Copyright 2019 | Ben Inza Coulibaly | Amadou Sow |
@@ -90,5 +91,5 @@
 		</ui:insert>
 	</div>
 </h:body>
-		
+
 </html>

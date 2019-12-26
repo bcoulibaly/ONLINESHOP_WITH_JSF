@@ -6,7 +6,7 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
 
 <h:head>
-	<title><ui:insert name="title">Kundenverwaltung</ui:insert></title>
+	<title><ui:insert name="title">Belisso Shop - Home Page Admin</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/alleKunden.css"
 		type="text/css" />
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
@@ -14,129 +14,140 @@
 </h:head>
 
 <h:body>
-	<h:form>
-		<b:navBar brand="BELISO SHOP" brandImg="resources/IMAGES/logo1.png"
+	<f:event listener="#{loginHandler.checkLoggedIn()}"
+		type="preRenderView" />
+	<h:form id="homePageAdminForm">
+		<b:navBar id="top" brand="BELISO SHOP"
+			brandImg="resources/IMAGES/logo1.png"
 			brand-img-style="width:60px;
 				height:30px" fluid="true"
 			sticky="true">
 			<b:navbarLinks pull="right">
 				<b:navCommandLink href="#">
-					<b:iconAwesome name="group" spin="true" />
+					<b:iconAwesome name="group" />
 					<h:outputLabel value="Contact" />
 				</b:navCommandLink>
 				<b:navCommandLink href="#">
 					<h:outputLabel value="Impressum" />
-					<b:iconAwesome name="info" spin="true" />
+					<b:iconAwesome name="info" />
 				</b:navCommandLink>
 				<b:navCommandLink href="#">
-					<b:iconAwesome name="leaf" spin="true" />
+					<b:iconAwesome name="leaf" />
 					<h:outputLabel value="Ueber uns" />
 				</b:navCommandLink>
 
-				<b:dropButton iconAwesome="user-circle"
+				<b:dropMenu iconAwesome="user-circle" style="margin-left:50px;"
 					value="#{loginHandler.user.benutzername}">
-					<b:navCommandLink value="Profil editieren" href="#"></b:navCommandLink>
+					<b:navCommandLink value="Profil editieren" href="#" />
 					<b:navCommandLink action="#{loginHandler.logout()}"
-						value="Abmelden"></b:navCommandLink>
-				</b:dropButton>
+						value="Abmelden" />
+				</b:dropMenu>
 			</b:navbarLinks>
 		</b:navBar>
-	</h:form>
 
-	<hr width="80%" align="center" />
-	<h2 id="headPage" align="center">
-		<ui:insert name="headPage">HomePage Admin</ui:insert>
-	</h2>
-	<hr width="80%" align="center" />
-	<div id="content" align="center">
-		<h:form>
+		<hr width="80%" align="center" />
+		<h2 id="headPage" align="center">
+			<ui:insert name="headPage">HomePage Admin</ui:insert>
+		</h2>
+		<hr width="80%" align="center" />
+		<b:container styleClass="content-container">
 			<ui:insert name="content">
-				<h4 style="color: white;">
-					<ui:insert>Alle Kunden</ui:insert>
-				</h4>
 				<b:commandButton action="#{kundenHandler.neu()}"
-					value="Neuer Kunde anlegen" iconAwesome="user-plus"/>
-				<h:dataTable var="kunde" value="#{kundenHandler.kundenListe}"
-					rowClasses="odd,even" headerClass="header" cellspacing="5px">
-					<!-- 					<f:facet name="header">Alle Kunden</f:facet> -->
-					<h:column>
+					value="Neuer Admin User anlegen" iconAwesome="user-plus" />
+
+				<b:dataTable var="kunde" value="#{loginHandler.kundenList}"
+					rowClasses="odd,even" headerClass="header">
+					<b:column>
 						<f:facet name="header">ID</f:facet>
 						<h:outputText value="#{kunde.id}" />
-					</h:column>
-					<h:column>
+					</b:column>
+					<b:column>
 						<f:facet name="header">Anrede</f:facet>
 						<h:outputText value="#{kunde.anrede}" />
-					</h:column>
-					<h:column>
+					</b:column>
+					<b:column>
 						<f:facet name="header">Vorname</f:facet>
 						<h:outputText value="#{kunde.vorname}" />
-					</h:column>
-					<h:column>
+					</b:column>
+					<b:column>
 						<f:facet name="header">Nachname</f:facet>
 						<h:outputText value="#{kunde.name}" />
-					</h:column>
-					<h:column>
+					</b:column>
+					<b:column>
 						<f:facet name="header">Benutzername</f:facet>
 						<h:outputText value="#{kunde.benutzername}" />
-					</h:column>
-					<h:column>
+					</b:column>
+					<b:column>
 						<f:facet name="header">Strasse</f:facet>
 						<h:outputText value="#{kunde.strasse}" />
-					</h:column>
-					<h:column>
+					</b:column>
+					<b:column>
 						<f:facet name="header">Geburtsdatum</f:facet>
 						<h:outputFormat value="#{kunde.geburtsdatum}">
 							<f:convertDateTime pattern="dd.MM.yy" />
 						</h:outputFormat>
-					</h:column>
-					<h:column>
+					</b:column>
+					<b:column>
 						<f:facet name="header">Rolle</f:facet>
 						<h:outputFormat value="#{kunde.rolle}" />
-					</h:column>
-					<h:column>
+					</b:column>
+					<b:column>
 						<f:facet name="header">Bearbeiten</f:facet>
-						<b:commandButton iconAwesome="user-cog" action="#{kundenHandler.kundeBearbeiten()}"/>
-					</h:column>
-					<p:column>
+						<b:commandButton iconAwesome="pencil" update="homePageAdminForm"
+							action="#{kundenHandler.kundeBearbeiten()}" />
+					</b:column>
+					<b:column>
 						<f:facet name="header">Löschen</f:facet>
-						<b:commandButton iconAwesome="user-times" icon-size="2x"/>
-					</p:column>
-				</h:dataTable>
+						<b:commandButton iconAwesome="user-times"
+							update="homePageAdminForm" action="#{kundenHandler.löschen}" />
+					</b:column>
+				</b:dataTable>
 
 				<br />
-				<h4 style="color: white;">
-					<ui:insert>Alle Artikeln</ui:insert>
-				</h4>
-				<p:commandButton action="#{artikelHandler.neuArtikel}"
+				<br />
+				
+				<b:commandButton action="#{artikelHandler.neuArtikel}"
 					value="Neues Artikel anlegen" />
-				<h:dataTable var="artikel" value="#{artikelHandler.artikelListe}"
+
+				<b:dataTable var="artikel" value="#{artikelHandler.artikelListe}"
 					rowClasses="odd,even" headerClass="header">
-					<h:column>
+					<b:column>
 						<f:facet name="header">Name</f:facet>
 						<h:outputText value="#{artikel.name}" />
-					</h:column>
-					<h:column>
+					</b:column>
+					<b:column>
 						<f:facet name="header">Beschreibung</f:facet>
 						<h:outputText value="#{artikel.beschreibung}" />
-					</h:column>
-					<h:column>
+					</b:column>
+					<b:column>
 						<f:facet name="header">Preis</f:facet>
 						<h:outputLabel value="#{artikel.preis}">€</h:outputLabel>
-					</h:column>
-					<h:column>
+					</b:column>
+					<b:column>
 						<f:facet name="header">Image</f:facet>
-						<h:graphicImage width="80px" height="50px"
-							url="/resources/IMAGES/ARTIKEL/#{artikel.image}" />
-					</h:column>
+						<p:graphicImage width="80px" height="50px"
+							value="/resources/IMAGES/ARTIKEL/#{artikel.image}" />
+					</b:column>
 
-					<h:column>
+					<b:column>
 						<f:facet name="header">Anzahl</f:facet>
 						<h:outputFormat value="#{artikel.anzahl}" />
-					</h:column>
-				</h:dataTable>
+					</b:column>
+
+					<b:column>
+						<f:facet name="header">Bearbeiten</f:facet>
+						<b:commandButton iconAwesome="pencil" update="homePageAdminForm" />
+					</b:column>
+					<b:column>
+						<f:facet name="header">Löschen</f:facet>
+						<b:commandButton iconAwesome="trash"
+							action="#{artikelHandler.löschen}" update="homePageAdminForm"
+							icon-size="1x" />
+					</b:column>
+				</b:dataTable>
 			</ui:insert>
-		</h:form>
-	</div>
+		</b:container>
+	</h:form>
 
 	<div id="footer">
 		<ui:insert name="footer">
