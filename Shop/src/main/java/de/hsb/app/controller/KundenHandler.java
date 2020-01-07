@@ -39,29 +39,6 @@ public class KundenHandler {
 	public KundenHandler() {
 	}
 
-//	@PostConstruct
-//	public void init() {
-//
-//		try {
-//			userTransaction.begin();
-//
-//			entityManager.persist(new Kunde("Ben", "Coulibaly", new GregorianCalendar(1997, 4, 3).getTime(),
-//					"bcoulibaly", "beniboy", Rolle.ADMIN, Anrede.HERR));
-//			entityManager.persist(new Kunde("Lionel", "Ngoubayou", new GregorianCalendar(1990, 9, 15).getTime(),
-//					"lngoubayou", "lgoubayou", Rolle.KUNDE, Anrede.HERR));
-//			entityManager.persist(new Kunde("Amadou", "Sow", new GregorianCalendar(1994, 5, 21).getTime(), "asow",
-//					"asow", Rolle.KUNDE, Anrede.HERR));
-//			kundenListe = new ListDataModel<Kunde>();
-//			kundenListe.setWrappedData(entityManager.createNamedQuery("SelectKunden").getResultList());
-//
-//			userTransaction.commit();
-//		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
-//				| HeuristicMixedException | HeuristicRollbackException e) {
-//
-//			e.printStackTrace();
-//		}
-//	}
-
 	public String neu() {
 		merkeKunde = new Kunde();
 		merkeKunde.setRolle(Rolle.ADMIN);

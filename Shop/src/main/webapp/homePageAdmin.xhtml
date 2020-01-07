@@ -24,22 +24,28 @@
 			sticky="true">
 			<b:navbarLinks pull="right">
 				<b:navCommandLink href="#">
-					<b:iconAwesome name="group" />
 					<h:outputLabel value="Contact" />
+					<f:facet name="prepend">
+						<b:iconAwesome name="group" />
+					</f:facet>
 				</b:navCommandLink>
 				<b:navCommandLink href="#">
 					<h:outputLabel value="Impressum" />
-					<b:iconAwesome name="info" />
+					<f:facet name="prepend">
+						<b:iconAwesome name="info" />
+					</f:facet>
 				</b:navCommandLink>
 				<b:navCommandLink href="#">
-					<b:iconAwesome name="leaf" />
+					<f:facet name="prepend">
+						<b:iconAwesome name="leaf" />
+					</f:facet>
 					<h:outputLabel value="Ueber uns" />
 				</b:navCommandLink>
 
 				<b:dropMenu iconAwesome="user-circle" style="margin-left:50px;"
 					value="#{loginHandler.user.benutzername}">
-					<b:navCommandLink value="Profil editieren" href="#" />
-					<b:navCommandLink action="#{loginHandler.logout()}"
+					<b:navCommandLink iconAwesome="pencil" value="Profil editieren" href="#" />
+					<b:navCommandLink iconAwesome="sign-out" action="#{loginHandler.logout()}"
 						value="Abmelden" />
 				</b:dropMenu>
 			</b:navbarLinks>
@@ -93,13 +99,13 @@
 					</b:column>
 					<b:column>
 						<f:facet name="header">Bearbeiten</f:facet>
-						<b:commandButton iconAwesome="pencil" update="homePageAdminForm"
+						<b:commandButton iconAwesome="pencil"
 							action="#{kundenHandler.kundeBearbeiten()}" />
 					</b:column>
 					<b:column>
 						<f:facet name="header">Löschen</f:facet>
 						<b:commandButton iconAwesome="user-times"
-							update="homePageAdminForm" action="#{kundenHandler.löschen}" />
+							 action="#{kundenHandler.löschen()}" />
 					</b:column>
 				</b:dataTable>
 
@@ -136,12 +142,12 @@
 
 					<b:column>
 						<f:facet name="header">Bearbeiten</f:facet>
-						<b:commandButton iconAwesome="pencil" update="homePageAdminForm" />
+						<b:commandButton iconAwesome="pencil" />
 					</b:column>
 					<b:column>
 						<f:facet name="header">Löschen</f:facet>
 						<b:commandButton iconAwesome="trash"
-							action="#{artikelHandler.löschen}" update="homePageAdminForm"
+							action="#{artikelHandler.löschen}"
 							icon-size="1x" />
 					</b:column>
 				</b:dataTable>

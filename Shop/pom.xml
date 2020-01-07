@@ -80,6 +80,15 @@
 		</dependencies>
 	</dependencyManagement>
 
+	<repositories>
+		<repository>
+			<id>prime-repo</id>
+			<name>Prime Repo</name>
+			<url>http://repository.primefaces.org</url>
+		</repository>
+	</repositories>
+
+
 	<dependencies>
 
 		<!-- First declare the APIs we depend on and need for compilation. All 
@@ -212,18 +221,18 @@
 			<artifactId>primefaces</artifactId>
 			<version>7.0</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>org.primefaces.THEMES</groupId>
-			<artifactId>bootstrap</artifactId>
-			<version>1.0.10</version>
-		</dependency>
 
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>
 			<!-- <version>3.141.59</version> -->
 			<scope>test</scope>
+		</dependency>
+
+		<dependency>
+			<groupId>org.primefaces.themes</groupId>
+			<artifactId>redmond</artifactId>
+			<version>1.0.6</version>
 		</dependency>
 
 	</dependencies>
