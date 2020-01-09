@@ -16,19 +16,28 @@
         http://xmlns.jcp.org/xml/ns/persistence
         http://xmlns.jcp.org/xml/ns/persistence/persistence_2_1.xsd">
 	<persistence-unit name="primary">
+		<jta-data-source>java:jboss/datasources/BelissoShopDS</jta-data-source>
 		<!-- If you are running in a production environment, add a managed data 
 			source, this example data source is just for development and testing! -->
 		<!-- The datasource is deployed as WEB-INF/kv-ds.xml, you can find it in 
-			the source at src/main/webapp/WEB-INF/kv-ds.xml -->
-		<jta-data-source>java:jboss/datasources/BelissoShopDS</jta-data-source>
+			the source at src/main/webapp/WEB-INF/BelissoShop-ds.xml -->
+		<class>de.hsb.app.Model.Artikel</class>
+		<class>de.hsb.app.Model.Kunde</class>
 		<properties>
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.hbm2ddl.auto" value="create" />
-			<property name="hibernate.show_sql" value="true" />
+			<property name="hibernate.show_sql" value="false" />
 			<property name="hibernate.format_sql" value="true" />
-			<property name="hibernate.dialect" value="org.hibernate.dialect.H2Dialect"/>
-			<property name="hibernate.connection.driver_class" value="org.h2.Driver"/>
-			<property name="hibernate.connection.url" value="jdbc:h2:file:~/Documents/GitHub/SWE3_ONLINESHOP/Shop/database/shop"/> 
+			<property name="hibernate.dialect"
+				value="org.hibernate.dialect.H2Dialect" />
+			<property name="hibernate.connection.driver_class"
+				value="org.h2.Driver" />
+			<property name="hibernate.connection.url"
+				value="jdbc:h2:file:~/Documents/GitHub/SWE3_ONLINESHOP/Shop/database/shop" />
+			<property name="hibernate.connection.username" value="sa" />
+			<property name="hibernate.connection.password" value="sa" />
+			<property name="hibernate.default_catalog" value="SHOP" />
+			<property name="hibernate.default_schema" value="PUBLIC" />
 		</properties>
 	</persistence-unit>
 </persistence>

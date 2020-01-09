@@ -43,7 +43,7 @@
 </h:head>
 <h:body>
 
-	<b:navBar brand="BELISO SHOP" brandImg="resources/IMAGES/logo1.png"
+	<b:navBar id="top" brand="BELISO SHOP" brandImg="resources/IMAGES/logo1.png"
 		brand-img-style="width:60px;
 				height:30px" fluid="true"
 		sticky="true">
@@ -83,10 +83,10 @@
 
 
 							<h:outputText value="Vorname: *" />
-							<b:inputText value="#{loginHandler.user.vorname}" required="true"/>
+							<b:inputText value="#{loginHandler.user.vorname}" required="true" />
 
 							<h:outputText value="Nachname: *" />
-							<b:inputText value="#{loginHandler.user.name}" required="true"/>
+							<b:inputText value="#{loginHandler.user.name}" required="true" />
 
 							<h:outputText value="Geburtsdatum: " />
 
@@ -97,7 +97,7 @@
 
 
 							<h:outputText value="Email: *" />
-							<b:inputText value="#{loginHandler.user.email}" required="true"/>
+							<b:inputText value="#{loginHandler.user.email}" required="true" />
 						</b:panelGrid>
 					</b:panel>
 				</p:tab>
@@ -127,12 +127,14 @@
 								required="true" requiredMessage="Benutzername fehlt!!" />
 
 							<h:outputText value="Passwort: *" />
-							<p:password id="pwd1" value="#{loginHandler.user.passwort}" match="pwd2"
-								feedback="true" required="true" requiredMessage="Passwortz fehlt" />
+							<p:password id="pwd1" value="#{loginHandler.user.passwort}"
+								match="pwd2" feedback="true" required="true"
+								requiredMessage="Passwortz fehlt" />
 
 							<h:outputText value="Passwort Wiederholen: *" />
-							<p:password id="pwd2" value="#{kundenHandler.passwortWiederholen}"
-								feedback="true" required="true" requiredMessage="Passwortz fehlt" />
+							<p:password id="pwd2"
+								value="#{kundenHandler.passwortWiederholen}" feedback="true"
+								required="true" requiredMessage="Passwortz fehlt" />
 						</b:panelGrid>
 					</b:panel>
 				</p:tab>

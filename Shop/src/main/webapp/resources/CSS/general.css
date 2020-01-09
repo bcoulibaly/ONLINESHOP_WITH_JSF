@@ -1,54 +1,59 @@
 @charset "ISO-8859-1";
 
-body, html {
+body {
 	height: 100%;
-	font-family: Felix Titling, Tw Cen MT, Verdana, Arial, Helvetica, sans-serif;
+	font-family: Eras ITC, Felix Titling, Tw Cen MT, Verdana, Arial, Helvetica,
+		sans-serif;
 	font-size: 15px;
 	/* background: linear-gradient(90deg, #00DBDE, #2E64FE); */
-	background: linear-gradient(90deg, #edd77e, #5cdbca);
+	/* background: linear-gradient(90deg, #edd77e, #5cdbca); */
+	background-image: url("resources/IMAGES/hinterground1.jpg");
 }
 
 * {
 	box-sizing: border-box;
 }
+	
+.jumbotron {
+	text-align: center;
+	margin-top:100px;
+	/* margin: auto; */
+	margin-bottom: 100px;
+	width: 80%;
+	background: linear-gradient(90deg, #2E64FE, #00DBDE);
+	p
+	{
+	font-size:10px;
+	color: white;
+}
 
-#top{
-	background: #a6975e;
-	color :white;
+}
+.loginClass {
+	margin-top: 200px;
+	margin-left: 260px;
+	border: 3px solid linear-gradient(#00DBDE, #2E64FE);
+}
+
+.content-container {
+	width: 80%;
+	margin: auto;
+	border: 1px solid linear-gradient(90deg, #2E64FE, #00DBDE);
+	align-content: center;
+	background-image: url("resources/IMAGES/hinterground1.jpg");
+}
+
+.navbar{
 	background: linear-gradient(90deg, #edd77e, #5cdbca);
 }
 
-.jumbotron {
-	text-align: center;
-	margin: auto;
-	margin-bottom: 100px;
-	width: 80%;
-	background: linear-gradient(90deg,#2E64FE, #00DBDE);
-	p{
-		font-size: 10px;
-	}
-}
-.loginClass{
-	margin-top:200px;
-	margin-left:260px;
-	border: 2px solid linear-gradient(#00DBDE, #2E64FE);
-	
-}
-.content-container{
-	width: 80%;
-	margin: auto;
-	border: 1px solid linear-gradient(90deg,#2E64FE, #00DBDE);
-	align-content: center;
-}
-
 #footer {
-	
-	margin-top : 52px;
+	margin-top: 52px;
 	padding-top: 10px;
-	position: relative;
+	position: absolute;
 	bottom: 0;
 	height: 50px;
 	text-align: center;
-	width: 100%;	
-	color :white;
+	width: 100%;
+	color: white;
+	background: linear-gradient(90deg, #edd77e, #5cdbca);
 }

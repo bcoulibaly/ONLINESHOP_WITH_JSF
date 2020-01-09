@@ -70,6 +70,9 @@ public class Kunde implements Serializable{
 	@Column(name = "GEBURTSDATUM")
 	private Date geburtsdatum;
 	
+	//beim Registrieren oder Daten Änderungen wird das überprüft
+	String passwortWiederholen;
+	
 	public Kunde() {
 	
 	}
@@ -178,5 +181,13 @@ public class Kunde implements Serializable{
 
 	public void setOrt(String ort) {
 		this.ort = ort;
+	}
+	
+	public String getPasswortWiederholen() {
+		return passwortWiederholen;
+	}
+
+	public void setPasswortWiederholen(String passwortWiederholen) {
+		this.passwortWiederholen = passwortWiederholen;
 	}
 }

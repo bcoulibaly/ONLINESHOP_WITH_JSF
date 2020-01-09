@@ -16,137 +16,138 @@
 <h:body>
 	<f:event listener="#{loginHandler.checkLoggedIn()}"
 		type="preRenderView" />
-	<h:form id="homePageAdminForm">
+	<h:form>
+
 		<b:navBar id="top" brand="BELISO SHOP"
-			brandImg="resources/IMAGES/logo1.png"
+			brandImg="resources/IMAGES/finallogo1.png"
 			brand-img-style="width:60px;
 				height:30px" fluid="true"
-			sticky="true">
+			sticky="true" look="primary">
 			<b:navbarLinks pull="right">
 				<b:navCommandLink href="#">
 					<b:iconAwesome name="group" />
 					<h:outputLabel value="Contact" />
 				</b:navCommandLink>
 				<b:navCommandLink href="#">
+					<b:iconAwesome name="balance-scale" />
 					<h:outputLabel value="Impressum" />
-					<b:iconAwesome name="info" />
 				</b:navCommandLink>
 				<b:navCommandLink href="#">
 					<b:iconAwesome name="leaf" />
 					<h:outputLabel value="Ueber uns" />
 				</b:navCommandLink>
-
-				<b:dropMenu iconAwesome="user-circle" style="margin-left:50px;"
+				<b:dropMenu iconAwesome="user-circle" rendered="true"
 					value="#{loginHandler.user.benutzername}">
-					<b:navCommandLink value="Profil editieren" href="#" />
+					<b:navCommandLink value="Profil editieren" action="#{kundenHandler.loggedKundeBearbeiten()}" />
 					<b:navCommandLink action="#{loginHandler.logout()}"
 						value="Abmelden" />
 				</b:dropMenu>
 			</b:navbarLinks>
 		</b:navBar>
 
-		<hr width="80%" align="center" />
-		<h2 id="headPage" align="center">
-			<ui:insert name="headPage">HomePage Admin</ui:insert>
-		</h2>
-		<hr width="80%" align="center" />
-		<b:container styleClass="content-container">
-			<ui:insert name="content">
-				<b:commandButton action="#{kundenHandler.neu()}"
-					value="Neuer Admin User anlegen" iconAwesome="user-plus" />
+			<hr width="80%" align="center" />
+			<h2 id="headPage" align="center">
+				<ui:insert name="headPage">HomePage Admin</ui:insert>
+			</h2>
+			<hr width="80%" align="center" />
+			<b:container styleClass="content-container">
+				<ui:insert name="content">
+					<b:commandButton action="#{kundenHandler.neu()}"
+						value="Neuer Admin User anlegen" iconAwesome="user-plus"  look="primary"/>
+					<br />
 
-				<b:dataTable var="kunde" value="#{loginHandler.kundenList}"
-					rowClasses="odd,even" headerClass="header">
-					<b:column>
-						<f:facet name="header">ID</f:facet>
-						<h:outputText value="#{kunde.id}" />
-					</b:column>
-					<b:column>
-						<f:facet name="header">Anrede</f:facet>
-						<h:outputText value="#{kunde.anrede}" />
-					</b:column>
-					<b:column>
-						<f:facet name="header">Vorname</f:facet>
-						<h:outputText value="#{kunde.vorname}" />
-					</b:column>
-					<b:column>
-						<f:facet name="header">Nachname</f:facet>
-						<h:outputText value="#{kunde.name}" />
-					</b:column>
-					<b:column>
-						<f:facet name="header">Benutzername</f:facet>
-						<h:outputText value="#{kunde.benutzername}" />
-					</b:column>
-					<b:column>
-						<f:facet name="header">Strasse</f:facet>
-						<h:outputText value="#{kunde.strasse}" />
-					</b:column>
-					<b:column>
-						<f:facet name="header">Geburtsdatum</f:facet>
-						<h:outputFormat value="#{kunde.geburtsdatum}">
-							<f:convertDateTime pattern="dd.MM.yy" />
-						</h:outputFormat>
-					</b:column>
-					<b:column>
-						<f:facet name="header">Rolle</f:facet>
-						<h:outputFormat value="#{kunde.rolle}" />
-					</b:column>
-					<b:column>
-						<f:facet name="header">Bearbeiten</f:facet>
-						<b:commandButton iconAwesome="pencil" update="homePageAdminForm"
-							action="#{kundenHandler.kundeBearbeiten()}" />
-					</b:column>
-					<b:column>
-						<f:facet name="header">Löschen</f:facet>
-						<b:commandButton iconAwesome="user-times"
-							update="homePageAdminForm" action="#{kundenHandler.löschen}" />
-					</b:column>
-				</b:dataTable>
+					<b:dataTable var="kunde" value="#{loginHandler.kundenList}"
+						rowClasses="odd,even" headerClass="header">
+						<b:column>
+							<f:facet name="header">ID</f:facet>
+							<h:outputText value="#{kunde.id}" />
+						</b:column>
+						<b:column>
+							<f:facet name="header">Anrede</f:facet>
+							<h:outputText value="#{kunde.anrede}" />
+						</b:column>
+						<b:column>
+							<f:facet name="header">Vorname</f:facet>
+							<h:outputText value="#{kunde.vorname}" />
+						</b:column>
+						<b:column>
+							<f:facet name="header">Nachname</f:facet>
+							<h:outputText value="#{kunde.name}" />
+						</b:column>
+						<b:column>
+							<f:facet name="header">Benutzername</f:facet>
+							<h:outputText value="#{kunde.benutzername}" />
+						</b:column>
+						<b:column>
+							<f:facet name="header">Strasse</f:facet>
+							<h:outputText value="#{kunde.strasse}" />
+						</b:column>
+						<b:column>
+							<f:facet name="header">Geburtsdatum</f:facet>
+							<h:outputFormat value="#{kunde.geburtsdatum}">
+								<f:convertDateTime pattern="MM/dd/yyyy" />
+							</h:outputFormat>
+						</b:column>
+						<b:column>
+							<f:facet name="header">Rolle</f:facet>
+							<h:outputFormat value="#{kunde.rolle}" />
+						</b:column>
+						<b:column>
+							<f:facet name="header">Bearbeiten</f:facet>
+							<p:commandButton icon="pi pi-pencil"
+								action="#{kundenHandler.normaleKundeBearbeiten()}" />
+						</b:column>
+						<b:column>
+							<f:facet name="header">Löschen</f:facet>
+							<p:commandButton icon="pi pi-times"
+								action="#{kundenHandler.löschen()}" />
+						</b:column>
+					</b:dataTable>
 
-				<br />
-				<br />
-				
-				<b:commandButton action="#{artikelHandler.neuArtikel}"
-					value="Neues Artikel anlegen" />
+					<br />
+					<br />
 
-				<b:dataTable var="artikel" value="#{artikelHandler.artikelListe}"
-					rowClasses="odd,even" headerClass="header">
-					<b:column>
-						<f:facet name="header">Name</f:facet>
-						<h:outputText value="#{artikel.name}" />
-					</b:column>
-					<b:column>
-						<f:facet name="header">Beschreibung</f:facet>
-						<h:outputText value="#{artikel.beschreibung}" />
-					</b:column>
-					<b:column>
-						<f:facet name="header">Preis</f:facet>
-						<h:outputLabel value="#{artikel.preis}">€</h:outputLabel>
-					</b:column>
-					<b:column>
-						<f:facet name="header">Image</f:facet>
-						<p:graphicImage width="80px" height="50px"
-							value="/resources/IMAGES/ARTIKEL/#{artikel.image}" />
-					</b:column>
+					<b:commandButton id="addButton" action="#{artikelHandler.neuArtikel}"
+						value="Neues Artikel anlegen" look="primary"/>
+					<br />
 
-					<b:column>
-						<f:facet name="header">Anzahl</f:facet>
-						<h:outputFormat value="#{artikel.anzahl}" />
-					</b:column>
+					<b:dataTable var="artikel" value="#{artikelHandler.artikelListe}"
+						rowClasses="odd,even" headerClass="header">
+						<b:column>
+							<f:facet name="header">Name</f:facet>
+							<h:outputText value="#{artikel.name}" />
+						</b:column>
+						<b:column>
+							<f:facet name="header">Beschreibung</f:facet>
+							<h:outputText value="#{artikel.beschreibung}" />
+						</b:column>
+						<b:column>
+							<f:facet name="header">Preis</f:facet>
+							<h:outputLabel value="#{artikel.preis}">€</h:outputLabel>
+						</b:column>
+						<b:column>
+							<f:facet name="header">Image</f:facet>
+							<p:graphicImage width="80px" height="50px"
+								value="/resources/IMAGES/ARTIKEL/#{artikel.image}" />
+						</b:column>
 
-					<b:column>
-						<f:facet name="header">Bearbeiten</f:facet>
-						<b:commandButton iconAwesome="pencil" update="homePageAdminForm" />
-					</b:column>
-					<b:column>
-						<f:facet name="header">Löschen</f:facet>
-						<b:commandButton iconAwesome="trash"
-							action="#{artikelHandler.löschen}" update="homePageAdminForm"
-							icon-size="1x" />
-					</b:column>
-				</b:dataTable>
-			</ui:insert>
-		</b:container>
+						<b:column>
+							<f:facet name="header">Anzahl</f:facet>
+							<h:outputFormat value="#{artikel.anzahl}" />
+						</b:column>
+
+						<b:column>
+							<f:facet name="header">Bearbeiten</f:facet>
+							<b:commandButton iconAwesome="pencil"/>
+						</b:column>
+						<b:column>
+							<f:facet name="header">Löschen</f:facet>
+							<b:commandButton iconAwesome="trash" icon-size="1x"
+								action="#{artikelHandler.löschen}" />
+						</b:column>
+					</b:dataTable>
+				</ui:insert>
+			</b:container>
 	</h:form>
 
 	<div id="footer">

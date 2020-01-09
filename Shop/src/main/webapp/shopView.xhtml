@@ -6,37 +6,33 @@
 	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title><ui:insert name="title">Kundenverwaltung</ui:insert></title>
+	<title><ui:insert name="title">BelissoShop-ShopView</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/alleKunden.css"
 		type="text/css" />
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
-	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
+	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.png" />
 </h:head>
 
 <h:body>
-	<h:form>
 
+	<b:form>
 		<b:navBar id="top" brand="BELISO SHOP"
-			brandImg="resources/IMAGES/logo1.png"
+			brandImg="resources/IMAGES/finallogo1.png"
 			brand-img-style="width:60px;
 				height:30px" fluid="true"
 			sticky="true">
 			<b:navbarLinks pull="right">
-				<b:navCommandLink href="#">
+				<b:navCommandLink href="#" value="Contact">
 					<b:iconAwesome name="group" />
-					<h:outputLabel value="Contact" />
 				</b:navCommandLink>
-				<b:navCommandLink href="#">
+				<b:navCommandLink href="#" value="Impressum">
 					<b:iconAwesome name="balance-scale" />
-					<h:outputLabel value="Impressum" />
 				</b:navCommandLink>
-				<b:navCommandLink href="#">
+				<b:navCommandLink href="#" value="Ueber uns">
 					<b:iconAwesome name="leaf" />
-					<h:outputLabel value="Ueber uns" />
 				</b:navCommandLink>
-				<b:navCommandLink action="#{loginHandler.log}">
+				<b:navCommandLink action="#{loginHandler.log}" value="Einloggen">
 					<b:iconAwesome name="user" />
-					<h:outputLabel value="Einloggen" />
 				</b:navCommandLink>
 			</b:navbarLinks>
 		</b:navBar>
@@ -51,9 +47,9 @@
 				</ui:insert>
 			</b:jumbotron>
 			<p:dataGrid var="ca" value="#{artikelHandler.artikelListe}"
-				columns="3" rows="12" paginator="true"
+				columns="4" rows="10" paginator="true"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="9,12,15">
+				rowsPerPageTemplate="8,10,13">
 
 				<b:panel header="#{ca.beschreibung}" style="text-align:center">
 					<b:panelGrid columns="2">
@@ -83,10 +79,11 @@
 
 			</p:dataGrid>
 		</b:container>
-	</h:form>
+	</b:form>
+
 	<div id="footer">
 		<ui:insert name="footer">
-			<span>© Copyright 2019 | Ben Inza Coulibaly | Amadou Sow |
+			<span>Copyright © 2019 | Ben Inza Coulibaly | Amadou Sow |
 				Lionel Babou</span>
 		</ui:insert>
 	</div>

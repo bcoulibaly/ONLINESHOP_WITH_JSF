@@ -1,10 +1,11 @@
 package de.hsb.app.controller;
 
 import javax.annotation.Resource;
+import javax.enterprise.context.RequestScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
-import javax.faces.bean.SessionScoped;
 import javax.faces.model.DataModel;
+import javax.faces.model.ListDataModel;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.HeuristicMixedException;
@@ -21,7 +22,7 @@ import de.hsb.app.Model.Kunde;
 import de.hsb.app.Model.Rolle;
 
 @ManagedBean(name = "kundenHandler")
-@SessionScoped
+@RequestScoped
 public class KundenHandler {
 
 	@PersistenceContext
@@ -31,53 +32,37 @@ public class KundenHandler {
 
 	@ManagedProperty(value = "#{loginHandler.kundenList}")
 	private DataModel<Kunde> kundenListe;
+	
 	private Kunde merkeKunde;
 	private Kunde selectedUser;
 	private boolean skip;
+	
 	String passwortWiederholen;
+	
 
 	public KundenHandler() {
 	}
 
-//	@PostConstruct
-//	public void init() {
-//
-//		try {
-//			userTransaction.begin();
-//
-//			entityManager.persist(new Kunde("Ben", "Coulibaly", new GregorianCalendar(1997, 4, 3).getTime(),
-//					"bcoulibaly", "beniboy", Rolle.ADMIN, Anrede.HERR));
-//			entityManager.persist(new Kunde("Lionel", "Ngoubayou", new GregorianCalendar(1990, 9, 15).getTime(),
-//					"lngoubayou", "lgoubayou", Rolle.KUNDE, Anrede.HERR));
-//			entityManager.persist(new Kunde("Amadou", "Sow", new GregorianCalendar(1994, 5, 21).getTime(), "asow",
-//					"asow", Rolle.KUNDE, Anrede.HERR));
-//			kundenListe = new ListDataModel<Kunde>();
-//			kundenListe.setWrappedData(entityManager.createNamedQuery("SelectKunden").getResultList());
-//
-//			userTransaction.commit();
-//		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
-//				| HeuristicMixedException | HeuristicRollbackException e) {
-//
-//			e.printStackTrace();
-//		}
-//	}
-
 	public String neu() {
 		merkeKunde = new Kunde();
 		merkeKunde.setRolle(Rolle.ADMIN);
-		return "neuerKunde";
+		return "neueAdminAnlegen?faces-redirect=true";
 	}
 
-	public String kundeBearbeiten() {
+	public String loggedKundeBearbeiten() {
+		return "/loggedKundeBearbeiten.xhtml?faces-redirect=true";
+	}
+	
+	public String normaleKundeBearbeiten() {
 		merkeKunde = kundenListe.getRowData();
-		return "/kundeBearbeiten.xhtml?faces-redirect=true";
+		return "kundeBearbeiten.xhtml?faces-redirect=true";
 	}
 
 	public String speichern() {
 		try {
 			System.out.println("Speichern wurde aufgerufen");
 			userTransaction.begin();
-
+			merkeKunde = entityManager.merge(merkeKunde);
 			entityManager.persist(merkeKunde);
 			kundenListe.setWrappedData(entityManager.createNamedQuery("SelectKunden").getResultList());
 
@@ -94,15 +79,16 @@ public class KundenHandler {
 			userTransaction.begin();
 			merkeKunde = kundenListe.getRowData();
 			entityManager.remove(merkeKunde);
+			kundenListe = new ListDataModel<Kunde>();
 			kundenListe.setWrappedData(entityManager.createNamedQuery("SelectKunden").getResultList());
 			userTransaction.commit();
+			merkeKunde = null;
 
 		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
 		return "/homePageAdmin.xhtml?faces-redirect=true";
-		// TODO Auto-generated method stub
 
 	}
 
@@ -165,7 +151,7 @@ public class KundenHandler {
 	public void setSelectedUser(Kunde actuelUser) {
 		this.selectedUser = actuelUser;
 	}
-
+	
 	public String getPasswortWiederholen() {
 		return passwortWiederholen;
 	}

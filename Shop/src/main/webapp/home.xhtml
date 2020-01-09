@@ -7,58 +7,58 @@
 
 <h:head>
 	<title><ui:insert name="title">Kundenverwaltung</ui:insert></title>
-	<link rel="stylesheet" href="resources/CSS/alleKunden.css"
-		type="text/css" />
+	<!-- <link rel="stylesheet" href="resources/CSS/alleKunden.css"
+		type="text/css" /> -->
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
 	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
 </h:head>
 
 <h:body>
-	<h:form>
+	<b:form>
 		<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
 
-		<b:navBar id="top" brand="BELISO SHOP"
-			brandImg="resources/IMAGES/logo1.png"
+		<b:navBar styleClass="container-fluid" id="top" brand="BELISO SHOP"
+			brandImg="resources/IMAGES/finallogo1.png"
 			brand-img-style="width:60px;
 				height:30px" fluid="true"
 			sticky="true">
 			<b:navbarLinks pull="right">
 				<b:navCommandLink href="#">
-					<b:iconAwesome name="group" spin="true" />
-					<h:outputLabel value="	Contact" />
+					<b:iconAwesome name="group" />
+					<h:outputLabel value="Contact" />
 				</b:navCommandLink>
 				<b:navCommandLink href="#">
+					<b:iconAwesome name="balance-scale" />
 					<h:outputLabel value="Impressum" />
-					<b:iconAwesome name="info" />
 				</b:navCommandLink>
 				<b:navCommandLink href="#">
 					<b:iconAwesome name="leaf" />
 					<h:outputLabel value="Ueber uns" />
 				</b:navCommandLink>
-				<!-- 				<b:navCommandLink style="margin-left:50px;"> -->
-				<!-- 					<b:iconAwesome name="user" /> -->
-				<!-- 					<h:outputLabel value="#{loginHandler.user.benutzername}" /> -->
-				<!-- 				</b:navCommandLink> -->
-
-				<b:dropButton iconAwesome="user-circle" style="margin-left:50px;"
+				<b:dropMenu iconAwesome="user-circle"
 					value="#{loginHandler.user.benutzername}">
-					<b:navCommandLink value="Profil editieren" href="#"></b:navCommandLink>
+					<b:navCommandLink value="Profil editieren"
+						href="#{kundenHandler.loggedKundeBearbeiten()}">
+						<f:facet name="prepend">
+							<i class="pi pi-pencil"></i>
+						</f:facet>
+					</b:navCommandLink>
 					<b:navCommandLink action="#{loginHandler.logout()}"
 						value="Abmelden"></b:navCommandLink>
-				</b:dropButton>
+				</b:dropMenu>
 			</b:navbarLinks>
 		</b:navBar>
 
-		<b:jumbotron>
-			<ui:insert>
-				<h3>Willkommen auf BELISO SHOP</h3>
-				<p>hier finden Sie alles was Sie suchen. Wenn sie noch keine
-					Kunde bei uns seid also registrieren Sie sich um tolle Angebotte zu
-					erhalten.</p>
-			</ui:insert>
-		</b:jumbotron>
+		<b:container styleClass="content-container">
+			<b:jumbotron style="widht:100%;">
+				<ui:insert>
+					<h3>Willkommen auf BELISO SHOP</h3>
+					<p>hier finden Sie alles was Sie suchen. Wenn sie noch keine
+						Kunde bei uns seid also registrieren Sie sich um tolle Angebotte
+						zu erhalten.</p>
+				</ui:insert>
+			</b:jumbotron>
 
-		<b:container id="content" style="width:100%;">
 			<p:dataGrid var="ca" value="#{artikelHandler.artikelListe}"
 				columns="3" rows="12" paginator="true"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
@@ -66,7 +66,7 @@
 
 
 
-				<p:panel header="#{ca.beschreibung}" style="text-align:center">
+				<p:panel header="#{ca.name}" style="text-align:center">
 					<h:panelGrid columns="1" style="width:80%">
 						<p:graphicImage style="width:100%;height:150px;"
 							value="/resources/IMAGES/ARTIKEL/#{ca.image}" />
@@ -101,7 +101,7 @@
 					Lionel Babou</span>
 			</ui:insert>
 		</div>
-	</h:form>
+	</b:form>
 </h:body>
 
 </html>

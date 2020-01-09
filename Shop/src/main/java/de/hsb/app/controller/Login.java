@@ -162,7 +162,23 @@ public class Login implements Serializable {
 		user = null;
 		return "/loginSeite.xhtml?faces-redirect=true";
 	}
+	
+	public String bearbeitungSpeichern() {
+		try {
+			System.out.println("Speichern wurde aufgerufen");
+			userTransaction.begin();
+			user = entityManager.merge(user);
+			entityManager.persist(user);
+			kundenList.setWrappedData(entityManager.createNamedQuery("SelectKunden").getResultList());
 
+			userTransaction.commit();
+		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
+				| HeuristicMixedException | HeuristicRollbackException e) {
+			e.printStackTrace();
+		}
+		return "/homePageAdmin.xhtml?faces-redirect=true";
+	}
+	
 	public String abbrechen() {
 		if (user != null)
 			if (user.getRolle() == Rolle.ADMIN)
