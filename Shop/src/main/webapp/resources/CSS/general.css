@@ -4,10 +4,11 @@ body {
 	height: 100%;
 	font-family: Eras ITC, Felix Titling, Tw Cen MT, Verdana, Arial, Helvetica,
 		sans-serif;
-	font-size: 15px;
+	font-size: 17px;
 	/* background: linear-gradient(90deg, #00DBDE, #2E64FE); */
 	/* background: linear-gradient(90deg, #edd77e, #5cdbca); */
-	background-image: url("resources/IMAGES/hinterground1.jpg");
+	background-image: url("../IMAGES/hinterground1.jpg");
+	position: relative;
 }
 
 * {
@@ -16,16 +17,10 @@ body {
 	
 .jumbotron {
 	text-align: center;
-	margin-top:100px;
-	/* margin: auto; */
-	margin-bottom: 100px;
-	width: 80%;
-	background: linear-gradient(90deg, #2E64FE, #00DBDE);
-	p
-	{
-	font-size:10px;
+	margin-bottom:80px;
+	width: 100%;
+	background: linear-gradient(30deg, #2E64FE, #00DBDE);
 	color: white;
-}
 
 }
 .loginClass {
@@ -38,8 +33,7 @@ body {
 	width: 80%;
 	margin: auto;
 	border: 1px solid linear-gradient(90deg, #2E64FE, #00DBDE);
-	align-content: center;
-	background-image: url("resources/IMAGES/hinterground1.jpg");
+	
 }
 
 .navbar{
@@ -47,7 +41,7 @@ body {
 }
 
 #footer {
-	margin-top: 52px;
+	margin-top: 100px;
 	padding-top: 10px;
 	position: absolute;
 	bottom: 0;

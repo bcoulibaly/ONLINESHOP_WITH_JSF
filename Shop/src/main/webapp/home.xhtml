@@ -7,10 +7,8 @@
 
 <h:head>
 	<title><ui:insert name="title">Kundenverwaltung</ui:insert></title>
-	<!-- <link rel="stylesheet" href="resources/CSS/alleKunden.css"
-		type="text/css" /> -->
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
-	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
+	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.png" />
 </h:head>
 
 <h:body>
@@ -23,17 +21,14 @@
 				height:30px" fluid="true"
 			sticky="true">
 			<b:navbarLinks pull="right">
-				<b:navCommandLink href="#">
+				<b:navCommandLink href="#" value="Contact ">
 					<b:iconAwesome name="group" />
-					<h:outputLabel value="Contact" />
 				</b:navCommandLink>
-				<b:navCommandLink href="#">
+				<b:navCommandLink href="#" value="Impressum ">
 					<b:iconAwesome name="balance-scale" />
-					<h:outputLabel value="Impressum" />
 				</b:navCommandLink>
-				<b:navCommandLink href="#">
+				<b:navCommandLink href="#" value="Ueber Uns ">
 					<b:iconAwesome name="leaf" />
-					<h:outputLabel value="Ueber uns" />
 				</b:navCommandLink>
 				<b:dropMenu iconAwesome="user-circle"
 					value="#{loginHandler.user.benutzername}">
@@ -66,31 +61,30 @@
 
 
 
-				<p:panel header="#{ca.name}" style="text-align:center">
-					<h:panelGrid columns="1" style="width:80%">
-						<p:graphicImage style="width:100%;height:150px;"
-							value="/resources/IMAGES/ARTIKEL/#{ca.image}" />
-
-						<h:outputText value="preis: #{ca.preis} €;" />
-
-						<p:commandLink value="info" oncomplete="PF('carDialog').show()"
-							title="View Detail">
-							<h:outputText styleClass="ui-icon ui-icon-search"
-								style="margin:0 auto;" />
-							<f:setPropertyActionListener value="#{ca}"
-								target="#{artikelHandler.merkeArtikel}" />
-						</p:commandLink>
-
-						<p:commandLink value="kaufen" oncomplete="PF('Dialog').show()"
-							title="View Detail">
-							<h:outputText styleClass="ui-icon ui-icon-search"
-								style="margin:0 auto;" />
-							<f:setPropertyActionListener value="#{ca}"
-								target="#{artikelHandler.merkeArtikel}" />
-						</p:commandLink>
-
-					</h:panelGrid>
-				</p:panel>
+				<b:panel style="text-align:center">
+					<b:panelGrid columns="1" style="width:100%;">
+						<!-- <p:graphicImage style="width:100%;height:150px;"
+							value="/resources/IMAGES/ARTIKEL/#{ca.image}" /> -->
+							
+								<p:graphicImage style="width:200px;height:100px;" value="/resources/IMAGES/ARTIKEL/#{ca.image}" />
+							
+							<h:outputText value="preis: #{ca.preis} €" />
+							<b:commandLink value="info" oncomplete="PF('carDialog').show()"
+								title="View Detail">
+								<h:outputText styleClass="ui-icon ui-icon-search"
+									style="margin:0 auto;" />
+								<f:setPropertyActionListener value="#{ca}"
+									target="#{artikelHandler.merkeArtikel}" />
+							</b:commandLink>
+							<b:commandLink value="Warenkorb hinzufügen" oncomplete="PF('Dialog').show()"
+								title="View Detail">
+								<h:outputText styleClass="ui-icon ui-icon-search"
+									style="margin:0 auto;" />
+								<f:setPropertyActionListener value="#{ca}"
+									target="#{artikelHandler.merkeArtikel}" />
+							</b:commandLink>
+					</b:panelGrid>
+				</b:panel>
 
 			</p:dataGrid>
 		</b:container>

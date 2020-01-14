@@ -77,13 +77,13 @@
 		<p:growl id="growl" sticky="true" showDetail="true" />
 
 		<p:wizard flowListener="#{kundenHandler.onFlowProcess}">
-			<p:tab id="personal" title="Personal">
+			<b:tab id="personal" title="Personal">
 				<b:panel header="Personal Details">
 					<b:messages />
 
 					<b:panelGrid columns="2" columnClasses="label, value">
 
-						<h:outputLabel value="Anrede:" for="anrede" />
+						<p:outputLabel value="Anrede:" for="anrede" />
 						
 							<b:selectOneMenu id="anrede"
 								value="#{loginHandler.user.anrede}">
@@ -98,26 +98,26 @@
 							required="true"
 							requiredMessage="Vorname fehlt!!" />
 
-						<h:outputText value="Name: *" />
+						<p:outputLabel value="Name: *" />
 						<b:inputText value="#{loginHandler.user.name}"
 							required="true" requiredMessage="Name fehlt!!" />
 
-						<h:outputText value="Geburtsdatum: " />
+						<p:outputLabel value="Geburtsdatum: " />
 							<b:datepicker id="geburtsdatum" changeMonth="true"
 								value="#{loginHandler.user.geburtsdatum}"
 								mode="toogle-icon" required="true"
 								requiredMessage="Geburtsdatum fehlt" changeYear="true"
 								showButtonPanel="true" />
 
-						<h:outputText value="Email: *" />
+						<p:outputLabel value="Email: *" />
 						<b:inputText value="#{loginHandler.user.email}"
 							required="true" placeholder="Email"
 							requiredMessage="Email fehlt!!" />
 					</b:panelGrid>
 				</b:panel>
-			</p:tab>
+			</b:tab>
 
-			<p:tab id="address" title="Address">
+			<b:tab id="address" title="Address">
 				<b:panel header="Address Details">
 					<b:messages />
 					<b:panelGrid columns="2" columnClasses="label, value">
@@ -131,9 +131,9 @@
 						<b:inputText value="#{loginHandler.user.ort}" />
 					</b:panelGrid>
 				</b:panel>
-			</p:tab>
+			</b:tab>
 
-			<p:tab id="loginData" title="Anmelde Daten">
+			<b:tab id="loginData" title="Anmelde Daten">
 				<b:panel header="Anmelde Details">
 					<b:messages />
 					<b:panelGrid columns="2" columnClasses="label, value">
@@ -152,9 +152,9 @@
 							requiredMessage="Passwortz fehlt" />
 					</b:panelGrid>
 				</b:panel>
-			</p:tab>
+			</b:tab>
 
-			<p:tab id="confirm" title="Confirmation">
+			<b:tab id="confirm" title="Confirmation">
 				<b:panel header="Confirmation">
 					<b:panelGrid id="confirmation" columns="3"
 						columnClasses="grid,grid,grid">
@@ -200,12 +200,11 @@
 								styleClass="outputLabel" />
 						</b:panelGrid>
 					</b:panelGrid>
-		<br/>
 					<b:commandButton value="Submit"
 						action="#{loginHandler.bearbeitungSpeichern()}"
 						process="@this" look="success" />
 				</b:panel>
-			</p:tab>
+			</b:tab>
 		</p:wizard>
 
 	</h:form>

@@ -52,7 +52,7 @@ public class ArtikelHandler {
 			entityManager.persist(new Artikel("Surface Book 2", "Das sollte eine Beschribung sein", 2999.99,
 					"Microsoft_Surface_Laptop_2.jpg", 12));
 			entityManager.persist(
-					new Artikel("IPhone Xs", "Tolles Handy mit hohem Display auflösung", 189.00, "Handy.png", 19));
+					new Artikel("IPhone 7", "Tolles Handy mit hohem Display auflösung", 689.99, "Iphone7.jpg", 19));
 			entityManager.persist(
 					new Artikel("Canon Photo", "Apparat Photo von Canon mit tollen Effekten wie Panorama,Zeitraffler, Scharf, 8GB-Speicherplatz", 259.99, "canon_photo.png", 40));
 			
@@ -123,11 +123,13 @@ public class ArtikelHandler {
 	public String löschen() {
 		try {
 			userTransaction.begin();
-
-			entityManager.remove(artikelListe.getRowData());
+			merkeArtikel = artikelListe.getRowData();
+			entityManager.remove(merkeArtikel);
+			artikelListe = new ListDataModel<Artikel>();
 			artikelListe.setWrappedData(entityManager.createNamedQuery("SelectArtikel").getResultList());
-
 			userTransaction.commit();
+
+			merkeArtikel=null;
 
 		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
 				| HeuristicMixedException | HeuristicRollbackException e) {

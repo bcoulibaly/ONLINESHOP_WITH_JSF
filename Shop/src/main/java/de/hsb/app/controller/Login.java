@@ -10,6 +10,7 @@ import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.persistence.EntityManager;
@@ -44,15 +45,15 @@ public class Login implements Serializable {
 	private String benutzername;
 	private String passwort;
 	private Kunde user;
-	
+
 	private DataModel<Kunde> kundenList;
 
 //	@ManagedProperty(value = "#{kundenHandler}")
 //	private KundenHandler kundenHandler;
-	
+
 	public Login() {
 	}
-	
+
 	@PostConstruct
 	public void init() {
 
@@ -79,11 +80,11 @@ public class Login implements Serializable {
 	@SuppressWarnings("unchecked")
 	public String login() {
 
-		Query query = entityManager.createQuery("select k from Kunde k "
-				+ "where k.benutzername = :benutzername and k.passwort = :passwort ");
+		Query query = entityManager.createQuery(
+				"select k from Kunde k " + "where k.benutzername = :benutzername and k.passwort = :passwort ");
 		query.setParameter("benutzername", benutzername);
 		query.setParameter("passwort", passwort);
-		
+
 		List<Kunde> kunden = query.getResultList();
 
 		if (kunden.size() == 1) {
@@ -129,8 +130,7 @@ public class Login implements Serializable {
 			if (tmpKundeList.size() == 0 || tmpKundeList == null) {
 				user = entityManager.merge(user);
 				entityManager.persist(user);
-				kundenList.setWrappedData(entityManager.createNamedQuery("SelectKunden")
-						.getResultList());
+				kundenList.setWrappedData(entityManager.createNamedQuery("SelectKunden").getResultList());
 			} else
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
 						"benutzername", "Ihr Passwort oder Benutzername sind bereit Vorhanden"));
@@ -148,7 +148,30 @@ public class Login implements Serializable {
 		return event.getNewStep();
 	}
 
-	public String checkLoggedIn() {
+//	public String checkLoggedIn() {
+//		if (user != null) {
+//			if (user.getRolle() == Rolle.ADMIN)
+//				return "/homePageAdmin.xhtml?faces-redirect=true";
+//			else
+//				return "/home.xhtml?faces-redirect=true";
+//		} else
+//			return "/loginSeite.xhtml?faces-redirect=true";
+//	}
+
+	public String checkLoggedIn(ComponentSystemEvent cse) {
+//		FacesContext context = FacesContext.getCurrentInstance();
+//		if (user != null) {
+//			if (user.getRolle() == Rolle.ADMIN)
+//				context.getApplication().getNavigationHandler().handleNavigation(context, null,
+//						"/homePageAdmin.xhtml?faces-redirect=true");
+//			else
+//				context.getApplication().getNavigationHandler().handleNavigation(context, null,
+//						"/home.xhtml?faces-redirect=true");
+//		} else
+//			context.getApplication().getNavigationHandler().handleNavigation(context, null,
+//					"/loginSeite.xhtml?faces-redirect=true");
+//			context.getApplication().getNavigationHandler().handleNavigation(context, null,
+//					"/login.xhtml?faces-redirect=true");
 		if (user != null) {
 			if (user.getRolle() == Rolle.ADMIN)
 				return "/homePageAdmin.xhtml?faces-redirect=true";
@@ -159,10 +182,10 @@ public class Login implements Serializable {
 	}
 
 	public String logout() {
-		user = null;
-		return "/loginSeite.xhtml?faces-redirect=true";
+		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
+		return "/shopView.xhtml?faces -redirect=true";
 	}
-	
+
 	public String bearbeitungSpeichern() {
 		try {
 			System.out.println("Speichern wurde aufgerufen");
@@ -178,7 +201,7 @@ public class Login implements Serializable {
 		}
 		return "/homePageAdmin.xhtml?faces-redirect=true";
 	}
-	
+
 	public String abbrechen() {
 		if (user != null)
 			if (user.getRolle() == Rolle.ADMIN)

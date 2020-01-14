@@ -1,7 +1,9 @@
 package de.hsb.app.controller;
 
+import java.io.Serializable;
+
 import javax.annotation.Resource;
-import javax.enterprise.context.RequestScoped;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.model.DataModel;
@@ -21,17 +23,23 @@ import de.hsb.app.Model.Anrede;
 import de.hsb.app.Model.Kunde;
 import de.hsb.app.Model.Rolle;
 
-@ManagedBean(name = "kundenHandler")
-@RequestScoped
-public class KundenHandler {
 
+@ManagedBean(name = "kundenHandler")
+@SessionScoped
+public class KundenHandler implements Serializable {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -4013914896252407461L;
+	
 	@PersistenceContext
 	private EntityManager entityManager;
 	@Resource
 	private UserTransaction userTransaction;
-
-	@ManagedProperty(value = "#{loginHandler.kundenList}")
-	private DataModel<Kunde> kundenListe;
+	
+	@ManagedProperty(value ="#{loginHandler.kundenList}")
+	private DataModel<Kunde> kundenListe= new ListDataModel<Kunde>();
 	
 	private Kunde merkeKunde;
 	private Kunde selectedUser;
@@ -46,7 +54,7 @@ public class KundenHandler {
 	public String neu() {
 		merkeKunde = new Kunde();
 		merkeKunde.setRolle(Rolle.ADMIN);
-		return "neueAdminAnlegen?faces-redirect=true";
+		return "/neueAdminAnlegen?faces-redirect=true";
 	}
 
 	public String loggedKundeBearbeiten() {
@@ -55,7 +63,7 @@ public class KundenHandler {
 	
 	public String normaleKundeBearbeiten() {
 		merkeKunde = kundenListe.getRowData();
-		return "kundeBearbeiten.xhtml?faces-redirect=true";
+		return "/KundeBearbeiten.xhtml?faces-redirect=true";
 	}
 
 	public String speichern() {
@@ -76,12 +84,15 @@ public class KundenHandler {
 
 	public String löschen() {
 		try {
-			userTransaction.begin();
 			merkeKunde = kundenListe.getRowData();
+			userTransaction.begin();
+			merkeKunde = entityManager.merge(merkeKunde);
 			entityManager.remove(merkeKunde);
 			kundenListe = new ListDataModel<Kunde>();
 			kundenListe.setWrappedData(entityManager.createNamedQuery("SelectKunden").getResultList());
+			kundenListe.notifyAll();
 			userTransaction.commit();
+			userTransaction.notifyAll();
 			merkeKunde = null;
 
 		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
