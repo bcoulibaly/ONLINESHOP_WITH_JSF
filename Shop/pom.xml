@@ -80,8 +80,13 @@
 		</dependencies>
 	</dependencyManagement>
 
-	<!-- <repositories> <repository> <id>prime-repo</id> <name>Prime Repo</name> 
-		<url>http://repository.primefaces.org</url> </repository> </repositories> -->
+	<repositories>
+		<repository>
+			<id>prime-repo</id>
+			<name>Prime Repo</name>
+			<url>http://repository.primefaces.org</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 
@@ -215,14 +220,7 @@
 			<artifactId>primefaces</artifactId>
 			<version>7.0</version>
 		</dependency>
-
-
-		<!-- <dependency> <groupId>org.primefaces.THEMES</groupId> <artifactId>glass-x</artifactId> 
-			<version>1.0.6</version> </dependency> -->
-
-		<!-- <dependency> <groupId>org.primefaces.THEMES</groupId> <artifactId>nova-light</artifactId> 
-			<version>1.0.6</version> </dependency> -->
-
+		
 		<dependency>
 			<groupId>org.seleniumhq.selenium</groupId>
 			<artifactId>selenium-java</artifactId>

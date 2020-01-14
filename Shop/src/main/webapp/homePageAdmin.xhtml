@@ -23,20 +23,25 @@
 				height:30px" fluid="true"
 			sticky="true">
 			<b:navbarLinks pull="right">
+
 				<b:navCommandLink href="#" value="contact ">
 					<b:iconAwesome name="group" />
 				</b:navCommandLink>
+
 				<b:navCommandLink href="#" value="Impressum ">
 					<b:iconAwesome name="balance-scale" />
 				</b:navCommandLink>
+				
 				<b:navCommandLink href="#" value="Ueber Uns ">
 					<b:iconAwesome name="leaf" />
 				</b:navCommandLink>
+				
 				<b:dropMenu iconAwesome="user-circle" rendered="true"
 					value="#{loginHandler.user.benutzername}">
-					<b:navCommandLink value="Profil editieren"
+					
+					<b:navCommandLink iconAwesome="pencil" value=" Profil editieren"
 						action="#{kundenHandler.loggedKundeBearbeiten}" />
-					<b:navCommandLink action="#{loginHandler.logout}" value="Abmelden" />
+					<b:navCommandLink iconAwesome="sign-out" action="#{loginHandler.logout}" value=" Abmelden" />
 				</b:dropMenu>
 			</b:navbarLinks>
 		</b:navBar>
@@ -52,8 +57,6 @@
 			<b:commandButton action="#{kundenHandler.neu()}"
 				value="Neuer Admin User anlegen" iconAwesome="user-plus"
 				look="primary" />
-			<b:commandButton value="bearbeiten"
-				action="#{kundenHandler.normaleKundeBearbeiten()}" />
 
 			<p:dataTable var="kunde" value="#{loginHandler.kundenList}" rows="10"
 				paginator="true"
@@ -119,7 +122,6 @@
 		        	In total there are #{kundenHandler.kundenListe.size()} Benutzer.
 		    	</f:facet> -->
 			</p:dataTable>
-
 			<br />
 			<br />
 

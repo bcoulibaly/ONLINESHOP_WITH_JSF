@@ -1,13 +1,13 @@
 @charset "ISO-8859-1";
 
-body {
+body,html{
 	height: 100%;
 	font-family: Eras ITC, Felix Titling, Tw Cen MT, Verdana, Arial, Helvetica,
 		sans-serif;
 	font-size: 17px;
 	/* background: linear-gradient(90deg, #00DBDE, #2E64FE); */
 	/* background: linear-gradient(90deg, #edd77e, #5cdbca); */
-	background-image: url("../IMAGES/hinterground1.jpg");
+	background-image: url("../IMAGES/hinterground2.jpg");
 	position: relative;
 }
 
