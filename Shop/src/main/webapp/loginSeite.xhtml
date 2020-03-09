@@ -17,19 +17,20 @@
 		brandImg="resources/IMAGES/finallogo1.png"
 		brand-img-style="width:60px;
 				height:30px" fluid="true"
-		sticky="true" look="primary">
+		sticky="true">
 		<b:navbarLinks pull="right">
-			<b:navCommandLink href="#">
+			<b:navCommandLink href="#" value="Contact">
 				<b:iconAwesome name="group" />
-				<h:outputLabel value="Contact" />
 			</b:navCommandLink>
-			<b:navCommandLink href="#">
+			<b:navCommandLink href="#" value="Impressum">
 				<b:iconAwesome name="balance-scale" />
-				<h:outputLabel value="Impressum" />
 			</b:navCommandLink>
-			<b:navCommandLink href="#">
+			<b:navCommandLink href="#" value="Ueber uns">
 				<b:iconAwesome name="leaf" />
-				<h:outputLabel value="Ueber uns" />
+			</b:navCommandLink>
+			<b:navCommandLink action="#{loginHandler.redirectToLoginPage}"
+				value="Einloggen" disabled="true">
+				<b:iconAwesome name="user" />
 			</b:navCommandLink>
 		</b:navbarLinks>
 	</b:navBar>
@@ -37,16 +38,21 @@
 
 	<h:form id="loginForm">
 		<b:container styleClass="loginClass">
-			<b:growl id="message" sticky="true" showDetail="true"/>
 			<b:panel style="width:50%;margin:auto;" title="LOGIN" look="success"
 				collapsible="false">
 				<b:row>
+					<b:column medium-screen="12">
+						<p:growl placementFrom="top" show-detail="true"
+							global-only="false" show-summary="true" allow-dismiss="true"
+							animation-enter="animated bounceInDown"
+							animation-exit="animated flipOutX" escape="true" />
+					</b:column>
 					<b:column medium-screen="12">
 						<h:outputText value="Username:" for="username" />
 					</b:column>
 					<b:column medium-screen="12">
 						<b:inputText placeholder="Username eingeben" id="username"
-							value="#{loginHandler.benutzername}" autocomplete="false">
+							value="#{credential.username}" autocomplete="true">
 							<f:facet name="prepend">
 								<b:icon name="user" />
 							</f:facet>
@@ -59,7 +65,7 @@
 					</b:column>
 					<b:column medium-screen="12">
 						<b:inputSecret placeholder="Passwort eingeben" id="password"
-							value="#{loginHandler.passwort}" autocomplete="false">
+							value="#{credential.password}" autocomplete="true">
 							<f:facet name="prepend">
 								<b:iconAwesome name="key" />
 							</f:facet>
@@ -68,12 +74,12 @@
 				</b:row>
 				<b:row>
 					<b:column span="4" offset="2">
-						<b:commandButton value="Login" autoUpdate="loginForm"
+						<b:commandButton value="Login" autoUpdate="@form" process="all"
 							action="#{loginHandler.login}"
 							style="width:100%; background-color:#00DBDE;" />
 					</b:column>
 					<b:column span="4">
-						<b:commandButton value="Registrieren" autoUpdate="loginForm"
+						<b:commandButton value="Registrieren" autoUpdate="@form"
 							action="#{loginHandler.registrieren}"
 							style="width:100%; background-color:#2E64FE;" />
 					</b:column>
@@ -82,12 +88,10 @@
 		</b:container>
 	</h:form>
 
-	<b:container id="footer">
-		<ui:insert name="footer">
-			<span>Copyright 2019 | Ben Inza Coulibaly | Amadou Sow |
-				Lionel Babou</span>
-		</ui:insert>
-	</b:container>
+	<div id="footer">
+		<span>Copyright 2019 | Ben Inza Coulibaly | Amadou Sow | Lionel
+			Babou</span>
+	</div>
 </h:body>
 
 </html>

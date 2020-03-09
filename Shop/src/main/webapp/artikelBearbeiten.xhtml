@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -6,16 +6,45 @@
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
 
 <h:head>
-	<title><ui:insert name="title">Artikel verwaltung</ui:insert></title>
-	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
-	<!-- <link rel="stylesheet" href="resources/fontaws/css/font-awesome.css" /> -->
-	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
-</h:head>
 
+	<title><ui:insert name="title">BelissoShop-KundenBearbeiten</ui:insert></title>
+	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
+	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
+	<style type="text/css">
+label {
+	width: 20%;
+	padding: 4px;
+	color: white;
+}
+
+value {
+	width: 80%;
+	padding: 4px;
+}
+
+grid {
+	width: 100%;
+}
+
+error {
+	color: red;
+}
+
+outputLabel {
+	font-weight: bold;
+}
+
+grid {
+	width: 33%;
+	padding: 4px;
+}
+</style>
+
+</h:head>
 <h:body>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
+
 	<h:form id="top">
-	
 		<b:navBar id="top" brand="BELISO SHOP"
 			brandImg="resources/IMAGES/finallogo1.png"
 			brand-img-style="width:40px;
@@ -46,30 +75,31 @@
 			</b:navbarLinks>
 		</b:navBar>
 	</h:form>
-	
-	<hr width="80%" align="center" />
-	<h2 id="headPage" align="center">
-		<ui:insert name="headPage">Neue Artikel erstellen</ui:insert>
-	</h2>
-	<hr width="80%" align="center" />
-	
-	<b:container styleClass="content-container" align="center">
+
+	<div class="content-container" align="center">
 		<h:form id="neuArtikel">
 			<p:growl placementFrom="top" show-detail="true" global-only="false"
 				show-summary="true" allow-dismiss="true"
 				animation-enter="animated bounceInDown"
 				animation-exit="animated flipOutX" escape="true" />
 
-			<h:panelGrid var="artikel" value="#{artikelHandler.merkeArtikel}"
+			<h:panelGrid
 				columns="2" headerClass="header" footerClass="footer">
-
+				
 				<h:outputLabel value="Image:" for="img" />
 				<h:panelGroup>
-					<p:fileUpload id="img" skinSimple="true" accept="image/*"  listener="#{artikelHandler.saveImage}" validateContentType="true"
+					<p:graphicImage width="80px" height="50px"
+							value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.image}" />
+					
+				</h:panelGroup>
+				
+				<h:outputLabel value="Upload new Image:" for="img" />
+				<h:panelGroup>
+					<p:fileUpload id="img" fileUploadListener="#{artikelHandler.saveImage}"
 						mode="advanced" dragDropSupport="true" sizeLimit="3000000"
 						allowTypes="/(\.|\/)(gif|jpeg|png)$/" />
 				</h:panelGroup>
-
+				
 				<h:outputLabel value="Name:" for="name" />
 				<h:panelGroup>
 					<h:inputText id="name" required="true" requiredMessage="Name fehlt"
@@ -95,21 +125,18 @@
 					<p:inputTextarea id="desc"
 						value="#{artikelHandler.merkeArtikel.beschreibung}" />
 				</h:panelGroup>
+					<p:commandButton action="#{artikelHandler.speichernArtikel}"
+						value="Speichern" />
+					<p:commandButton action="#{loginHandler.abbrechen()}"
+						immediate="true" value="Abbrechen" />
 			</h:panelGrid>
 			<br />
-			<p:commandButton action="#{artikelHandler.speichernArtikel}"
-				value="Speichern" />
-			<p:commandButton
-				action="#{loginHandler.abbrechen(loginHandler.user)}"
-				value="Abbrechen" />
 		</h:form>
-		<br />
-	</b:container>
+	</div>
 
-	<b:container id="footer">
+	<div id="footer">
 		<span>Copyright 2019 | Ben Inza Coulibaly | Amadou Sow | Lionel
 			Babou</span>
-	</b:container>
+	</div>
 </h:body>
-
 </html>

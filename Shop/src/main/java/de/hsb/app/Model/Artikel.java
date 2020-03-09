@@ -25,7 +25,7 @@ public class Artikel {
 	private int anzahl;
 
 	@Column(name = "IMAGE")
-	String imgName;
+	private String imgName;
 
 	public Artikel() {
 	}

@@ -25,8 +25,8 @@ public class LoginView  {
     WebElement passwordElement     = driver.findElement(By.name("password"));
     WebElement formElement        = driver.findElement(By.id("loginForm"));
  
-    usernameElement.sendKeys("Alan Smithee");
-    passwordElement.sendKeys("twilightZone");
+    usernameElement.sendKeys("bcoulibaly");
+    passwordElement.sendKeys("beniboy");
  
     //passwordElement.submit(); // submit by text input element
     formElement.submit();        // submit by form element

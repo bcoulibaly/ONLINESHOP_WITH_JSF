@@ -1,6 +1,6 @@
 @charset "ISO-8859-1";
 
-body,html{
+body{
 	height: 100%;
 	font-family: Eras ITC, Felix Titling, Tw Cen MT, Verdana, Arial, Helvetica,
 		sans-serif;
@@ -8,7 +8,6 @@ body,html{
 	/* background: linear-gradient(90deg, #00DBDE, #2E64FE); */
 	/* background: linear-gradient(90deg, #edd77e, #5cdbca); */
 	background-image: url("../IMAGES/hinterground2.jpg");
-	position: relative;
 }
 
 * {
@@ -40,12 +39,12 @@ body,html{
 	background: linear-gradient(90deg, #edd77e, #5cdbca);
 }
 
-#footer {
+ footer, #footer, .footer {
 	margin-top: 100px;
-	padding-top: 10px;
-	position: absolute;
+	padding : 40px;
+	position :inherit;
 	bottom: 0;
-	height: 50px;
+	height: 100px;
 	text-align: center;
 	width: 100%;
 	color: white;

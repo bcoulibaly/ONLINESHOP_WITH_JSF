@@ -1,14 +1,17 @@
 package de.hsb.app.Model;
 
-import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.NamedQuery;
+import javax.persistence.OneToOne;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.validation.constraints.NotNull;
@@ -17,16 +20,14 @@ import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
 
-@NamedQuery(name="SelectKunden", query="Select k from Kunde k") 
+@NamedQuery(name="SelectUser", query="Select k from User k") 
 @Entity
-public class Kunde implements Serializable{
-
-	private static final long serialVersionUID = 1L;
+public class User {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
-	@Column(name = "Kunde_ID")
+	@Column(name = "User_ID", nullable = false, unique = true)
 	private Integer id;
 	
 	@Column(name = "NAME")
@@ -35,9 +36,14 @@ public class Kunde implements Serializable{
 	@Column(name = "VORNAME")
 	private String vorname;
 	
+	@Size(min = 3, max = 100)
 	@Column(name = "PASSWORD")
 	private String passwort;
 	
+	@Size(min = 3, max = 100)
+	@Column(name = "BENUTZERNAME")
+	private String benutzername;
+
 	@Size(min = 5, max = 100)
 	@Column(name = "STRASSE")
 	private String strasse;
@@ -54,13 +60,8 @@ public class Kunde implements Serializable{
 	@Column(name = "Ort")
 	private String ort;
 	
-	@Size(min = 3, max = 100)
-	@Column(name = "BENUTZERNAME")
-	private String benutzername;
-	
 	@Column(name = "ANREDE")
 	private Anrede anrede;
-	
 	
 	@Column(name = "ROLLE")
 	private Rolle rolle;
@@ -70,14 +71,21 @@ public class Kunde implements Serializable{
 	@Column(name = "GEBURTSDATUM")
 	private Date geburtsdatum;
 	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "Warenkorb_ID")
+	private Warenkorb warenkorb;
+	
+	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@JoinColumn(name = "KK_ID")
+	private KreditKarte kreditKarte;
+	
 	//beim Registrieren oder Daten Änderungen wird das überprüft
 	String passwortWiederholen;
 	
-	public Kunde() {
-	
+	public User() {
 	}
 	
-	public Kunde(String vorname, String name, Date geburtsdatum, String benutzername, String password, Rolle rolle, Anrede anrede) {
+	public User(String vorname, String name, Date geburtsdatum, String benutzername, String password, Rolle rolle, Anrede anrede) {
 		this.name = name;
 		this.vorname = vorname;
 		this.geburtsdatum = geburtsdatum;
@@ -85,6 +93,7 @@ public class Kunde implements Serializable{
 		this.passwort = password;
 		this.rolle = rolle;
 		this.anrede= anrede;
+		warenkorb = new Warenkorb();
 	}
 
 	public String getName() {
@@ -190,4 +199,22 @@ public class Kunde implements Serializable{
 	public void setPasswortWiederholen(String passwortWiederholen) {
 		this.passwortWiederholen = passwortWiederholen;
 	}
+
+	public Warenkorb getWarenkorb() {
+		return this.warenkorb;
+	}
+
+	public void setWarenkorb(Warenkorb warenkorb) {
+		this.warenkorb = warenkorb;
+	}
+
+	public KreditKarte getKreditKarte() {
+		return kreditKarte;
+	}
+
+	public void setKreditKarte(KreditKarte kreditKarte) {
+		this.kreditKarte = kreditKarte;
+	}
+
+	
 }

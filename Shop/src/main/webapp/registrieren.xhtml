@@ -43,7 +43,7 @@
 </h:head>
 <h:body>
 
-	<b:navBar id="top" brand="BELISO SHOP" brandImg="resources/IMAGES/logo1.png"
+	<b:navBar id="top" brand="BELISO SHOP" brandImg="resources/IMAGES/logo1.png" brandHref="loginSeite.xhtml"
 		brand-img-style="width:60px;
 				height:30px" fluid="true"
 		sticky="true">
@@ -76,28 +76,28 @@
 
 							<h:outputLabel value="Anrede:" for="anrede" />
 
-							<b:selectOneMenu id="anrede" value="#{loginHandler.user.anrede}">
-								<f:selectItems value="#{kundenHandler.anredeValues}"
+							<b:selectOneMenu id="anrede" value="#{loginHandler.merkeKunde.anrede}">
+								<f:selectItems value="#{loginHandler.anredeValues}"
 									var="status" itemValue="#{status}" itemLabel="#{status.label}" />
 							</b:selectOneMenu>
 
 
 							<h:outputText value="Vorname: *" />
-							<b:inputText value="#{loginHandler.user.vorname}" required="true" />
+							<b:inputText value="#{loginHandler.merkeKunde.vorname}" required="true" />
 
 							<h:outputText value="Nachname: *" />
-							<b:inputText value="#{loginHandler.user.name}" required="true" />
+							<b:inputText value="#{loginHandler.merkeKunde.name}" required="true" />
 
 							<h:outputText value="Geburtsdatum: " />
 
 							<b:datepicker id="geburtsdatum"
-								value="#{loginHandler.user.geburtsdatum}" mode="DD.MM.YYYY"
+								value="#{loginHandler.merkeKunde.geburtsdatum}" mode="DD.MM.YYYY"
 								required="true" requiredMessage="Geburtsdatum fehlt"
 								change-year="true" showButtonPanel="true" />
 
 
 							<h:outputText value="Email: *" />
-							<b:inputText value="#{loginHandler.user.email}" required="true" />
+							<b:inputText value="#{loginHandler.merkeKunde.email}" required="true" />
 						</b:panelGrid>
 					</b:panel>
 				</p:tab>
@@ -107,13 +107,13 @@
 						<b:messages />
 						<b:panelGrid columns="2" columnClasses="label, value">
 							<h:outputText value="Street: " />
-							<b:inputText value="#{loginHandler.user.strasse}" />
+							<b:inputText value="#{loginHandler.merkeKunde.strasse}" />
 
 							<h:outputText value="Postal Code: " />
-							<b:inputText value="#{loginHandler.user.plz}" />
+							<b:inputText value="#{loginHandler.merkeKunde.plz}" />
 
 							<h:outputText value="City: " />
-							<b:inputText value="#{loginHandler.user.ort}" />
+							<b:inputText value="#{loginHandler.merkeKunde.ort}" />
 						</b:panelGrid>
 					</b:panel>
 				</p:tab>
@@ -123,17 +123,17 @@
 						<b:messages />
 						<b:panelGrid columns="2" columnClasses="label, value">
 							<h:outputText value="Benutzername: *" />
-							<b:inputText value="#{loginHandler.user.benutzername}"
+							<b:inputText value="#{loginHandler.merkeKunde.benutzername}"
 								required="true" requiredMessage="Benutzername fehlt!!" />
 
 							<h:outputText value="Passwort: *" />
-							<p:password id="pwd1" value="#{loginHandler.user.passwort}"
+							<p:password id="pwd1" value="#{loginHandler.merkeKunde.passwort}"
 								match="pwd2" feedback="true" required="true"
 								requiredMessage="Passwortz fehlt" />
 
 							<h:outputText value="Passwort Wiederholen: *" />
 							<p:password id="pwd2"
-								value="#{kundenHandler.passwortWiederholen}" feedback="true"
+								value="#{loginHandler.merkeKunde.passwortWiederholen}" feedback="true"
 								required="true" requiredMessage="Passwortz fehlt" />
 						</b:panelGrid>
 					</b:panel>
@@ -145,11 +145,11 @@
 							columnClasses="grid,grid,grid">
 							<b:panelGrid columns="2" columnClasses="label, value">
 								<h:outputText value="Firstname: " />
-								<h:outputText value="#{loginHandler.user.vorname}"
+								<h:outputText value="#{loginHandler.merkeKunde.vorname}"
 									styleClass="outputLabel" />
 
 								<h:outputText value="Lastname: " />
-								<h:outputText value="#{loginHandler.user.name}"
+								<h:outputText value="#{loginHandler.merkeKunde.name}"
 									styleClass="outputLabel" />
 
 								<h:outputText value="Age: " />
@@ -158,29 +158,29 @@
 
 							<b:panelGrid columns="2" columnClasses="label, value">
 								<h:outputText value="Street: " />
-								<h:outputText value="#{loginHandler.user.strasse}"
+								<h:outputText value="#{loginHandler.merkeKunde.strasse}"
 									styleClass="outputLabel" />
 
 								<h:outputText value="Postal: " />
-								<h:outputText value="#{loginHandler.user.plz}"
+								<h:outputText value="#{loginHandler.merkeKunde.plz}"
 									styleClass="outputLabel" />
 
 								<h:outputText value="City: " />
-								<h:outputText value="#{loginHandler.user.ort}"
+								<h:outputText value="#{loginHandler.merkeKunde.ort}"
 									styleClass="outputLabel" />
 							</b:panelGrid>
 
 							<b:panelGrid columns="2" columnClasses="label, value">
 								<h:outputText value="Email: " />
-								<h:outputText value="#{loginHandler.user.email}"
+								<h:outputText value="#{loginHandler.merkeKunde.email}"
 									styleClass="outputLabel" />
 
 								<h:outputText value="Benutzername: " />
-								<h:outputText value="#{loginHandler.user.benutzername}"
+								<h:outputText value="#{loginHandler.merkeKunde.benutzername}"
 									styleClass="outputLabel" />
 
 								<h:outputText value="Passwort: " />
-								<h:outputText value="#{loginHandler.user.passwort}"
+								<h:outputText value="#{loginHandler.merkeKunde.passwort}"
 									styleClass="outputLabel" />
 							</b:panelGrid>
 						</b:panelGrid>
