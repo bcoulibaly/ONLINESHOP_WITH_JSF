@@ -74,12 +74,12 @@
 				</b:row>
 				<b:row>
 					<b:column span="4" offset="2">
-						<b:commandButton value="Login" autoUpdate="@form" process="all"
+						<b:commandButton value="Login" process="all"
 							action="#{loginHandler.login}"
 							style="width:100%; background-color:#00DBDE;" />
 					</b:column>
 					<b:column span="4">
-						<b:commandButton value="Registrieren" autoUpdate="@form"
+						<b:commandButton value="Registrieren" immediate="true" ajax="false"
 							action="#{loginHandler.registrieren}"
 							style="width:100%; background-color:#2E64FE;" />
 					</b:column>

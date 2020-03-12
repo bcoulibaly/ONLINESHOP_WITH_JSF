@@ -34,7 +34,6 @@ import de.hsb.app.Model.KarteArt;
 import de.hsb.app.Model.KreditKarte;
 import de.hsb.app.Model.Rolle;
 import de.hsb.app.Model.User;
-import de.hsb.app.Model.Warenkorb;
 import de.hsb.app.util.Resources.LoggedIn;
 
 @ManagedBean(name = "loginHandler")
@@ -61,12 +60,14 @@ public class UserHandler implements Serializable {
 
 	@Inject
 	private FacesContext context;
-	
+
 	private KreditKarte kreditKarte;
 	private Artikel merkeArtikel;
 	private User merkeKunde;
-	private Warenkorb tmpWarenKorb;
 	private boolean skip;
+
+	private int totalArtikelInsWarenkorb = 0;
+	private double totalPreisInsWarenkorb = 0;
 
 	public UserHandler() {
 	}
@@ -89,7 +90,8 @@ public class UserHandler implements Serializable {
 
 		if (kunden.size() == 1) {
 			user = kunden.get(0);
-			tmpWarenKorb = user.getWarenkorb();
+			this.totalPreisInsWarenkorb = this.user.getGesamtPreis();
+			this.totalArtikelInsWarenkorb = this.user.getTotalArtikel();
 			if (user.getRolle() == Rolle.ADMIN) {
 				context.getApplication().getNavigationHandler().handleNavigation(context, null,
 						"/homePageAdmin.xhtml?faces-redirect=true");
@@ -135,11 +137,10 @@ public class UserHandler implements Serializable {
 				merkeKunde.setKreditKarte(kreditKarte);
 				merkeKunde = entityManager.merge(merkeKunde);
 				entityManager.persist(merkeKunde);
-				entityManager.flush();
 				updateUserList();
 			} else
 				FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR,
-						"benutzername", "Ihr Passwort oder Benutzername sind bereit Vorhanden"));
+						"Anmeldedaten", "Ihr Passwort oder Benutzername sind bereit Vorhanden"));
 
 			userTransaction.commit();
 		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
@@ -173,11 +174,11 @@ public class UserHandler implements Serializable {
 	 * mach es sicher dass die jetzige Sitzung während der Abmeldung prozess des
 	 * Benutzer beendet wird
 	 **/
-	public String logout() {
+	public void logout() {
 		user = null;
 		merkeKunde = null;
-		FacesContext.getCurrentInstance().getExternalContext().invalidateSession();
-		return "/shopView.xhtml?faces-redirect=true";
+		context.getApplication().getNavigationHandler().handleNavigation(context, null,
+				"/shopView.xhtml?faces-redirect=true");
 	}
 
 	/**
@@ -244,20 +245,20 @@ public class UserHandler implements Serializable {
 
 	public String normaleKundeBearbeiten() {
 		merkeKunde = kundenList.getRowData();
-		if (merkeKunde.getKreditKarte()== null || (merkeKunde.getKreditKarte().getNummer()=="" && merkeKunde.getKreditKarte().getCode()==""))
+		if (merkeKunde.getKreditKarte() == null
+				|| (merkeKunde.getKreditKarte().getNummer() == "" && merkeKunde.getKreditKarte().getCode() == ""))
 			kreditKarte = new KreditKarte();
 		else
 			kreditKarte = merkeKunde.getKreditKarte();
 		return "/KundeBearbeiten.xhtml?faces-redirect=true";
 	}
 
-	public String löschen() {
+	public String userLöschen() {
 		try {
-			userTransaction.begin();
 			merkeKunde = kundenList.getRowData();
+			userTransaction.begin();
 			merkeKunde = entityManager.merge(merkeKunde);
-			entityManager.remove(merkeKunde.getKreditKarte());
-			entityManager.remove(merkeKunde.getWarenkorb());
+			user.getWarenkorb().clear();
 			entityManager.remove(merkeKunde);
 			userTransaction.commit();
 			updateUserList();
@@ -280,20 +281,103 @@ public class UserHandler implements Serializable {
 		context.addMessage(null, new FacesMessage("Daten gespeichert", "Artikel erfolgreich Gespeichert"));
 	}
 
+	public void goToShopCard() {
+		context.getApplication().getNavigationHandler().handleNavigation(context, null,
+				"/Warenkorb.xhtml?faces-redirect=true");
+	}
+
+	public void warenkorbLeeren() {
+		try {
+			userTransaction.begin();
+			totalArtikelInsWarenkorb = 0;
+			totalPreisInsWarenkorb = 0;
+			user.clearArtikels();
+			user = entityManager.merge(user);
+			entityManager.persist(user);
+			userTransaction.commit();
+			context.addMessage(null, new FacesMessage("Warenkorb", "WarenKorb erfolgreich geleert"));
+			context.getApplication().getNavigationHandler().handleNavigation(context, null,
+					"/Warenkorb.xhtml?faces-redirect=true");
+		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
+				| HeuristicMixedException | HeuristicRollbackException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void deleteFromCardShop() {
+		try {
+			user.getWarenkorb().remove(merkeArtikel);
+			merkeArtikel.setUser(null);
+			totalArtikelInsWarenkorb = user.getTotalArtikel();
+			totalPreisInsWarenkorb = user.getGesamtPreis();
+			userTransaction.begin();
+
+			user = entityManager.merge(user);
+			merkeArtikel = entityManager.merge(merkeArtikel);
+			entityManager.persist(user);
+			entityManager.persist(merkeArtikel);
+			userTransaction.commit();
+
+			context.addMessage(null, new FacesMessage(null, "Artikel erfolgreich in Warenkorb hinzugefügt"));
+
+		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
+				| HeuristicMixedException | HeuristicRollbackException e) {
+			e.printStackTrace();
+		}
+
+	}
+
+	public void Kaufbestätigen() {
+		try {
+
+			totalArtikelInsWarenkorb = 0;
+			totalPreisInsWarenkorb = 0;
+			userTransaction.begin();
+			updateArtikelValue();
+			user.clearArtikels();
+			user = entityManager.merge(user);
+			entityManager.persist(user);
+			userTransaction.commit();
+			context.addMessage(null, new FacesMessage(null, "Ihr Einkauf wurde Erfolgreich"));
+			context.getApplication().getNavigationHandler().handleNavigation(context, null,
+					"/home.xhtml?faces-redirect=true");
+		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
+				| HeuristicMixedException | HeuristicRollbackException e) {
+			e.printStackTrace();
+		}
+	}
+
+	public void updateArtikelValue() {
+		try {
+			userTransaction.begin();
+			for (Artikel artikel : user.getWarenkorb()) {
+				artikel.setAnzahl(artikel.getAnzahl() - 1);
+				artikel = entityManager.merge(artikel);
+				entityManager.persist(artikel);
+			}
+			userTransaction.commit();
+		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
+				| HeuristicMixedException | HeuristicRollbackException e) {
+			e.printStackTrace();
+		}
+	}
+
 	public void addToCardShop() {
 		try {
 			userTransaction.begin();
-			tmpWarenKorb.getArtikels().add(merkeArtikel);
-			tmpWarenKorb.getGesamtPreis();
-			tmpWarenKorb.getTotalArtikel();
-			user.setWarenkorb(tmpWarenKorb);
-			entityManager.merge(tmpWarenKorb);
-			entityManager.persist(tmpWarenKorb);
-			entityManager.merge(user);
+			if (merkeArtikel.getKaufAnzahl() < merkeArtikel.getAnzahl()) {
+			user.getWarenkorb().add(merkeArtikel);
+			merkeArtikel.setUser(user);
+			totalArtikelInsWarenkorb = user.getTotalArtikel();
+			totalPreisInsWarenkorb = user.getGesamtPreis();
+			user = entityManager.merge(user);
+			merkeArtikel = entityManager.merge(merkeArtikel);
 			entityManager.persist(user);
+			entityManager.persist(merkeArtikel);
 			userTransaction.commit();
-			context.addMessage(null, new FacesMessage(null, "Artikel erfolgreich in Warenkorb hinzugefügt"));
-			
+			context.addMessage(null, new FacesMessage("Warenkorb", "Artikel erfolgreich in Warenkorb hinzugefügt"));
+			}else
+			context.addMessage(null, new FacesMessage("Warenkorb", "Leider ist den gewünschte Anzahl ist nicht möglich"));
 		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
@@ -406,12 +490,20 @@ public class UserHandler implements Serializable {
 		this.kreditKarte = kreditKarte;
 	}
 
-	public Warenkorb getTmpWarenKorb() {
-		return tmpWarenKorb;
+	public int getTotalArtikelInsWarenkorb() {
+		return totalArtikelInsWarenkorb;
 	}
 
-	public void setTmpWarenKorb(Warenkorb tmpWarenKorb) {
-		this.tmpWarenKorb = tmpWarenKorb;
+	public void setTotalArtikelInsWarenkorb(int totalArtikelInsWarenkorb) {
+		this.totalArtikelInsWarenkorb = totalArtikelInsWarenkorb;
+	}
+
+	public double getTotalPreisInsWarenkorb() {
+		return totalPreisInsWarenkorb;
+	}
+
+	public void setTotalPreisInsWarenkorb(double totalPreisInsWarenkorb) {
+		this.totalPreisInsWarenkorb = totalPreisInsWarenkorb;
 	}
 
 }

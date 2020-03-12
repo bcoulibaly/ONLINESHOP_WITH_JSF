@@ -95,7 +95,7 @@ grid {
 				
 				<h:outputLabel value="Upload new Image:" for="img" />
 				<h:panelGroup>
-					<p:fileUpload id="img" fileUploadListener="#{artikelHandler.saveImage}"
+					<p:fileUpload id="img" fileUploadListener="#{artikelHandler.saveImage()}"
 						mode="advanced" dragDropSupport="true" sizeLimit="3000000"
 						allowTypes="/(\.|\/)(gif|jpeg|png)$/" />
 				</h:panelGroup>

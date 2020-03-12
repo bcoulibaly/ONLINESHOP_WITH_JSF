@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+
+<h:head>
+	<title><ui:insert name="title">Belisso Shop - Warenkorb</ui:insert></title>
+	<link rel="stylesheet" href="resources/CSS/alleKunden.css"
+		type="text/css" />
+	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
+	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.png" />
+</h:head>
+
+<h:body>
+	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
+
+	<h:form>
+		<b:navBar id="top" brand="BELISO SHOP"
+			brandImg="resources/IMAGES/finallogo1.png"
+			brand-img-style="width:40px;
+				height:30px" fluid="true"
+			sticky="true">
+			<b:navbarLinks pull="right">
+
+				<b:navCommandLink href="#" value="contact ">
+					<b:iconAwesome name="group" />
+				</b:navCommandLink>
+
+				<b:navCommandLink href="#" value="Impressum ">
+					<b:iconAwesome name="balance-scale" />
+				</b:navCommandLink>
+
+				<b:navCommandLink href="#" value="Ueber Uns ">
+					<b:iconAwesome name="leaf" />
+				</b:navCommandLink>
+
+				<b:dropMenu iconAwesome="user-circle"
+					value="#{loginHandler.user.benutzername}">
+
+					<b:navCommandLink iconAwesome="pencil" value=" Profil editieren"
+						action="#{loginHandler.loggedKundeBearbeiten()}" />
+					<b:navCommandLink iconAwesome="sign-out"
+						action="#{loginHandler.logout}" value=" Abmelden" />
+					<b:navCommandLink></b:navCommandLink>
+					<b:navCommandLink iconAwesome="shopping-cart" value="Warenkorb"
+						disabled="true" action="#{loginHandler.goToShopCard()}" />
+				</b:dropMenu>
+			</b:navbarLinks>
+		</b:navBar>
+
+		<hr width="80%" align="center" />
+		<h2 id="headPage" style="color: white;" align="center">
+			<ui:insert name="headPage">WARENKORB</ui:insert>
+		</h2>
+		<hr width="80%" align="center" />
+
+		<div class="content-container">
+			<p:growl placementFrom="top" show-detail="true" global-only="false"
+				show-summary="true" allow-dismiss="true"
+				animation-enter="animated bounceInDown"
+				animation-exit="animated flipOutX" />
+
+
+			<div style="margin: 5px 0px 50px 0px;">
+
+				<div>
+					<p:commandButton icon="pi pi-shopping-cart"
+						value="Warenkorb leeren"
+						action="#{loginHandler.warenkorbLeeren()}" />
+				</div>
+				<br />
+				<p:dataTable id="artikels" value="#{loginHandler.user.warenkorb}"
+					style="background-color:white;" var="artikel" rows="5"
+					selectionMode="single" selection="#{loginHandler.merkeArtikel}"
+					rowKey="#{artikel.name}" paginator="true">
+
+					<f:facet name="header">
+						<p:commandButton id="toggler" type="button" value="Columns"
+							style="float:left" icon="pi pi-align-justify" />
+						<p:columnToggler datasource="artikels" trigger="toggler" />
+					</f:facet>
+					<p:column>
+						<f:facet name="header">Name</f:facet>
+						<h:outputText value="#{artikel.name}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">IMAGE</f:facet>
+						<p:graphicImage width="80px" height="50px"
+							value="/resources/IMAGES/ARTIKEL/#{artikel.image}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">ANZAHL</f:facet>
+						<h:outputText value="#{artikel.kaufAnzahl}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">PREIS</f:facet>
+						<h:outputText value="#{artikel.preis}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">Löschen</f:facet>
+						<p:commandButton icon="pi pi-user-minus" update="@form"
+							action="#{loginHandler.deleteFromCardShop()}" />
+					</p:column>
+				</p:dataTable>
+
+				<p:panelGrid id="warenkorbPanel" columns="5" layout="grid"
+					style="width:100%; background-color: white; margin-top: 50px;"
+					styleClass="showcase-text-align-center">
+					<h:outputLabel for="size" value="Total Artikel :" />
+					<h:outputText id="size"
+						value="#{loginHandler.totalArtikelInsWarenkorb}" />
+
+					<h:outputLabel for="totalPreis" value="Total Preis :" />
+					<h:outputText id="totalPreis"
+						value="#{loginHandler.totalPreisInsWarenkorb} €" />
+				</p:panelGrid>
+
+				<p:commandButton id="shop" action="#{loginHandler.abbrechen()}"
+					value="Zurück zum Shop" />
+
+				<p:commandButton id="confirmShop" update="@form"
+					action="#{loginHandler.Kaufbestätigen()}" value="Kauf bestätigen" />
+
+			</div>
+		</div>
+	</h:form>
+</h:body>
+</html>

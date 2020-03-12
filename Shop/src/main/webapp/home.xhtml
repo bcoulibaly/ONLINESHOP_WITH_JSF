@@ -12,9 +12,8 @@
 </h:head>
 
 <h:body>
+	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
 	<b:form>
-		<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
-
 		<b:navBar id="top" brand="BELISO SHOP"
 			brandImg="resources/IMAGES/finallogo1.png"
 			brand-img-style="width:40px;
@@ -40,12 +39,20 @@
 					<b:navCommandLink iconAwesome="pencil" value=" Profil editieren"
 						action="#{loginHandler.loggedKundeBearbeiten}" />
 					<b:navCommandLink iconAwesome="sign-out"
-						action="#{loginHandler.logout}" value=" Abmelden" />
+						action="#{loginHandler.logout}" value=" Abmelden"
+						actionListener="#{shop.updateArtikelList()}" />
+					<b:navCommandLink></b:navCommandLink>
+					<b:navCommandLink iconAwesome="shopping-cart" value="Warenkorb"
+						action="#{loginHandler.goToShopCard()}" />
 				</b:dropMenu>
 			</b:navbarLinks>
 		</b:navBar>
 
 		<b:container styleClass="content-container">
+			<p:growl placementFrom="top" show-detail="true" global-only="false"
+				show-summary="true" allow-dismiss="true"
+				animation-enter="animated bounceInDown"
+				animation-exit="animated flipOutX" escape="true" />
 			<b:jumbotron style="widht:100%;">
 				<ui:insert>
 					<h3>Willkommen auf BELISO SHOP</h3>
@@ -55,12 +62,12 @@
 				</ui:insert>
 			</b:jumbotron>
 
+
 			<p:dataGrid var="ca" value="#{artikelHandler.artikelListe}"
 				columns="3" rows="8" paginator="true"
+				style="width:100%; background-color: #2E64FE; margin-top: 50px;"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="8,12,16">
-
-
 
 				<b:panel style="text-align:center">
 					<b:panelGrid columns="1" style="width:100%;">
@@ -68,40 +75,31 @@
 						<p:graphicImage style="width:200px;height:100px;"
 							value="/resources/IMAGES/ARTIKEL/#{ca.image}" />
 
-						<h:outputText value="preis: #{ca.preis} €" />
-						<p:commandLink value="info" update="@none" process="@this"
-							oncomplete="PF('infoDialog').show()" title="View Detail">
-							<h:outputText styleClass="ui-icon ui-icon-search"
-								style="margin:0 auto;" />
+						<h:outputText value="Name:		#{ca.name} €" />
+						<h:outputText value="preis:		#{ca.preis} €" />
+						<br style="margin-top: 10px" />
+						<p:commandButton value="info" update="@none" process="@this"
+							icon="pi pi-search" oncomplete="PF('infoDialog').show()"
+							title="View Detail">
 							<f:setPropertyActionListener value="#{ca}"
 								target="#{artikelHandler.merkeArtikel}" />
-						</p:commandLink>
-						<p:commandLink value="Warenkorb hinzufügen">
-							<p:confirm header="Confirmation" message="Are you sure?"
-								icon="pi pi-exclamation-triangle" />
-							<f:setPropertyActionListener value="#{ca}"
-								target="#{artikelHandler.merkeArtikel}" />
-						</p:commandLink>
+						</p:commandButton>
+
 					</b:panelGrid>
 				</b:panel>
 			</p:dataGrid>
 
-			<p:panel
+			<p:panelGrid id="warenkorbPanel" columns="5" layout="grid"
 				style="width:100%; background-color: white; margin-top: 50px;"
-				align="center">
+				styleClass="showcase-text-align-center">
+				<h:outputLabel for="size" value="Total Artikel :" />
+				<h:outputText id="size"
+					value="#{loginHandler.totalArtikelInsWarenkorb}" />
 
-				<p:panelGrid id="warenkorbPanel" columns="5" layout="grid"
-					styleClass="showcase-text-align-center">
-					<h:outputLabel for="size" value="Total Artikel :" />
-					<h:outputText id="size"
-						value="#{loginHandler.tmpWarenKorb.totalArtikel}" />
-
-					<h:outputLabel for="totalPreis" value="Total Preis :" />
-					<h:outputText id="totalPreis"
-						value="#{loginHandler.tmpWarenKorb.gesamtPreis} €" />
-					<p:commandButton value="Zum Warenkorb" />
-				</p:panelGrid>
-			</p:panel>
+				<h:outputLabel for="totalPreis" value="Total Preis :" />
+				<h:outputText id="totalPreis"
+					value="#{loginHandler.totalPreisInsWarenkorb} €" />
+			</p:panelGrid>
 
 			<p:dialog widgetVar="infoDialog" header="Information Übers Artikel"
 				modal="true" resizable="false" showEffect="clip"
@@ -120,29 +118,38 @@
 						<h:outputText id="Preis"
 							value="#{artikelHandler.merkeArtikel.preis} €" />
 
-						<h:outputLabel for="beschreibung" value="Beschreibung :" />
-						<h:outputText id="beschreibung"
+						<h:outputLabel for="beschreibungartikel" value="Beschreibung :" />
+						<h:outputText id="beschreibungartikel"
 							value="#{artikelHandler.merkeArtikel.beschreibung}" />
+
+						<h:outputLabel for="anzahl" value="Verfuegbar :" />
+						<h:outputText id="anzahl"
+							value="#{artikelHandler.merkeArtikel.anzahl}" />
+
+						<h:outputLabel for="spinner" value="Anzahl : " />
+						<p:outputPanel>
+							<p:spinner id="spinner" stepFactor="1" value="#{artikelHandler.merkeArtikel.kaufAnzahl}" />
+						</p:outputPanel>
+
+						<p:commandButton value="Warenkorb hinzufügen"
+							update="@form" icon="pi pi-warenkorb"
+							action="#{loginHandler.addToCardShop()}">
+							<f:setPropertyActionListener
+								value="#{artikelHandler.merkeArtikel}"
+								target="#{loginHandler.merkeArtikel}" />
+						</p:commandButton>
 
 					</h:panelGrid>
 				</p:outputPanel>
 			</p:dialog>
 
-			<p:confirmDialog global="true" showEffect="fade" hideEffect="fade">
-				<p:commandButton value="Ja" type="button"
-					action="#{loginHandler.addToCardShop}" update="warenkorbPanel"
-					styleClass="ui-confirmdialog-yes" ajax="true" icon="pi pi-check">
-				</p:commandButton>
-				<p:commandButton value="Nein" type="button"
-					styleClass="ui-confirmdialog-no" icon="pi pi-times" />
-			</p:confirmDialog>
 		</b:container>
-
 
 		<div id="footer">
 			<span>© Copyright 2019 | Ben Inza Coulibaly | Amadou Sow |
 				Lionel Babou</span>
 		</div>
+
 	</b:form>
 </h:body>
 

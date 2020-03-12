@@ -65,7 +65,7 @@
 
 				<h:outputLabel value="Image:" for="img" />
 				<h:panelGroup>
-					<p:fileUpload id="img" skinSimple="true" accept="image/*"  listener="#{artikelHandler.saveImage}" validateContentType="true"
+					<p:fileUpload id="img" skinSimple="true" accept="image/*"  listener="#{artikelHandler.saveImage()}" validateContentType="true"
 						mode="advanced" dragDropSupport="true" sizeLimit="3000000"
 						allowTypes="/(\.|\/)(gif|jpeg|png)$/" />
 				</h:panelGroup>

@@ -186,8 +186,8 @@
 						</b:panelGrid>
 
 						<b:commandButton value="Submit" look="success"
-							action="#{loginHandler.registrierungSpeichern()}" update="growl"
-							process="@this" />
+							onclick="#{loginHandler.registrierungSpeichern}" update="growl"
+							process="@all" />
 					</b:panel>
 				</p:tab>
 			</p:wizard>

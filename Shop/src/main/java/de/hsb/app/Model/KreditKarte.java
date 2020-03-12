@@ -15,7 +15,7 @@ public class KreditKarte {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "KK_ID")
+	@Column(name = "KK_ID", unique = true)
 	private int ID;
 	@Column(name = "NUMMER", length = 12 )
 	private String nummer;
@@ -25,10 +25,14 @@ public class KreditKarte {
 	private String code;
 
 	public KreditKarte() {
-		nummer = "";
-		code = "";
-		karteArt = KarteArt.MASTERCARD;
 	}   
+	
+	public KreditKarte(String nummer, String code, KarteArt art) {
+		this.nummer = nummer;
+		this.code = code;
+		this.karteArt = art;
+	}
+	
 	public String getNummer() {
 		return this.nummer;
 	}

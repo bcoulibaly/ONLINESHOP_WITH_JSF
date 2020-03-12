@@ -13,7 +13,6 @@ public class Credential {
 	private String passwort;
 		
 	@NotNull
-	@Length(min = 3, max = 25)
 	public String getUsername() {
 		return benutzername;
 	}
@@ -23,7 +22,6 @@ public class Credential {
 	}
 
 	@NotNull
-	@Length(min = 3, max = 20)
 	public String getPassword() {
 		return passwort;
 	}
