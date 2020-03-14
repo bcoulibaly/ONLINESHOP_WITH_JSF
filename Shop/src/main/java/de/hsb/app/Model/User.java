@@ -12,6 +12,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.NamedQuery;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
@@ -23,6 +24,9 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.Email;
+
+import de.hsb.app.util.Anrede;
+import de.hsb.app.util.Rolle;
 
 @NamedQuery(name = "SelectUser", query = "Select k from User k")
 @Entity
@@ -84,12 +88,15 @@ public class User {
 	@Column(name = "TOTAL_ARTIKEL")
 	private int totalArtikel;
 
-//	@JoinColumn(name = "FK_ARTIKEL_ID", foreignKey = @ForeignKey(name = "FK_ARTIKEL_ID"))
-//	private Artikel artikel;
-
-	@OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-	@JoinColumn(name = "KK_ID")
+	@OneToOne(cascade = CascadeType.ALL)
+    @JoinTable(name = "user_kreditkarte", 
+      joinColumns = 
+        { @JoinColumn(name = "user_id", referencedColumnName = "User_ID") },
+      inverseJoinColumns = 
+        { @JoinColumn(name = "kreditkarte_id", referencedColumnName = "id") })
 	private KreditKarte kreditKarte;
+	
+	private Date minDate;
 
 	// beim Registrieren oder Daten Änderungen wird das überprüft
 	String passwortWiederholen;
@@ -262,4 +269,11 @@ public class User {
 		this.kreditKarte = kreditKarte;
 	}
 
+	public Date getMinDate() {
+		return minDate;
+	}
+
+	public void setMinDate(Date minDate) {
+		this.minDate = minDate;
+	}
 }

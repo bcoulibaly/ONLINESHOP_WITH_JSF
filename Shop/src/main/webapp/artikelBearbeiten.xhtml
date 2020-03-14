@@ -86,7 +86,7 @@ grid {
 			<h:panelGrid
 				columns="2" headerClass="header" footerClass="footer">
 				
-				<h:outputLabel value="Image:" for="img" />
+				<h:outputLabel value="#{msg_en.Bild} :" for="img" />
 				<h:panelGroup>
 					<p:graphicImage width="80px" height="50px"
 							value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.image}" />
@@ -100,35 +100,35 @@ grid {
 						allowTypes="/(\.|\/)(gif|jpeg|png)$/" />
 				</h:panelGroup>
 				
-				<h:outputLabel value="Name:" for="name" />
+				<h:outputLabel value="#{msg_en.Name} :" for="name" />
 				<h:panelGroup>
-					<h:inputText id="name" required="true" requiredMessage="Name fehlt"
+					<h:inputText id="name" required="true" requiredMessage="#{msg_en.Name_fehlt}"
 						value="#{artikelHandler.merkeArtikel.name}" />
 				</h:panelGroup>
 
-				<h:outputLabel value="Anzahl:" for="anzahl" />
+				<h:outputLabel value="#{msg_en.Anzahl} #{msg.Anzahl} :" for="anzahl" />
 				<h:panelGroup>
 					<h:inputText id="anzahl" converter="javax.faces.Integer"
-						required="true" requiredMessage="Adresse fehlt"
+						required="true" requiredMessage="#{msg_en.Anzahl} fehlt"
 						value="#{artikelHandler.merkeArtikel.anzahl}" />
 				</h:panelGroup>
 
-				<h:outputLabel value="Preis:" for="preis" />
+				<h:outputLabel value="#{msg_en.Preis} :" for="preis" />
 				<h:panelGroup>
 					<h:inputText id="preis" converter="javax.faces.Double"
 						required="true" requiredMessage="Preis fehlt"
 						value="#{artikelHandler.merkeArtikel.preis}" />
 				</h:panelGroup>
 
-				<h:outputLabel value="Beschreibung:" for="desc" />
+				<h:outputLabel value="#{msg_en.Beschreibung} :" for="desc" />
 				<h:panelGroup>
 					<p:inputTextarea id="desc"
 						value="#{artikelHandler.merkeArtikel.beschreibung}" />
 				</h:panelGroup>
 					<p:commandButton action="#{artikelHandler.speichernArtikel}"
-						value="Speichern" />
+						value="#{msg_en.Speichern}" />
 					<p:commandButton action="#{loginHandler.abbrechen()}"
-						immediate="true" value="Abbrechen" />
+						immediate="true" value="#{msg_en.Abbrechen}" />
 			</h:panelGrid>
 			<br />
 		</h:form>

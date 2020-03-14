@@ -97,6 +97,7 @@ public class ArtikelHandler {
 		String filename = FilenameUtils.getBaseName(event.getFile().getFileName());
 		String extension = FilenameUtils.getExtension(event.getFile().getFileName());
 		File result = new File(extContext.getApplicationContextPath()+"/resources/IMAGES/ARTIKEL/"+ event.getFile().getFileName());
+		merkeArtikel.setImgName(filename+extension);
 		merkeArtikel.setImage(filename+extension);
 		try {
 			FileOutputStream fileOutputStream = new FileOutputStream(result);

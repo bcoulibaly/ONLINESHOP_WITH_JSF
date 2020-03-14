@@ -86,24 +86,58 @@
 						<h:outputText value="#{artikel.name}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">IMAGE</f:facet>
+						<f:facet name="header">Image</f:facet>
 						<p:graphicImage width="80px" height="50px"
 							value="/resources/IMAGES/ARTIKEL/#{artikel.image}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">ANZAHL</f:facet>
+						<f:facet name="header">Anzahl</f:facet>
 						<h:outputText value="#{artikel.kaufAnzahl}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">PREIS</f:facet>
+						<f:facet name="header">Preis</f:facet>
 						<h:outputText value="#{artikel.preis}" />
 					</p:column>
 					<p:column>
+						<f:facet name="header">Total Preis</f:facet>
+						<h:outputText value="#{artikel.preisxnumber}" />
+					</p:column>
+					<p:column>
 						<f:facet name="header">Löschen</f:facet>
-						<p:commandButton icon="pi pi-user-minus" update="@form"
+						<p:commandButton icon="pi pi-user-minus" update="artikels"
 							action="#{loginHandler.deleteFromCardShop()}" />
 					</p:column>
 				</p:dataTable>
+
+				<p:panel header="KreditKarte Details" style="margin-top:20px;">
+					<p:messages />
+					<p:panelGrid columns="2" columnClasses="label, value">
+						<h:outputText value="Art der KreditKarte: " />
+						<b:selectOneMenu id="artKreditKarte" required="true"
+							required-message="Wählen Sie Bitte den Typ der Karte"
+							value="#{loginHandler.kreditKarte.karteArt}">
+							<f:selectItems value="#{loginHandler.karteArtValues}"
+								var="status" itemValue="#{status}" itemLabel="#{status.label}" />
+						</b:selectOneMenu>
+
+						<h:outputText value="KreditKarte Nr. : " />
+						<p:inputText value="#{loginHandler.kreditKarte.nummer}">
+							<f:converter converterId="kreditkartenConverter" />
+						</p:inputText>
+
+						<h:outputText value="KreditKarte Code : " />
+						<p:inputText value="#{loginHandler.kreditKarte.code}">
+							<f:converter converterId="kreditkartenConverter" />
+						</p:inputText>
+
+						<h:outputText value="KreditKarte Gueltigkeit : " />
+						<p:datePicker id="validCard" yearNavigator="true"
+							monthNavigator="true" hideOnDateTimeSelect="true"
+							value="#{loginHandler.kreditKarte.endDate}" pattern="MM/yyyy"
+							mindate="#{loginHandler.maxDate}" />
+
+					</p:panelGrid>
+				</p:panel>
 
 				<p:panelGrid id="warenkorbPanel" columns="5" layout="grid"
 					style="width:100%; background-color: white; margin-top: 50px;"
@@ -118,7 +152,7 @@
 				</p:panelGrid>
 
 				<p:commandButton id="shop" action="#{loginHandler.abbrechen()}"
-					value="Zurück zum Shop" />
+					value="Zurück zum Shop" immediate="true" />
 
 				<p:commandButton id="confirmShop" update="@form"
 					action="#{loginHandler.Kaufbestätigen()}" value="Kauf bestätigen" />

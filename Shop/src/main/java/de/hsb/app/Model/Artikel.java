@@ -81,11 +81,15 @@ public class Artikel {
 	}
 
 	public double getPreis() {
-		return this.preis * this.getKaufAnzahl();
+		return this.preis;
 	}
 
 	public void setPreis(double preis) {
 		this.preis = preis;
+	}
+	
+	public int getPreisxnumber() {
+		return (int) (this.getPreis() * this.getKaufAnzahl());
 	}
 
 	public String getImage() {
@@ -119,7 +123,7 @@ public class Artikel {
 	public void setImgName(String imgName) {
 		this.imgName = imgName;
 	}
-	
+		
 	 @Override
 	    public boolean equals(Object o) {
 	        if (this == o) return true;

@@ -1,4 +1,4 @@
-package de.hsb.app.Model;
+package de.hsb.app.util;
 
 public enum Anrede {
 	

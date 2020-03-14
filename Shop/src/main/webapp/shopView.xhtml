@@ -19,31 +19,46 @@
 			brandImg="resources/IMAGES/finallogo1.png"
 			brand-img-style="width:60px;
 				height:30px" fluid="true"
-			sticky="true">
-			<b:navbarLinks pull="right">
-				<b:navCommandLink href="#" value="Contact">
-					<b:iconAwesome name="group" />
+			sticky="true" look="primary">
+			<b:navbarLinks style="text-color:white;" pull="right">
+				<b:navCommandLink href="#">
+					<b:iconAwesome name="group" spin="true" />
+					<h:outputLabel value="#{msg_en.Kontakt}" />
 				</b:navCommandLink>
-				<b:navCommandLink href="#" value="Impressum">
-					<b:iconAwesome name="balance-scale" />
+				<b:navCommandLink href="#">
+					<h:outputLabel value="#{msg_en.Impressum}" />
+					<b:iconAwesome name="info" />
 				</b:navCommandLink>
-				<b:navCommandLink href="#" value="Ueber uns">
+				<b:navCommandLink href="#">
 					<b:iconAwesome name="leaf" />
+					<h:outputLabel value="#{msg_en.UeberUns}" />
 				</b:navCommandLink>
-				<b:navCommandLink action="#{loginHandler.redirectToLoginPage}"
-					value="Einloggen">
-					<b:iconAwesome name="user" />
-				</b:navCommandLink>
+				<b:navCommandLink></b:navCommandLink>
+				<b:dropMenu iconAwesome="globe">
+					<b:navCommandLink icon-awesome="globe" value="DE"
+						action="#{loginHandler.deutschLang()}" immediate="true"></b:navCommandLink>
+					<b:navCommandLink icon-awesome="globe" value="EN"
+						action="#{loginHandler.englischLang()}" immediate="true"></b:navCommandLink>
+				</b:dropMenu>
 			</b:navbarLinks>
 		</b:navBar>
+	</h:form>
+	
+	<hr width="80%" align="center" />
+	<h2 id="headPage" align="center">
+		<ui:insert name="headPage">#{msg_en.Anlegen_Neuer_Admin}</ui:insert>
+	</h2>
+	<hr width="80%" align="center" />
+	
+	<h:form>
 
 		<b:container styleClass="content-container">
 			<b:jumbotron>
 
-				<h3>Willkommen auf BELISO SHOP</h3>
-				<p>hier finden Sie alles was Sie suchen. Wenn sie noch keine
-					Kunde bei uns seid also registrieren Sie sich um tolle Angebotte zu
-					erhalten oder Einkaufen zu dürfen.</p>
+				<h3>#{msg_en.jumbotron_welcome}</h3>
+				<p>
+					#{msg_en.jumbotron_welcometext2}. <i class="pi pi-thumbs-up"></i>
+				</p>
 			</b:jumbotron>
 
 
@@ -60,9 +75,9 @@
 
 						<h:outputText value="preis: #{artikel.preis} €" />
 						<br />
-						<p:commandButton value="Infos anzeigen" update="@none"
+						<p:commandButton value="#{msg_en.Infosanzeigen}" update="@none"
 							process="@this" icon="pi pi-search"
-							oncomplete="PF('infoDialog').show()" title="Artikel Detail">
+							oncomplete="PF('infoDialog').show()">
 							<f:setPropertyActionListener value="#{artikel}"
 								target="#{artikelHandler.merkeArtikel}" />
 						</p:commandButton>
@@ -70,30 +85,33 @@
 				</b:panel>
 			</p:dataGrid>
 
-			<p:dialog widgetVar="infoDialog" header="Information Übers Artikel"
-				width="60%" modal="true" resizable="false" showEffect="clip"
+			<p:dialog widgetVar="infoDialog" header="#{msg_en.header_dialog_artikel_Info}"
+				dynamic="true" width="400" height="600" modal="true"
+				resizable="false" showEffect="clip" position="center, center"
 				hideEffect="clip">
 
 				<p:autoUpdate />
 				<p:outputPanel id="artikelDetail"
 					style="text-align:center; word-break:keep-all; width:100%">
-					<p:graphicImage
-						value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.image}"
-						width="80%" height="40%" />
+					<div style="width: 80%; height: 300px">
+						<p:graphicImage
+							value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.image}"
+							width="100%" height="200px" />
+					</div>
 					<h:panelGrid columns="2" cellpadding="5">
 						<h:outputLabel for="Name" value="Name : " />
 						<h:outputText id="Name"
 							value="#{artikelHandler.merkeArtikel.name}" />
 
-						<h:outputLabel for="Preis" value="Preis :" />
+						<h:outputLabel for="#{msg_en.Preis}" value="Preis :" />
 						<h:outputText id="Preis"
 							value="#{artikelHandler.merkeArtikel.preis} €" />
 
-						<h:outputLabel for="anzahl" value="Verfuegbar :" />
+						<h:outputLabel for="anzahl" value="#{msg_en.Verfuegbar} :" />
 						<h:outputText id="anzahl"
 							value="#{artikelHandler.merkeArtikel.anzahl}" />
 
-						<h:outputLabel for="beschreibung" value="Beschreibung :" />
+						<h:outputLabel for="beschreibung" value="#{msg_en.Beschreibung} :" />
 						<h:outputText id="beschreibung"
 							value="#{artikelHandler.merkeArtikel.beschreibung}" />
 
@@ -101,7 +119,7 @@
 				</p:outputPanel>
 
 			</p:dialog>
-		</b:container>
+			</b:container>
 	</h:form>
 
 	<div id="footer">

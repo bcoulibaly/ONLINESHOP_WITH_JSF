@@ -21,28 +21,34 @@
 			sticky="true">
 			<b:navbarLinks pull="right">
 
-				<b:navCommandLink href="#" value="contact ">
+				<b:navCommandLink href="#" value="#{msg_en.Kontakt} ">
 					<b:iconAwesome name="group" />
 				</b:navCommandLink>
 
-				<b:navCommandLink href="#" value="Impressum ">
+				<b:navCommandLink href="#" value="#{msg_en.Impressum} ">
 					<b:iconAwesome name="balance-scale" />
 				</b:navCommandLink>
 
-				<b:navCommandLink href="#" value="Ueber Uns ">
+				<b:navCommandLink href="#" value="#{msg_en.UeberUns} ">
 					<b:iconAwesome name="leaf" />
 				</b:navCommandLink>
+				<b:navCommandLink></b:navCommandLink>
+				<b:dropMenu iconAwesome="globe">
+					<b:navCommandLink icon-awesome="globe" value="DE"
+						action="#{loginHandler.deutschLang()}" immediate="true"></b:navCommandLink>
+					<b:navCommandLink icon-awesome="globe" value="EN"
+						action="#{loginHandler.englischLang()}" immediate="true"></b:navCommandLink>
+				</b:dropMenu>
 
 				<b:dropMenu iconAwesome="user-circle"
 					value="#{loginHandler.user.benutzername}">
 
-					<b:navCommandLink iconAwesome="pencil" value=" Profil editieren"
+					<b:navCommandLink iconAwesome="pencil" value="#{msg_en.ProfilBearbeiten}"
 						action="#{loginHandler.loggedKundeBearbeiten}" />
 					<b:navCommandLink iconAwesome="sign-out"
-						action="#{loginHandler.logout}" value=" Abmelden"
-						actionListener="#{shop.updateArtikelList()}" />
+						action="#{loginHandler.logout}" value="#{msg_en.Abmelden}"/>
 					<b:navCommandLink></b:navCommandLink>
-					<b:navCommandLink iconAwesome="shopping-cart" value="Warenkorb"
+					<b:navCommandLink iconAwesome="shopping-cart" value="#{msg_en.Warenkorb}"
 						action="#{loginHandler.goToShopCard()}" />
 				</b:dropMenu>
 			</b:navbarLinks>
@@ -55,18 +61,16 @@
 				animation-exit="animated flipOutX" escape="true" />
 			<b:jumbotron style="widht:100%;">
 				<ui:insert>
-					<h3>Willkommen auf BELISO SHOP</h3>
-					<p>hier finden Sie alles was Sie suchen. Wenn sie noch keine
-						Kunde bei uns seid also registrieren Sie sich um tolle Angebotte
-						zu erhalten.</p>
+					<h3>#{msg_en.jumbotron_welcome}</h3>
+					<p>#{msg_en.jumbotron_welcometext2}</p>
 				</ui:insert>
 			</b:jumbotron>
 
 
 			<p:dataGrid var="ca" value="#{artikelHandler.artikelListe}"
 				columns="3" rows="8" paginator="true"
-				style="width:100%; background-color: #2E64FE; margin-top: 50px;"
-				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				style="width:100%; background-color: #2E64FE; margin-top: 50px;" 
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="8,12,16">
 
 				<b:panel style="text-align:center">
@@ -75,12 +79,11 @@
 						<p:graphicImage style="width:200px;height:100px;"
 							value="/resources/IMAGES/ARTIKEL/#{ca.image}" />
 
-						<h:outputText value="Name:		#{ca.name} €" />
-						<h:outputText value="preis:		#{ca.preis} €" />
+						<h:outputText value="#{msg_en.Name} :		#{ca.name} €" />
+						<h:outputText value="#{msg_en.Preis} :		#{ca.preis} €" />
 						<br style="margin-top: 10px" />
-						<p:commandButton value="info" update="@none" process="@this"
-							icon="pi pi-search" oncomplete="PF('infoDialog').show()"
-							title="View Detail">
+						<p:commandButton value="#{msg_en.Infosanzeigen}" update="@none" process="@this"
+							icon="pi pi-search" oncomplete="PF('infoDialog').show()" >
 							<f:setPropertyActionListener value="#{ca}"
 								target="#{artikelHandler.merkeArtikel}" />
 						</p:commandButton>
@@ -92,16 +95,16 @@
 			<p:panelGrid id="warenkorbPanel" columns="5" layout="grid"
 				style="width:100%; background-color: white; margin-top: 50px;"
 				styleClass="showcase-text-align-center">
-				<h:outputLabel for="size" value="Total Artikel :" />
+				<h:outputLabel for="size" value="#{msg_en.ArtikelanzahlImWarenkorb} :" />
 				<h:outputText id="size"
 					value="#{loginHandler.totalArtikelInsWarenkorb}" />
 
-				<h:outputLabel for="totalPreis" value="Total Preis :" />
+				<h:outputLabel for="totalPreis" value="#{msg_en.TotalPreis} :" />
 				<h:outputText id="totalPreis"
 					value="#{loginHandler.totalPreisInsWarenkorb} €" />
 			</p:panelGrid>
 
-			<p:dialog widgetVar="infoDialog" header="Information Übers Artikel"
+			<p:dialog widgetVar="infoDialog" header="#{msg_en.header_dialog_artikel_Info}"
 				modal="true" resizable="false" showEffect="clip"
 				hideEffect="explode">
 
@@ -110,28 +113,28 @@
 					<p:graphicImage
 						value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.image}" />
 					<h:panelGrid columns="2" cellpadding="5">
-						<h:outputLabel for="Name" value="Name :" />
+						<h:outputLabel for="Name" value="#{msg_en.Name} :" />
 						<h:outputText id="Name"
 							value="#{artikelHandler.merkeArtikel.name}" />
 
-						<h:outputLabel for="Preis" value="Preis :" />
+						<h:outputLabel for="Preis" value="#{msg_en.Preis} :" />
 						<h:outputText id="Preis"
 							value="#{artikelHandler.merkeArtikel.preis} €" />
 
-						<h:outputLabel for="beschreibungartikel" value="Beschreibung :" />
+						<h:outputLabel for="beschreibungartikel" value="#{msg_en.Beschreibung} :" />
 						<h:outputText id="beschreibungartikel"
 							value="#{artikelHandler.merkeArtikel.beschreibung}" />
 
-						<h:outputLabel for="anzahl" value="Verfuegbar :" />
+						<h:outputLabel for="anzahl" value="#{msg_en.Verfuegbar} :" />
 						<h:outputText id="anzahl"
 							value="#{artikelHandler.merkeArtikel.anzahl}" />
 
-						<h:outputLabel for="spinner" value="Anzahl : " />
+						<h:outputLabel for="spinner" value="#{msg_en.Anzahl} : " />
 						<p:outputPanel>
 							<p:spinner id="spinner" stepFactor="1" value="#{artikelHandler.merkeArtikel.kaufAnzahl}" />
 						</p:outputPanel>
 
-						<p:commandButton value="Warenkorb hinzufügen"
+						<p:commandButton value="#{msg_en.Warenkorbhinzufuegen}"
 							update="@form" icon="pi pi-warenkorb"
 							action="#{loginHandler.addToCardShop()}">
 							<f:setPropertyActionListener
@@ -146,8 +149,7 @@
 		</b:container>
 
 		<div id="footer">
-			<span>© Copyright 2019 | Ben Inza Coulibaly | Amadou Sow |
-				Lionel Babou</span>
+			<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF WEB-APPLICATION </span>
 		</div>
 
 	</b:form>

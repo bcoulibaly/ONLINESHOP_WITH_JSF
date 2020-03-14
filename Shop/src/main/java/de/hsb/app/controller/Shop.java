@@ -1,4 +1,5 @@
 package de.hsb.app.controller;
+
 import java.util.GregorianCalendar;
 
 import javax.annotation.PostConstruct;
@@ -17,10 +18,12 @@ import javax.transaction.RollbackException;
 import javax.transaction.SystemException;
 import javax.transaction.UserTransaction;
 
-import de.hsb.app.Model.Anrede;
 import de.hsb.app.Model.Artikel;
-import de.hsb.app.Model.Rolle;
+import de.hsb.app.Model.KreditKarte;
 import de.hsb.app.Model.User;
+import de.hsb.app.util.Anrede;
+import de.hsb.app.util.KarteArt;
+import de.hsb.app.util.Rolle;
 
 @ApplicationScoped
 @ManagedBean
@@ -45,19 +48,64 @@ public class Shop {
 	public void init() {
 
 		try {
-			
+			User user = new User("Ben", "Coulibaly", new GregorianCalendar(1997, 4, 3).getTime(), "ben", "ben",
+					Rolle.ADMIN, Anrede.HERR);
+			KreditKarte karte = new KreditKarte("1230456987456321", "586", KarteArt.MASTERCARD);
+			user.setKreditKarte(karte);
+			karte.setUser(user);
+
+			User user2 = new User("Leonardo", "Kouassi", new GregorianCalendar(1990, 9, 15).getTime(), "lkouassi",
+					"leoardo", Rolle.KUNDE, Anrede.HERR);
+			KreditKarte karte2 = new KreditKarte("951245698745632", "958", KarteArt.MASTERCARD);
+			user2.setKreditKarte(karte2);
+			karte2.setUser(user2);
+
+			User user3 = new User("Kone", "Salimata", new GregorianCalendar(1994, 5, 21).getTime(), "kone", "sali",
+					Rolle.KUNDE, Anrede.FRAU);
+			KreditKarte karte3 = new KreditKarte("1458963254789563", "874", KarteArt.MASTERCARD);
+			user3.setKreditKarte(karte3);
+			karte3.setUser(user3);
+
+			User user4 = new User("Schmidt", "Lina Sophie", new GregorianCalendar(1993, 11, 30).getTime(), "lsophie",
+					"lina", Rolle.KUNDE, Anrede.FRAU);
+			KreditKarte karte4 = new KreditKarte("3214586395415638", "693", KarteArt.MASTERCARD);
+			user4.setKreditKarte(karte4);
+			karte4.setUser(user4);
+
 			appTransaction.begin();
-			entityManager.persist(new User("Ben", "Coulibaly", new GregorianCalendar(1997, 4, 3).getTime(), "ben",
-					"ben", Rolle.ADMIN, Anrede.HERR));
-			entityManager.persist(new User("Lionel", "Ngoubayou", new GregorianCalendar(1990, 9, 15).getTime(),
-					"lngoubayou", "lgoubayou", Rolle.KUNDE, Anrede.HERR));
-			entityManager.persist(new User("Amadou", "Sow", new GregorianCalendar(1994, 5, 21).getTime(), "asow",
-					"asow", Rolle.KUNDE, Anrede.HERR));	
+
+			entityManager.persist(user);
+			entityManager.persist(user2);
+			entityManager.persist(user3);
+			entityManager.persist(user4);
+
+			entityManager.persist(karte);
+			entityManager.persist(karte2);
+			entityManager.persist(karte3);
+			entityManager.persist(karte4);
+
+//			entityManager.persist(new User("Ben", "Coulibaly", new GregorianCalendar(1997, 4, 3).getTime(), "ben",
+//					"ben", Rolle.ADMIN, Anrede.HERR));
+//			entityManager.persist(new User("Leonardo", "Kouassi", new GregorianCalendar(1990, 9, 15).getTime(),
+//					"lkouassi", "leoardo", Rolle.KUNDE, Anrede.HERR));
+//			entityManager.persist(new User("Kone", "Salimata", new GregorianCalendar(1994, 5, 21).getTime(), "kone",
+//					"sali", Rolle.KUNDE, Anrede.HERR));	
+//			entityManager.persist(new User("Schmidt", "Lina Sophie", new GregorianCalendar(1993, 11, 30).getTime(), "lsophie",
+//					"lina", Rolle.KUNDE, Anrede.FRAU));
+//			entityManager.persist(new User("Berte", "Mamadou", new GregorianCalendar(1997, 5, 15).getTime(), "mberte",
+//					"mamadou", Rolle.KUNDE, Anrede.HERR));
+//			entityManager.persist(new User("Conde", "Maimouna", new GregorianCalendar(2000, 03, 15).getTime(), "cmina",
+//					"mina", Rolle.ADMIN, Anrede.FRAU));
+//			entityManager.persist(new User("Hans", "Bineta", new GregorianCalendar(2000, 11, 30).getTime(), "hbineta",
+//					"hans", Rolle.ADMIN, Anrede.FRAU));
+//			entityManager.persist(new User("Kelb", "Geofrey", new GregorianCalendar(1983, 02, 14).getTime(), "gkelb",
+//					"kelb", Rolle.KUNDE, Anrede.HERR));
+//			entityManager.persist(new User("Schneider", "Benjamin", new GregorianCalendar(1993, 11, 30).getTime(), "sbenji",
+//					"benji63", Rolle.KUNDE, Anrede.FRAU));
 			appTransaction.commit();
 			this.kundenList = new ListDataModel<User>();
 			this.kundenList.setWrappedData(entityManager.createNamedQuery("SelectUser").getResultList());
-			
-			
+
 			appTransaction.begin();
 			entityManager.persist(new Artikel("Surface Book 2", "Das sollte eine Beschribung sein", 2999.99,
 					"Microsoft_Surface_Laptop_2.jpg", 12));
@@ -76,7 +124,7 @@ public class Shop {
 					"ArduinoBoard.jpg", 40));
 
 			entityManager.persist(new Artikel("Gaming Mouse",
-					"Sensibele Gaming Mouse von ??, Empfindlichkeit bis 4 Stufe Einstellbar, Extra Knöpfe an den Seiten fuer ein gemuetliches Surfen/ Spiel",
+					"Sensibele Gaming Mouse von ??, Empfindlichkeit bis 4 Stufe Einstellbar, Extra Knöpfe an den Seiten fuer ein gemütliches Surfen/ Spiel",
 					49.99, "Gaming-mouse.jpg", 40));
 
 			entityManager.persist(new Artikel("Gaming Tastaur",
@@ -98,6 +146,8 @@ public class Shop {
 			entityManager.persist(new Artikel("Surface Arc Mouse",
 					"Surface Mouse von Microsoft, angenehme Führung des Mauses und Geschwingkeit bis 5mal einstellen, Das Maus ist von Form her verstellbar",
 					99.99, "Surface Arc Mouse.jpg", 40));
+			
+			entityManager.flush();
 			appTransaction.commit();
 			this.artikelListe = new ListDataModel<Artikel>();
 			this.artikelListe.setWrappedData(entityManager.createNamedQuery("SelectArtikel").getResultList());
@@ -108,7 +158,7 @@ public class Shop {
 		}
 	}
 
-	public void updateArtikelList( ActionListener event) {
+	public void updateArtikelList(ActionListener event) {
 		artikelListe = new ListDataModel<Artikel>();
 		artikelListe.setWrappedData(entityManager.createNamedQuery("SelectArtikel").getResultList());
 	}

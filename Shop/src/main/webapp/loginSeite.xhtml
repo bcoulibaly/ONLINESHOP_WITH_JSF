@@ -13,32 +13,42 @@
 
 <h:body>
 
-	<b:navBar id="top" brand="BELISO SHOP"
-		brandImg="resources/IMAGES/finallogo1.png"
-		brand-img-style="width:60px;
+		<h:form>
+		<b:navBar id="top" brand="BELISO SHOP"
+			brandImg="resources/IMAGES/finallogo1.png"
+			brand-img-style="width:60px;
 				height:30px" fluid="true"
-		sticky="true">
-		<b:navbarLinks pull="right">
-			<b:navCommandLink href="#" value="Contact">
-				<b:iconAwesome name="group" />
-			</b:navCommandLink>
-			<b:navCommandLink href="#" value="Impressum">
-				<b:iconAwesome name="balance-scale" />
-			</b:navCommandLink>
-			<b:navCommandLink href="#" value="Ueber uns">
-				<b:iconAwesome name="leaf" />
-			</b:navCommandLink>
-			<b:navCommandLink action="#{loginHandler.redirectToLoginPage}"
-				value="Einloggen" disabled="true">
-				<b:iconAwesome name="user" />
-			</b:navCommandLink>
-		</b:navbarLinks>
-	</b:navBar>
+			sticky="true" look="primary">
+			<b:navbarLinks style="text-color:white;" pull="right">
+				<b:navCommandLink href="#">
+					<b:iconAwesome name="group" spin="true" />
+					<h:outputLabel value="#{msg_en.Kontakt}" />
+				</b:navCommandLink>
+				<b:navCommandLink href="#">
+					<h:outputLabel value="#{msg_en.Impressum}" />
+					<b:iconAwesome name="info" />
+				</b:navCommandLink>
+				<b:navCommandLink href="#">
+					<b:iconAwesome name="leaf" />
+					<h:outputLabel value="#{msg_en.UeberUns}" />
+				</b:navCommandLink>
+				<b:navCommandLink></b:navCommandLink>
+				<b:dropMenu icon="globe" icon-brand="#{msg_en.Sprache}">
+					<b:navCommandLink icon="globe" value="DE"
+						action="#{loginHandler.deutschLang()}" immediate="true"></b:navCommandLink>
+					<b:navCommandLink icon-awesome="globe" value="EN"
+						action="#{loginHandler.englischLang()}" immediate="true"></b:navCommandLink>
+				</b:dropMenu>
+				
+				<b:navCommandLink icon="home" href="shopView.xhtml?redirect=true">
+			</b:navbarLinks>
+		</b:navBar>
+	</h:form>
 
 
 	<h:form id="loginForm">
 		<b:container styleClass="loginClass">
-			<b:panel style="width:50%;margin:auto;" title="LOGIN" look="success"
+			<b:panel style="width:50%;margin:auto;" title="#{msg_en.Einloggen}" look="success"
 				collapsible="false">
 				<b:row>
 					<b:column medium-screen="12">
@@ -48,10 +58,10 @@
 							animation-exit="animated flipOutX" escape="true" />
 					</b:column>
 					<b:column medium-screen="12">
-						<h:outputText value="Username:" for="username" />
+						<h:outputText value="#{msg_en.Benutzername} :" for="username" />
 					</b:column>
 					<b:column medium-screen="12">
-						<b:inputText placeholder="Username eingeben" id="username"
+						<b:inputText placeholder="#{msg_en.BenutzernameEingeben}" id="username"
 							value="#{credential.username}" autocomplete="true">
 							<f:facet name="prepend">
 								<b:icon name="user" />
@@ -61,10 +71,10 @@
 				</b:row>
 				<b:row>
 					<b:column medium-screen="12">
-						<h:outputText value="Password:" />
+						<h:outputText value="#{msg_en.Passwort}:" />
 					</b:column>
 					<b:column medium-screen="12">
-						<b:inputSecret placeholder="Passwort eingeben" id="password"
+						<b:inputSecret placeholder="#{msg_en.PasswortEingeben}" id="password"
 							value="#{credential.password}" autocomplete="true">
 							<f:facet name="prepend">
 								<b:iconAwesome name="key" />
@@ -74,12 +84,12 @@
 				</b:row>
 				<b:row>
 					<b:column span="4" offset="2">
-						<b:commandButton value="Login" process="all"
+						<b:commandButton value="#{msg_en.Anmelden}" process="@all"
 							action="#{loginHandler.login}"
 							style="width:100%; background-color:#00DBDE;" />
 					</b:column>
 					<b:column span="4">
-						<b:commandButton value="Registrieren" immediate="true" ajax="false"
+						<b:commandButton value="#{msg_en.Registrieren}" immediate="true" 
 							action="#{loginHandler.registrieren}"
 							style="width:100%; background-color:#2E64FE;" />
 					</b:column>

@@ -7,7 +7,7 @@
 
 <h:head>
 
-	<title><ui:insert name="title">BelissoShop-KundenBearbeiten</ui:insert></title>
+	<title><ui:insert name="title">BelissoShop-UserBearbeiten</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
 	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
 	<style type="text/css">
@@ -52,37 +52,52 @@
 			<b:navbarLinks pull="right">
 				<b:navCommandLink href="#">
 					<b:iconAwesome name="group" spin="true" />
-					<h:outputLabel value="Contact" />
+					<h:outputLabel value="#{msg_en.Kontakt}" />
 				</b:navCommandLink>
 				<b:navCommandLink href="#">
-					<h:outputLabel value="Impressum" />
-					<b:iconAwesome name="info" spin="true" />
+					<h:outputLabel value="#{msg_en.Impressum}" />
+					<b:iconAwesome name="info" />
 				</b:navCommandLink>
 				<b:navCommandLink href="#">
-					<b:iconAwesome name="leaf" spin="true" />
-					<h:outputLabel value="Ueber uns" />
+					<b:iconAwesome name="leaf" />
+					<h:outputLabel value="#{msg_en.UeberUns}" />
 				</b:navCommandLink>
+				<b:navCommandLink></b:navCommandLink>
+				<b:dropMenu iconAwesome="globe">
+					<b:navCommandLink icon-awesome="globe" value="DE"
+						action="#{loginHandler.deutschLang()}" immediate="true"></b:navCommandLink>
+					<b:navCommandLink icon-awesome="globe" value="EN"
+						action="#{loginHandler.englischLang()}" immediate="true"></b:navCommandLink>
+				</b:dropMenu>
+				
 				<b:dropMenu iconAwesome="user"
 					value="#{loginHandler.user.benutzername}">
 					<b:navCommandLink icon-awesome="sign-out-alt"
-						action="#{loginHandler.logout()}" value="Abmelden"></b:navCommandLink>
+						action="#{loginHandler.logout()}" value="#{msg_en.Abmelden}"/>
 					<b:navCommandLink icon-awesome="pen"
 						action="#{loginHandler.loggedKundeBearbeiten()}"
-						value="Profil bearbeiten"></b:navCommandLink>
+						value="#{msg_en.ProfilBearbeiten}"></b:navCommandLink>
 				</b:dropMenu>
 			</b:navbarLinks>
 		</b:navBar>
 
+		<hr width="80%" align="center" />
+		<h2 id="headPage" align="center">
+			<ui:insert name="headPage"> #{msg_en.BenutzerProfil}</ui:insert>
+		</h2>
+		<hr width="80%" align="center" />
+
 		<div class="content-container">
-		<p:growl id="growl" sticky="true" showDetail="true" />
-			<p:wizard flowListener="#{loginHandler.onFlowProcess}">
-				<p:tab id="personal" title="Personal">
+			<p:growl id="growl" sticky="true" showDetail="true" />
+			<p:wizard flowListener="#{loginHandler.onFlowProcess}" backLabel="#{msg_en.Zurueck}" nextLabel="#{msg_en.Weiter}" >
+			
+				<p:tab id="personal" title="#{msg_en.tabs_name_Persoenliches}">
 					<p:panel header="Personal Details">
 						<p:messages />
 
 						<p:panelGrid columns="2" columnClasses="label, value">
 
-							<h:outputLabel value="Anrede:" for="anrede" />
+							<h:outputLabel value="#{msg_en.Anrede} :" for="anrede" />
 
 							<p:selectOneMenu id="anrede"
 								value="#{loginHandler.merkeKunde.anrede}">
@@ -91,63 +106,80 @@
 									itemValue="#{loginHandler.merkeKunde.anrede}" />
 							</p:selectOneMenu>
 
-							<h:outputText value="Vorname: *" />
+							<h:outputText value="#{msg_en.Vorname} : *" />
 							<p:inputText value="#{loginHandler.merkeKunde.vorname}"
-								required="true" label="Firstname"
-								requiredMessage="Vorname fehlt!!" />
+								required="true"
+								requiredMessage="#{msg_en.Vorname_Fehlt}!!">
+								<f:converter converterId="namenConverter" />
+							</p:inputText>
 
-							<h:outputText value="Name: *" />
+							<h:outputText value="#{msg_en.Nachname} : *" />
 							<p:inputText value="#{loginHandler.merkeKunde.name}"
-								required="true" label="Lastname" requiredMessage="Name fehlt!!" />
+								required="true" requiredMessage="#{msg_en.Vorname_Fehlt}!!">
+								<f:converter converterId="namenConverter" />
+							</p:inputText>
 
-							<h:outputText value="Geburtsdatum: " />
-
-							<b:datepicker id="geburtsdatum" changeMonth="true"
+							<h:outputText value="#{msg.Geburtsdatum} : " />
+							<p:datePicker id="geburtsdatum" hideOnDateTimeSelect="true"
 								value="#{loginHandler.merkeKunde.geburtsdatum}"
-								mode="toogle-icon" required="true"
-								requiredMessage="Geburtsdatum fehlt" changeYear="true" />
+								pattern="dd/MM/yyyy" maxdate="#{loginHandler.maxDate}"
+								required="true" requiredMessage="Geburtsdatum fehlt"
+								monthNavigator="true" yearNavigator="true" />
 
-
-							<h:outputText value="Email: *" />
+							<h:outputText value="#{msg_en.Email}: *" />
 							<p:inputText value="#{loginHandler.merkeKunde.email}"
 								required="true" placeholder="Email"
-								requiredMessage="Email fehlt!!" />
+								requiredMessage="#{msg_en.Email_fehlt}">
+								<f:validator validatorId="emailValidator" />
+							</p:inputText>
 						</p:panelGrid>
 					</p:panel>
 				</p:tab>
 
-				<p:tab id="address" title="Address">
+				<p:tab id="address" title="#{msg_en.tabs_name_Adresse}">
 					<p:panel header="Address Details">
 						<p:messages />
 						<p:panelGrid columns="2" columnClasses="label, value">
-							<h:outputText value="Street: " />
+							<h:outputText value="#{msg_en.Strasse}: " />
 							<p:inputText value="#{loginHandler.merkeKunde.strasse}" />
 
-							<h:outputText value="Postal Code: " />
+							<h:outputText value="#{msg_en.PLZ}: " />
 							<p:inputText value="#{loginHandler.merkeKunde.plz}" />
 
-							<h:outputText value="City: " />
+							<h:outputText value="#{msg_en.Stadt}: " />
 							<p:inputText value="#{loginHandler.merkeKunde.ort}" />
 						</p:panelGrid>
 					</p:panel>
 				</p:tab>
-				
-				<p:tab id="kreditKarte" title="KreditKarte">
-					<p:panel header="KreditKarte Details">
+
+				<p:tab id="kreditKarte" title="#{msg_en.kreditKarte}">
+					<p:panel header="#{msg_en.KreditkarteDetails}">
 						<p:messages />
 						<p:panelGrid columns="2" columnClasses="label, value">
-							<h:outputText value="Art der KreditKarte: " />
+							<h:outputText value="#{msg_en.ArtderKreditkarte}: " />
 							<b:selectOneMenu id="artKreditKarte"
-									value="#{loginHandler.kreditKarte.karteArt}">
-									<f:selectItems value="#{loginHandler.karteArtValues}"
-										var="status" itemValue="#{status}" itemLabel="#{status.label}" />
+								value="#{loginHandler.kreditKarte.karteArt}">
+								<f:selectItems value="#{loginHandler.karteArtValues}"
+									var="status" itemValue="#{status}" itemLabel="#{status.label}" />
 							</b:selectOneMenu>
 
-							<h:outputText value="KreditKarte Nr. : " />
-							<p:inputText value="#{loginHandler.kreditKarte.nummer}" />
+							<h:outputText value="#{msg_en.Nummer} : " />
+							<p:inputText value="#{loginHandler.kreditKarte.nummer}">
+								<f:converter converterId="kreditkartenConverter" />
+							</p:inputText>
 
-							<h:outputText value="KreditKarte Code : " />
-							<p:inputText value="#{loginHandler.kreditKarte.code}" />
+							<h:outputText value="#{msg_en.SicherheitsPIN} : " />
+							<p:inputText value="#{loginHandler.kreditKarte.code}">
+								<f:converter converterId="kreditkartenConverter" />
+							</p:inputText>
+
+							<h:outputText value="#{msg_en.Gueltigbis} : " />
+							<p:datePicker id="validCard" yearNavigator="true"
+								monthNavigator="true" 
+								value="#{loginHandler.kreditKarte.endDate}" pattern="MM/yyyy"
+								mindate="#{loginHandler.maxDate}" >
+								<f:convertDateTime pattern="MM/yyyy" type="date" />
+								</p:datePicker>
 						</p:panelGrid>
 					</p:panel>
 				</p:tab>
@@ -161,57 +193,60 @@
 								<h:outputText value="#{loginHandler.merkeKunde.vorname}"
 									styleClass="outputLabel" />
 
-								<h:outputText value="Lastname: " />
+								<h:outputText value="#{msg_en.Vorname}: " />
 								<h:outputText value="#{loginHandler.merkeKunde.name}"
 									styleClass="outputLabel" />
 
-								<h:outputText value="Age: " />
+								<h:outputText value="#{msg_en.Geburtsdatum} : " />
 								<h:outputText value="#{loginHandler.merkeKunde.geburtsdatum}"
 									styleClass="outputLabel" />
 							</p:panelGrid>
 
 							<p:panelGrid columns="2" columnClasses="label, value">
-								<h:outputText value="Street: " />
+								<h:outputText value="#{msg_en.Strasse} : " />
 								<h:outputText value="#{loginHandler.merkeKunde.strasse}"
 									styleClass="outputLabel" />
 
-								<h:outputText value="Postal: " />
+								<h:outputText value="#{msg_en.PLZ} : " />
 								<h:outputText value="#{loginHandler.merkeKunde.plz}"
 									styleClass="outputLabel" />
 
-								<h:outputText value="City: " />
+								<h:outputText value="#{msg_en.Stadt} : " />
 								<h:outputText value="#{loginHandler.merkeKunde.ort}"
 									styleClass="outputLabel" />
 							</p:panelGrid>
-							
+
 							<p:panelGrid columns="2" columnClasses="label, value">
-								<h:outputText value="KreditKarte Art " />
+								<h:outputText value="#{msg_en.ArtderKreditkarte} :" />
 								<h:outputText value="#{loginHandler.kreditKarte.karteArt}"
 									styleClass="outputLabel" />
 
-								<h:outputText value="KreditKarte Nr. : " />
+								<h:outputText value="#{msg_en.Nummer} : " />
 								<h:outputText value="#{loginHandler.kreditKarte.nummer}"
 									styleClass="outputLabel" />
 
-								<h:outputText value="KreditKarte Code: " />
+								<h:outputText value="#{msg_en.SicherheitsPIN} : " />
 								<h:outputText value="#{loginHandler.kreditKarte.code}"
+									styleClass="outputLabel" />
+									
+								<h:outputText value="#{msg_en.Gueltigbis} : " />
+								<h:outputText value="#{loginHandler.kreditKarte.endDate}"
 									styleClass="outputLabel" />
 							</p:panelGrid>
 
-							<p:panelGrid columns="2" columnClasses="label, value" >
-								<h:outputText value="Email: " />
+							<p:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="#{msg_en.Email} : " />
 								<h:outputText value="#{loginHandler.merkeKunde.email}"
 									styleClass="outputLabel" />
 
-								<h:outputText value="Benutzername: " />
+								<h:outputText value="#{msg_en.Benutzername} : " />
 								<h:outputText value="#{loginHandler.merkeKunde.benutzername}"
 									styleClass="outputLabel" />
 							</p:panelGrid>
 						</p:panelGrid>
 
-						<p:commandButton value="Submit"
-							action="#{loginHandler.speichern()}" update="@form"
-							process="@all" look="success" />
+						<p:commandButton value="#{msg_en.Abschicken}" style="margin-top:10px;"
+							action="#{loginHandler.speichern()}" update="@form"/>
 					</p:panel>
 				</p:tab>
 			</p:wizard>
