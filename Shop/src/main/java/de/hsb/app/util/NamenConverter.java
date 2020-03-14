@@ -11,10 +11,9 @@ import javax.faces.convert.FacesConverter;
 public class NamenConverter implements Converter {
 
 	/*
-	 * wenn der Kunde bei registrieren oder ändern seiner Daten den ersten
-	 * Buchstaben nicht groß schreibt, dann wird dieser automatisch Groß
-	 * geschrieben
-	 */
+	 * Den ersten Buchstaben des Namens oder Vornamens des Users wird automatisch Groß geschrieben
+	 * 
+	 * */
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component,
 			String value) {
@@ -41,7 +40,6 @@ public class NamenConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext context, UIComponent component,
 			Object value) {
-		// TODO Auto-generated method stub
 		return (String) value;
 	}
 

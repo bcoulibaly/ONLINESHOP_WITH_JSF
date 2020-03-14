@@ -15,44 +15,55 @@
 <h:body>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
 	<h:form id="top">
-	
+
 		<b:navBar id="top" brand="BELISO SHOP"
 			brandImg="resources/IMAGES/finallogo1.png"
 			brand-img-style="width:40px;
 				height:30px" fluid="true"
 			sticky="true">
 			<b:navbarLinks pull="right">
-
-				<b:navCommandLink href="#" value="contact ">
+				<b:navCommandLink href="#">
 					<b:iconAwesome name="group" />
+					<h:outputLabel value="#{msg.Kontakt}" />
 				</b:navCommandLink>
-
-				<b:navCommandLink href="#" value="Impressum ">
-					<b:iconAwesome name="balance-scale" />
+				<b:navCommandLink href="#">
+					<b:iconAwesome name="info" />
+					<h:outputLabel value="#{msg.Impressum}" />
 				</b:navCommandLink>
-
-				<b:navCommandLink href="#" value="Ueber Uns ">
+				<b:navCommandLink href="#">
 					<b:iconAwesome name="leaf" />
+					<h:outputLabel value="#{msg.UeberUns}" />
 				</b:navCommandLink>
+				<b:navCommandLink></b:navCommandLink>
+				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
+					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
+						immediate="true">
+						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="EN"
+						action="#{loginHandler.englischLang()}" immediate="true">
+						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
+					</b:navCommandLink>
+				</b:dropMenu>
 
-				<b:dropMenu iconAwesome="user-circle"
+				<b:dropMenu iconAwesome="user"
 					value="#{loginHandler.user.benutzername}">
-
-					<b:navCommandLink iconAwesome="pencil" value=" Profil editieren"
-						action="#{loginHandler.loggedKundeBearbeiten}" />
-					<b:navCommandLink iconAwesome="sign-out"
-						action="#{loginHandler.logout}" value=" Abmelden" />
+					<b:navCommandLink icon-awesome="pencil"
+						action="#{loginHandler.loggedKundeBearbeiten()}"
+						value="#{msg.ProfilBearbeiten}"></b:navCommandLink>
+					<b:navCommandLink icon-awesome="sign-out"
+						action="#{loginHandler.logout()}" value="#{msg.Abmelden}" />
 				</b:dropMenu>
 			</b:navbarLinks>
 		</b:navBar>
 	</h:form>
-	
+
 	<hr width="80%" align="center" />
 	<h2 id="headPage" align="center">
-		<ui:insert name="headPage">Neue Artikel erstellen</ui:insert>
+		<ui:insert name="headPage">#{msg.NeuenArtikelAnlegen}</ui:insert>
 	</h2>
 	<hr width="80%" align="center" />
-	
+
 	<b:container styleClass="content-container" align="center">
 		<h:form id="neuArtikel">
 			<p:growl placementFrom="top" show-detail="true" global-only="false"
@@ -63,34 +74,36 @@
 			<h:panelGrid var="artikel" value="#{artikelHandler.merkeArtikel}"
 				columns="2" headerClass="header" footerClass="footer">
 
-				<h:outputLabel value="Image:" for="img" />
+				<h:outputLabel value="#{msg.Bild}" for="img" />
 				<h:panelGroup>
-					<p:fileUpload id="img" skinSimple="true" accept="image/*"  listener="#{artikelHandler.saveImage()}" validateContentType="true"
-						mode="advanced" dragDropSupport="true" sizeLimit="3000000"
-						allowTypes="/(\.|\/)(gif|jpeg|png)$/" />
+					<p:fileUpload id="img" skinSimple="true" accept="image/*"
+						listener="#{artikelHandler.saveImage()}"
+						validateContentType="true" mode="advanced" dragDropSupport="true"
+						sizeLimit="3000000" allowTypes="/(\.|\/)(gif|jpeg|png)$/" />
 				</h:panelGroup>
 
-				<h:outputLabel value="Name:" for="name" />
+				<h:outputLabel value="#{msg.Name}:" for="name" />
 				<h:panelGroup>
-					<h:inputText id="name" required="true" requiredMessage="Name fehlt"
+					<h:inputText id="name" required="true"
+						requiredMessage="#{msg.Name_fehlt}"
 						value="#{artikelHandler.merkeArtikel.name}" />
 				</h:panelGroup>
 
-				<h:outputLabel value="Anzahl:" for="anzahl" />
+				<h:outputLabel value="#{msg.Anzahl}:" for="anzahl" />
 				<h:panelGroup>
 					<h:inputText id="anzahl" converter="javax.faces.Integer"
-						required="true" requiredMessage="Adresse fehlt"
+						required="true" requiredMessage="#{msg.AnzahlFehlt}"
 						value="#{artikelHandler.merkeArtikel.anzahl}" />
 				</h:panelGroup>
 
-				<h:outputLabel value="Preis:" for="preis" />
+				<h:outputLabel value="#{msg.Preis}:" for="preis" />
 				<h:panelGroup>
 					<h:inputText id="preis" converter="javax.faces.Double"
-						required="true" requiredMessage="Preis fehlt"
+						required="true" requiredMessage="#{msg.PreisFehler}"
 						value="#{artikelHandler.merkeArtikel.preis}" />
 				</h:panelGroup>
 
-				<h:outputLabel value="Beschreibung:" for="desc" />
+				<h:outputLabel value="#{msg.Beschreibung}:" for="desc" />
 				<h:panelGroup>
 					<p:inputTextarea id="desc"
 						value="#{artikelHandler.merkeArtikel.beschreibung}" />
@@ -98,18 +111,18 @@
 			</h:panelGrid>
 			<br />
 			<p:commandButton action="#{artikelHandler.speichernArtikel}"
-				value="Speichern" />
+				value="#{msg.Speichern}" />
 			<p:commandButton
 				action="#{loginHandler.abbrechen(loginHandler.user)}"
-				value="Abbrechen" />
+				value="#{msg.Abbrechen}" />
 		</h:form>
 		<br />
 	</b:container>
 
-	<b:container id="footer">
-		<span>Copyright 2019 | Ben Inza Coulibaly | Amadou Sow | Lionel
-			Babou</span>
-	</b:container>
+	<div id="footer">
+		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
+			WEB-APPLICATION </span>
+	</div>
 </h:body>
 
 </html>

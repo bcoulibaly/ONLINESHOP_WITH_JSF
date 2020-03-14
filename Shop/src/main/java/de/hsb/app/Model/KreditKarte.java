@@ -38,8 +38,7 @@ public class KreditKarte {
 	@Column(name = "ART")
 	private KarteArt karteArt;
 	
-	@Column(name = "CODE")
-	@Size(min = 3, max = 3)
+	@Column(name = "CODE",length = 3)
 	private String code;
 	
 	@Future
@@ -88,9 +87,13 @@ public class KreditKarte {
 		this.code = code;
 	}
 
+	/**
+	 * Setzt den min Datum, ab wann ein Kreditkarte gueltig ist.
+	 * @return
+	 */
 	public Date getEndDate() {
 		LocalDate date = LocalDate.now().plusYears(10);
-		this.endDate = new GregorianCalendar(date.getYear(), date.getMonthValue()+2, date.getDayOfMonth()+1).getTime();
+		this.endDate = new GregorianCalendar(date.getYear(), date.getMonthValue()+1, date.getDayOfMonth()).getTime();
 		return endDate;
 	}
 

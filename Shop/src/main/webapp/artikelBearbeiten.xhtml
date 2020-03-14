@@ -14,7 +14,6 @@
 label {
 	width: 20%;
 	padding: 4px;
-	color: white;
 }
 
 value {
@@ -35,7 +34,7 @@ outputLabel {
 }
 
 grid {
-	width: 33%;
+	width: 60%;
 	padding: 4px;
 }
 </style>
@@ -51,26 +50,36 @@ grid {
 				height:30px" fluid="true"
 			sticky="true">
 			<b:navbarLinks pull="right">
-
-				<b:navCommandLink href="#" value="contact ">
+				<b:navCommandLink href="#">
 					<b:iconAwesome name="group" />
+					<h:outputLabel value="#{msg.Kontakt}" />
 				</b:navCommandLink>
-
-				<b:navCommandLink href="#" value="Impressum ">
-					<b:iconAwesome name="balance-scale" />
+				<b:navCommandLink href="#">
+					<b:iconAwesome name="info" />
+					<h:outputLabel value="#{msg.Impressum}" />
 				</b:navCommandLink>
-
-				<b:navCommandLink href="#" value="Ueber Uns ">
-					<b:iconAwesome name="leaf" />
+				<b:navCommandLink  iconAwesome="leaf" href="#">
+					<h:outputLabel value="#{msg.UeberUns}" />
 				</b:navCommandLink>
+				<b:navCommandLink></b:navCommandLink>
+				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
+					<b:navCommandLink value="DE"
+						action="#{loginHandler.deutschLang()}" immediate="true">
+						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="EN"
+						action="#{loginHandler.englischLang()}" immediate="true">
+						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
+					</b:navCommandLink>
+				</b:dropMenu>
 
-				<b:dropMenu iconAwesome="user-circle"
+				<b:dropMenu iconAwesome="user"
 					value="#{loginHandler.user.benutzername}">
-
-					<b:navCommandLink iconAwesome="pencil" value=" Profil editieren"
-						action="#{loginHandler.loggedKundeBearbeiten}" />
-					<b:navCommandLink iconAwesome="sign-out"
-						action="#{loginHandler.logout}" value=" Abmelden" />
+					<b:navCommandLink icon-awesome="pencil"
+						action="#{loginHandler.loggedKundeBearbeiten()}"
+						value="#{msg.ProfilBearbeiten}"></b:navCommandLink>
+					<b:navCommandLink icon-awesome="sign-out"
+						action="#{loginHandler.logout()}" value="#{msg.Abmelden}" />
 				</b:dropMenu>
 			</b:navbarLinks>
 		</b:navBar>
@@ -83,60 +92,61 @@ grid {
 				animation-enter="animated bounceInDown"
 				animation-exit="animated flipOutX" escape="true" />
 
-			<h:panelGrid
-				columns="2" headerClass="header" footerClass="footer">
-				
-				<h:outputLabel value="#{msg_en.Bild} :" for="img" />
+			<h:panelGrid columns="2" headerClass="header" footerClass="footer" style="background-color:DodgerBlue">
+
+				<h:outputLabel value="#{msg.Bild} :" for="img" />
 				<h:panelGroup>
 					<p:graphicImage width="80px" height="50px"
-							value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.image}" />
-					
+						value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.image}" />
+
 				</h:panelGroup>
-				
-				<h:outputLabel value="Upload new Image:" for="img" />
+
+				<h:outputLabel value="#{msg.NeuesBildHochladen} :" for="img" />
 				<h:panelGroup>
-					<p:fileUpload id="img" fileUploadListener="#{artikelHandler.saveImage()}"
-						mode="advanced" dragDropSupport="true" sizeLimit="3000000"
+					<p:fileUpload id="img"
+						fileUploadListener="#{artikelHandler.saveImage()}" mode="advanced"
+						dragDropSupport="true" sizeLimit="3000000"
 						allowTypes="/(\.|\/)(gif|jpeg|png)$/" />
 				</h:panelGroup>
-				
-				<h:outputLabel value="#{msg_en.Name} :" for="name" />
+
+				<h:outputLabel value="#{msg.Name} :" for="name" />
 				<h:panelGroup>
-					<h:inputText id="name" required="true" requiredMessage="#{msg_en.Name_fehlt}"
+					<h:inputText id="name" required="true"
+						requiredMessage="#{msg.Name_fehlt}"
 						value="#{artikelHandler.merkeArtikel.name}" />
 				</h:panelGroup>
 
-				<h:outputLabel value="#{msg_en.Anzahl} #{msg.Anzahl} :" for="anzahl" />
+				<h:outputLabel value="#{msg.Anzahl} :" for="anzahl" />
 				<h:panelGroup>
 					<h:inputText id="anzahl" converter="javax.faces.Integer"
-						required="true" requiredMessage="#{msg_en.Anzahl} fehlt"
+						required="true" requiredMessage="#{msg.AnzahlFehlt}"
 						value="#{artikelHandler.merkeArtikel.anzahl}" />
 				</h:panelGroup>
 
-				<h:outputLabel value="#{msg_en.Preis} :" for="preis" />
+				<h:outputLabel value="#{msg.Preis} :" for="preis" />
 				<h:panelGroup>
 					<h:inputText id="preis" converter="javax.faces.Double"
-						required="true" requiredMessage="Preis fehlt"
+						required="true" requiredMessage="#{msg.PreisFehler}"
 						value="#{artikelHandler.merkeArtikel.preis}" />
 				</h:panelGroup>
 
-				<h:outputLabel value="#{msg_en.Beschreibung} :" for="desc" />
+				<h:outputLabel value="#{msg.Beschreibung} :" for="desc" />
 				<h:panelGroup>
 					<p:inputTextarea id="desc"
 						value="#{artikelHandler.merkeArtikel.beschreibung}" />
 				</h:panelGroup>
-					<p:commandButton action="#{artikelHandler.speichernArtikel}"
-						value="#{msg_en.Speichern}" />
-					<p:commandButton action="#{loginHandler.abbrechen()}"
-						immediate="true" value="#{msg_en.Abbrechen}" />
+				<p:commandButton action="#{artikelHandler.speichernArtikel}"
+					value="#{msg.Speichern}" />
+				<p:commandButton action="#{loginHandler.abbrechen()}"
+					immediate="true" value="#{msg.Abbrechen}" />
 			</h:panelGrid>
 			<br />
 		</h:form>
 	</div>
 
 	<div id="footer">
-		<span>Copyright 2019 | Ben Inza Coulibaly | Amadou Sow | Lionel
-			Babou</span>
+		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
+			WEB-APPLICATION </span>
 	</div>
 </h:body>
 </html>

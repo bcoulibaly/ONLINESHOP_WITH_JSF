@@ -21,34 +21,38 @@
 			sticky="true" look="primary">
 			<b:navbarLinks style="text-color:white;" pull="right">
 				<b:navCommandLink href="#">
-					<b:iconAwesome name="group" spin="true" />
-					<h:outputLabel value="#{msg_en.Kontakt}" />
+					<b:iconAwesome name="group" />
+					<h:outputLabel value="#{msg.Kontakt}" />
 				</b:navCommandLink>
 				<b:navCommandLink href="#">
-					<h:outputLabel value="#{msg_en.Impressum}" />
 					<b:iconAwesome name="info" />
+					<h:outputLabel value="#{msg.Impressum}" />
 				</b:navCommandLink>
 				<b:navCommandLink href="#">
 					<b:iconAwesome name="leaf" />
-					<h:outputLabel value="#{msg_en.UeberUns}" />
+					<h:outputLabel value="#{msg.UeberUns}" />
 				</b:navCommandLink>
 				<b:navCommandLink></b:navCommandLink>
-				<b:dropMenu icon="globe" icon-brand="#{msg_en.Sprache}">
-					<b:navCommandLink icon="globe" value="DE"
-						action="#{loginHandler.deutschLang()}" immediate="true"></b:navCommandLink>
-					<b:navCommandLink icon-awesome="globe" value="EN"
-						action="#{loginHandler.englischLang()}" immediate="true"></b:navCommandLink>
+				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
+					<b:navCommandLink value="DE"
+						action="#{loginHandler.deutschLang()}" immediate="true">
+						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="EN"
+						action="#{loginHandler.englischLang()}" immediate="true">
+						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
+					</b:navCommandLink>
 				</b:dropMenu>
 				
-				<b:navCommandLink icon="home" href="shopView.xhtml?redirect=true">
+				<b:navCommandLink iconAwesome="home" href="shopView.xhtml?redirect=true"/>
 			</b:navbarLinks>
 		</b:navBar>
 	</h:form>
 
 
 	<h:form id="loginForm">
-		<b:container styleClass="loginClass">
-			<b:panel style="width:50%;margin:auto;" title="#{msg_en.Einloggen}" look="success"
+		<b:container styleClass="loginClass" >
+			<b:panel style="width:50%;margin:auto;" title="#{msg.Einloggen}" look="success"
 				collapsible="false">
 				<b:row>
 					<b:column medium-screen="12">
@@ -58,10 +62,10 @@
 							animation-exit="animated flipOutX" escape="true" />
 					</b:column>
 					<b:column medium-screen="12">
-						<h:outputText value="#{msg_en.Benutzername} :" for="username" />
+						<h:outputText value="#{msg.Benutzername} :" for="username" />
 					</b:column>
 					<b:column medium-screen="12">
-						<b:inputText placeholder="#{msg_en.BenutzernameEingeben}" id="username"
+						<b:inputText placeholder="#{msg.BenutzernameEingeben}" id="username"
 							value="#{credential.username}" autocomplete="true">
 							<f:facet name="prepend">
 								<b:icon name="user" />
@@ -71,10 +75,10 @@
 				</b:row>
 				<b:row>
 					<b:column medium-screen="12">
-						<h:outputText value="#{msg_en.Passwort}:" />
+						<h:outputText value="#{msg.Passwort}:" />
 					</b:column>
 					<b:column medium-screen="12">
-						<b:inputSecret placeholder="#{msg_en.PasswortEingeben}" id="password"
+						<b:inputSecret placeholder="#{msg.PasswortEingeben}" id="password"
 							value="#{credential.password}" autocomplete="true">
 							<f:facet name="prepend">
 								<b:iconAwesome name="key" />
@@ -84,12 +88,12 @@
 				</b:row>
 				<b:row>
 					<b:column span="4" offset="2">
-						<b:commandButton value="#{msg_en.Anmelden}" process="@all"
+						<b:commandButton value="#{msg.Anmelden}" process="@all"
 							action="#{loginHandler.login}"
 							style="width:100%; background-color:#00DBDE;" />
 					</b:column>
 					<b:column span="4">
-						<b:commandButton value="#{msg_en.Registrieren}" immediate="true" 
+						<b:commandButton value="#{msg.Registrieren}" immediate="true" 
 							action="#{loginHandler.registrieren}"
 							style="width:100%; background-color:#2E64FE;" />
 					</b:column>
@@ -99,8 +103,8 @@
 	</h:form>
 
 	<div id="footer">
-		<span>Copyright 2019 | Ben Inza Coulibaly | Amadou Sow | Lionel
-			Babou</span>
+		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
+			WEB-APPLICATION </span>
 	</div>
 </h:body>
 

@@ -21,34 +21,38 @@
 			sticky="true">
 			<b:navbarLinks pull="right">
 
-				<b:navCommandLink href="#" value="#{msg_en.Kontakt} ">
+				<b:navCommandLink href="#" value="#{msg.Kontakt} ">
 					<b:iconAwesome name="group" />
 				</b:navCommandLink>
 
-				<b:navCommandLink href="#" value="#{msg_en.Impressum} ">
+				<b:navCommandLink href="#" value="#{msg.Impressum} ">
 					<b:iconAwesome name="balance-scale" />
 				</b:navCommandLink>
 
-				<b:navCommandLink href="#" value="#{msg_en.UeberUns} ">
+				<b:navCommandLink href="#" value="#{msg.UeberUns} ">
 					<b:iconAwesome name="leaf" />
 				</b:navCommandLink>
 				<b:navCommandLink></b:navCommandLink>
-				<b:dropMenu iconAwesome="globe">
-					<b:navCommandLink icon-awesome="globe" value="DE"
-						action="#{loginHandler.deutschLang()}" immediate="true"></b:navCommandLink>
-					<b:navCommandLink icon-awesome="globe" value="EN"
-						action="#{loginHandler.englischLang()}" immediate="true"></b:navCommandLink>
+				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
+					<b:navCommandLink value="DE"
+						action="#{loginHandler.deutschLang()}" immediate="true">
+						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="EN"
+						action="#{loginHandler.englischLang()}" immediate="true">
+						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
+					</b:navCommandLink>
 				</b:dropMenu>
 
 				<b:dropMenu iconAwesome="user-circle"
 					value="#{loginHandler.user.benutzername}">
 
-					<b:navCommandLink iconAwesome="pencil" value="#{msg_en.ProfilBearbeiten}"
+					<b:navCommandLink iconAwesome="pencil" value="#{msg.ProfilBearbeiten}"
 						action="#{loginHandler.loggedKundeBearbeiten}" />
 					<b:navCommandLink iconAwesome="sign-out"
-						action="#{loginHandler.logout}" value="#{msg_en.Abmelden}"/>
+						action="#{loginHandler.logout}" value="#{msg.Abmelden}"/>
 					<b:navCommandLink></b:navCommandLink>
-					<b:navCommandLink iconAwesome="shopping-cart" value="#{msg_en.Warenkorb}"
+					<b:navCommandLink iconAwesome="shopping-cart" value="#{msg.Warenkorb}"
 						action="#{loginHandler.goToShopCard()}" />
 				</b:dropMenu>
 			</b:navbarLinks>
@@ -61,8 +65,8 @@
 				animation-exit="animated flipOutX" escape="true" />
 			<b:jumbotron style="widht:100%;">
 				<ui:insert>
-					<h3>#{msg_en.jumbotron_welcome}</h3>
-					<p>#{msg_en.jumbotron_welcometext2}</p>
+					<h3>#{msg.jumbotron_welcome}</h3>
+					<p>#{msg.jumbotron_welcometext2}</p>
 				</ui:insert>
 			</b:jumbotron>
 
@@ -79,10 +83,10 @@
 						<p:graphicImage style="width:200px;height:100px;"
 							value="/resources/IMAGES/ARTIKEL/#{ca.image}" />
 
-						<h:outputText value="#{msg_en.Name} :		#{ca.name} €" />
-						<h:outputText value="#{msg_en.Preis} :		#{ca.preis} €" />
+						<h:outputText value="#{msg.Name} :		#{ca.name}" />
+						<h:outputText value="#{msg.Preis} :		#{ca.preis} €" />
 						<br style="margin-top: 10px" />
-						<p:commandButton value="#{msg_en.Infosanzeigen}" update="@none" process="@this"
+						<p:commandButton value="#{msg.Infosanzeigen}" update="@none" process="@this"
 							icon="pi pi-search" oncomplete="PF('infoDialog').show()" >
 							<f:setPropertyActionListener value="#{ca}"
 								target="#{artikelHandler.merkeArtikel}" />
@@ -95,46 +99,47 @@
 			<p:panelGrid id="warenkorbPanel" columns="5" layout="grid"
 				style="width:100%; background-color: white; margin-top: 50px;"
 				styleClass="showcase-text-align-center">
-				<h:outputLabel for="size" value="#{msg_en.ArtikelanzahlImWarenkorb} :" />
+				<h:outputLabel for="size" value="#{msg.ArtikelanzahlImWarenkorb} :" />
 				<h:outputText id="size"
 					value="#{loginHandler.totalArtikelInsWarenkorb}" />
 
-				<h:outputLabel for="totalPreis" value="#{msg_en.TotalPreis} :" />
+				<h:outputLabel for="totalPreis" value="#{msg.TotalPreis} :" />
 				<h:outputText id="totalPreis"
 					value="#{loginHandler.totalPreisInsWarenkorb} €" />
 			</p:panelGrid>
 
-			<p:dialog widgetVar="infoDialog" header="#{msg_en.header_dialog_artikel_Info}"
-				modal="true" resizable="false" showEffect="clip"
+			<p:dialog widgetVar="infoDialog" header="#{msg.header_dialog_artikel_info}"
+				modal="true" resizable="false" showEffect="clip" 
 				hideEffect="explode">
 
 				<p:autoUpdate />
 				<p:outputPanel style="text-align:center;">
 					<p:graphicImage
-						value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.image}" />
+						value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.image}" width="250"/>
 					<h:panelGrid columns="2" cellpadding="5">
-						<h:outputLabel for="Name" value="#{msg_en.Name} :" />
+						<h:outputLabel for="Name" value="#{msg.Name} :" />
 						<h:outputText id="Name"
 							value="#{artikelHandler.merkeArtikel.name}" />
 
-						<h:outputLabel for="Preis" value="#{msg_en.Preis} :" />
+						<h:outputLabel for="Preis" value="#{msg.Preis} :" />
 						<h:outputText id="Preis"
 							value="#{artikelHandler.merkeArtikel.preis} €" />
 
-						<h:outputLabel for="beschreibungartikel" value="#{msg_en.Beschreibung} :" />
+						<h:outputLabel for="beschreibungartikel" value="#{msg.Beschreibung} :" />
 						<h:outputText id="beschreibungartikel"
 							value="#{artikelHandler.merkeArtikel.beschreibung}" />
 
-						<h:outputLabel for="anzahl" value="#{msg_en.Verfuegbar} :" />
+						<h:outputLabel for="anzahl" value="#{msg.Verfuegbar} :" />
 						<h:outputText id="anzahl"
 							value="#{artikelHandler.merkeArtikel.anzahl}" />
 
-						<h:outputLabel for="spinner" value="#{msg_en.Anzahl} : " />
+						<h:outputLabel for="spinner" value="#{msg.Anzahl} : " />
 						<p:outputPanel>
 							<p:spinner id="spinner" stepFactor="1" value="#{artikelHandler.merkeArtikel.kaufAnzahl}" />
 						</p:outputPanel>
-
-						<p:commandButton value="#{msg_en.Warenkorbhinzufuegen}"
+						<h:outputLabel />
+						<h:outputLabel />
+						<p:commandButton value="#{msg.Warenkorbhinzufuegen}" 
 							update="@form" icon="pi pi-warenkorb"
 							action="#{loginHandler.addToCardShop()}">
 							<f:setPropertyActionListener

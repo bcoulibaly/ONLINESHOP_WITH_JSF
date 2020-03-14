@@ -69,7 +69,7 @@ public class UserHandler implements Serializable {
 	private User merkeKunde;
 	private boolean skip;
 	private Date maxDate;
-	
+
 	private String inter_DE = "de";
 	private String inter_EN = "en";
 
@@ -78,14 +78,21 @@ public class UserHandler implements Serializable {
 
 	public UserHandler() {
 	}
-
+	
+	/**
+	 * Wird während des initialisation des Beans @this aufgerufen
+	 */
 	@PostConstruct
 	public void init() {
 		kundenList = new ListDataModel<User>();
 		kundenList.setWrappedData(entityManager.createNamedQuery("SelectUser").getResultList());
 		this.maxDate = getMaxDate();
 	}
-
+	
+	/**
+	 * Check ob die eingetragene Daten richtig. Wenn es der Fall ist, dass wird der User auf den richtigen Seite seiner Status weitergeleitet.
+	 * Ansonsten bekommt er eine Fehlermeldung
+	 */
 	public void login() {
 
 		Query query = entityManager.createQuery(
@@ -135,6 +142,10 @@ public class UserHandler implements Serializable {
 		return "/loginSeite.xhtml?faces-redirect=true";
 	}
 
+	/** Speicherung des bereit angetragene User beim Registrieren
+	 * 
+	 * @return login Seite zurueck
+	 */
 	@SuppressWarnings("unchecked")
 	public String registrierungSpeichern() {
 		try {
@@ -254,7 +265,7 @@ public class UserHandler implements Serializable {
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
-		
+
 		if (user.getRolle() == Rolle.ADMIN) {
 			context.getApplication().getNavigationHandler().handleNavigation(context, null,
 					"/homePageAdmin.xhtml?faces-redirect=true");
@@ -269,7 +280,7 @@ public class UserHandler implements Serializable {
 		try {
 			System.out.println("Speichern wurde aufgerufen");
 			userTransaction.begin();
-			
+
 			kreditKarte.setUser(merkeKunde);
 			kreditKarte = entityManager.merge(kreditKarte);
 			entityManager.persist(kreditKarte);
@@ -288,6 +299,10 @@ public class UserHandler implements Serializable {
 		return "/homePageAdmin.xhtml?faces-redirect=true";
 	}
 
+	/**
+	 * Zurueck zum Home Page 
+	 * @return
+	 */
 	public String abbrechen() {
 		if (user != null)
 			if (user.getRolle() == Rolle.ADMIN)
@@ -300,26 +315,25 @@ public class UserHandler implements Serializable {
 
 	public String normaleKundeBearbeiten() {
 		merkeKunde = kundenList.getRowData();
-//		if (merkeKunde.getKreditKarte() == null
-//				|| (merkeKunde.getKreditKarte().getNummer().equals("") && merkeKunde.getKreditKarte().getCode().equals("")))
-//			kreditKarte = new KreditKarte();
-//		else
-			kreditKarte = merkeKunde.getKreditKarte();
+		kreditKarte = merkeKunde.getKreditKarte();
 		return "/KundeBearbeiten.xhtml?faces-redirect=true";
 	}
 
+	/** Wenn ein Admin das ein Benutzer löscht 
+	 * 
+	 * @return Admin StartSeite
+	 */
 	public String userLöschen() {
 		try {
 			merkeKunde = kundenList.getRowData();
 			userTransaction.begin();
+			merkeKunde.clearArtikels();
 			merkeKunde = entityManager.merge(merkeKunde);
-			user.getWarenkorb().clear();
 			entityManager.remove(merkeKunde);
 			userTransaction.commit();
 			updateUserList();
 			merkeKunde = null;
-			context.addMessage(null,
-					new FacesMessage("USER wurde erfolgreich gelöscht"));
+			context.addMessage(null, new FacesMessage("USER wurde erfolgreich gelöscht"));
 
 		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
 				| HeuristicMixedException | HeuristicRollbackException e) {
@@ -329,16 +343,22 @@ public class UserHandler implements Serializable {
 
 	}
 
+	/** 
+	 * Zum Aktualisieren des Warenkorbs 
+	 **/
 	public void updateUserList() {
 		kundenList = new ListDataModel<User>();
 		kundenList.setWrappedData(entityManager.createNamedQuery("SelectUser").getResultList());
 	}
-
+	
+	
 	public void artikelGespeichert(ActionEvent actionEvent) {
-		context.addMessage(null,
-				new FacesMessage("Artikel erfolgreich Gespeichert"));
+		context.addMessage(null, new FacesMessage("Artikel erfolgreich Gespeichert"));
 	}
-
+	
+	/** Weiterleiten zum Warenkorb 
+	 * 
+	 */
 	public void goToShopCard() {
 		context.getApplication().getNavigationHandler().handleNavigation(context, null,
 				"/Warenkorb.xhtml?faces-redirect=true");
@@ -362,7 +382,10 @@ public class UserHandler implements Serializable {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/** Artikel aus dem Warenkorb löschen
+	 * 
+	 */
 	public void deleteFromCardShop() {
 		try {
 			user.getWarenkorb().remove(merkeArtikel);
@@ -385,7 +408,10 @@ public class UserHandler implements Serializable {
 		}
 
 	}
-
+	
+	/** Auftrag zum Einkauf abgeben  
+	 * 
+	 */
 	public void Kaufbestätigen() {
 		try {
 			totalArtikelInsWarenkorb = 0;
@@ -404,14 +430,17 @@ public class UserHandler implements Serializable {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/** gekaufte Artikel von Bestand abziehen
+	 * 
+	 */
 	public void updateArtikelValue() {
 		try {
 			userTransaction.begin();
-			int artikelAnzahl=0;
+			int artikelAnzahl = 0;
 			for (Artikel artikel : user.getWarenkorb()) {
-				artikelAnzahl = artikel.getAnzahl();
-				artikel.setAnzahl(--artikelAnzahl);
+				artikelAnzahl = artikel.getAnzahl() - artikel.getKaufAnzahl();
+				artikel.setAnzahl(artikelAnzahl);
 				artikel = entityManager.merge(artikel);
 				entityManager.persist(artikel);
 			}
@@ -421,7 +450,10 @@ public class UserHandler implements Serializable {
 			e.printStackTrace();
 		}
 	}
-
+	
+	/** Artikel zum Warenkorb hinzufeugen
+	 * 
+	 */
 	public void addToCardShop() {
 		try {
 			userTransaction.begin();
@@ -437,46 +469,35 @@ public class UserHandler implements Serializable {
 				userTransaction.commit();
 				context.addMessage(null, new FacesMessage("Artikel erfolgreich in Warenkorb hinzugefügt"));
 			} else
-				context.addMessage(null,
-						new FacesMessage("Leider ist die gewünschte Anzahl nicht möglich"));
+				context.addMessage(null, new FacesMessage("Leider ist die gewünschte Anzahl nicht möglich"));
 		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
 	}
-	
+
+	/** Sprache auf Englisch wechseln
+	 * 
+	 * @return null
+	 */
 	public String englischLang() {
-		FacesContext.getCurrentInstance().getViewRoot()
-				.setLocale(new Locale(this.inter_EN));
+		context.getViewRoot().setLocale(new Locale("en"));
 		return null;
 	}
-	
+
 	public String deutschLang() {
-		FacesContext.getCurrentInstance().getViewRoot()
-				.setLocale(new Locale(this.inter_DE));
+		context.getViewRoot().setLocale(new Locale("de"));
 		return null;
 
 	}
 
-	public boolean globalFilterFunction(Object value, Object filter, Locale locale) {
-		String filterText = (filter == null) ? null : filter.toString().trim().toLowerCase();
-		if (filterText == null || filterText.equals("")) {
-			return true;
-		}
-		int filterInt = getInteger(filterText);
-
-		User car = (User) value;
-		return car.getId() == (filterInt) || car.getName().toLowerCase().contains(filterText)
-				|| car.getBenutzername().toLowerCase().contains(filterText) || car.getPlz().contains(filterText);
-	}
-
-	private int getInteger(String string) {
-		try {
-			return Integer.valueOf(string);
-		} catch (NumberFormatException ex) {
-			return 0;
-		}
-	}
+//	private int getInteger(String string) {
+//		try {
+//			return Integer.valueOf(string);
+//		} catch (NumberFormatException ex) {
+//			return 0;
+//		}
+//	}
 
 	public EntityManager getEm() {
 		return entityManager;

@@ -10,8 +10,8 @@ import javax.faces.convert.FacesConverter;
 public class KreditkartenConverter implements Converter {
 	
 	/*
-	 * Sollte ein Leerzeichen, ein Komma oder ein Bindestrich in der Kreditkartennummer enthalten sein,
-	 * wird mit diese mit dem Kreditkartenvalidator ein eine einheitliche Nummer umgewandelt.
+	 * Sollte ein Leerzeichen, ein Komma oder ein Bindestrich in der Kreditkartennummer und PLZ und SECURITY CODE enthalten sein,
+	 * wird mit diese mit dem Kreditkartenvalidator ein einheitliche Nummer umgewandelt.
 	 */
 	@Override
 	public Object getAsObject(FacesContext context, UIComponent component,
@@ -32,7 +32,6 @@ public class KreditkartenConverter implements Converter {
 	@Override
 	public String getAsString(FacesContext context, UIComponent component,
 			Object value) {
-		// TODO Auto-generated method stub
 		return (String) value;
 	}
 

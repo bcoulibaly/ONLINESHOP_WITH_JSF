@@ -28,6 +28,7 @@ import org.hibernate.validator.constraints.Email;
 import de.hsb.app.util.Anrede;
 import de.hsb.app.util.Rolle;
 
+
 @NamedQuery(name = "SelectUser", query = "Select k from User k")
 @Entity
 @Table(name = "user")
@@ -237,7 +238,10 @@ public class User {
 	public void setGesamtPreis(double gesamtPreis) {
 		this.gesamtPreis = gesamtPreis;
 	}
-
+	
+	/**
+	 * Setzt den richtigen gesamten Preis aller artikels in der Warenkorb
+	 */
 	private void updateValue() {
 		double tmpPreis = 0.0;
 		for (Artikel artikel : warenkorb) {
@@ -245,13 +249,21 @@ public class User {
 		}
 		setGesamtPreis(tmpPreis);
 	}
-
+	
+	/**
+	 * Diese Methode wird aufgerufen, wenn der Benutzer seiner Warenkorb leer. 
+	 * Also er setzt alle Artikel, die diesen Benutzer auf @null hatten. 
+	 */
 	public void clearArtikels() {
 		for (Artikel artikel : warenkorb)
 			artikel.setUser(null);
 		warenkorb.clear();
 	}
 
+	/**
+	 * Gib den anzahl der gesamten Artikeln in einer Warenkorb zurueck.
+	 * @return
+	 */
 	public int getTotalArtikel() {
 		this.totalArtikel = this.warenkorb.size();
 		return this.totalArtikel;

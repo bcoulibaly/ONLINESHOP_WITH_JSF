@@ -25,38 +25,42 @@
 			<b:navbarLinks pull="right">
 				<b:navCommandLink href="#">
 					<b:iconAwesome name="group" />
-					<h:outputLabel value="#{msg_en.Kontakt}" />
+					<h:outputLabel value="#{msg.Kontakt}" />
 				</b:navCommandLink>
 				<b:navCommandLink href="#">
-					<h:outputLabel value="#{msg_en.Impressum}" />
 					<b:iconAwesome name="info" />
+					<h:outputLabel value="#{msg.Impressum}" />
 				</b:navCommandLink>
 				<b:navCommandLink href="#">
 					<b:iconAwesome name="leaf" />
-					<h:outputLabel value="#{msg_en.UeberUns}" />
+					<h:outputLabel value="#{msg.UeberUns}" />
 				</b:navCommandLink>
 				<b:navCommandLink></b:navCommandLink>
-				<b:dropMenu iconAwesome="globe">
-					<b:navCommandLink icon-awesome="globe" value="DE"
-						action="#{loginHandler.deutschLang()}" immediate="true"></b:navCommandLink>
-					<b:navCommandLink icon-awesome="globe" value="EN"
-						action="#{loginHandler.englischLang()}" immediate="true"></b:navCommandLink>
+				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
+					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
+						immediate="true">
+						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="EN"
+						action="#{loginHandler.englischLang()}" immediate="true">
+						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
+					</b:navCommandLink>
 				</b:dropMenu>
-				
+
 				<b:dropMenu iconAwesome="user"
 					value="#{loginHandler.user.benutzername}">
-					<b:navCommandLink icon-awesome="pen"
+					<b:navCommandLink icon-awesome="pencil"
 						action="#{loginHandler.loggedKundeBearbeiten()}"
-						value="#{msg_en.ProfilBearbeiten}"></b:navCommandLink>
-					<b:navCommandLink icon-awesome="sign-out-alt"
-						action="#{loginHandler.logout()}" value="#{msg_en.Abmelden}"/>
+						value="#{msg.ProfilBearbeiten}"></b:navCommandLink>
+					<b:navCommandLink icon-awesome="sign-out"
+						action="#{loginHandler.logout()}" value="#{msg.Abmelden}" />
 				</b:dropMenu>
-				</b:navbarLinks>
+			</b:navbarLinks>
 		</b:navBar>
 
 		<hr width="80%" align="center" />
 		<h2 id="headPage" style="color: white;" align="center">
-			<ui:insert name="headPage">#{msg_en.HomePageAdmin}</ui:insert>
+			<ui:insert name="headPage">#{msg.HomePageAdmin}</ui:insert>
 		</h2>
 		<hr width="80%" align="center" />
 
@@ -67,7 +71,7 @@
 				animation-exit="animated flipOutX" escape="true" />
 
 			<b:commandButton action="#{loginHandler.neu()}"
-				value="#{msg_en.Neuer_Admin_Hinzufuegen}" iconAwesome="user-plus"
+				value="#{msg.Neuer_Admin_Hinzufuegen}" iconAwesome="user-plus"
 				look="primary" />
 
 			<div style="margin: 10px 0px;">
@@ -75,12 +79,12 @@
 					style="background-color:white;" var="kunde" rows="10"
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					currentPageReportTemplate="{startRecord}-{endRecord} #{msg_en.von} {totalRecords} #{msg_en.Aufzeichnung}"
+					currentPageReportTemplate="{startRecord}-{endRecord} #{msg.von} {totalRecords} #{msg.Aufzeichnung}"
 					rowsPerPageTemplate="5,10,15,20">
-					
+
 					<p:autoUpdate />
 					<f:facet name="header">
-						<p:commandButton id="toggler" type="button" value="#{msg_en.Spalte}"
+						<p:commandButton id="toggler" type="button" value="#{msg.Spalte}"
 							style="float:left" icon="pi pi-align-justify" />
 						<p:columnToggler datasource="users" trigger="toggler" />
 					</f:facet>
@@ -89,53 +93,58 @@
 						<h:outputText value="#{kunde.id}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg_en.Anrede}</f:facet>
+						<f:facet name="header">#{msg.Anrede}</f:facet>
 						<h:outputText value="#{kunde.anrede}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg_en.Vorname}</f:facet>
+						<f:facet name="header">#{msg.Vorname}</f:facet>
 						<h:outputText value="#{kunde.vorname}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg_en.Nachname}</f:facet>
+						<f:facet name="header">#{msg.Nachname}</f:facet>
 						<h:outputText value="#{kunde.name}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg_en.Benutzername}e</f:facet>
+						<f:facet name="header">#{msg.Benutzername}e</f:facet>
 						<h:outputText value="#{kunde.benutzername}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg_en.Strasse}</f:facet>
+						<f:facet name="header">#{msg.Strasse}</f:facet>
 						<h:outputText value="#{kunde.strasse}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg_en.Geburtsdatum}</f:facet>
+						<f:facet name="header">#{msg.Geburtsdatum}</f:facet>
 						<h:outputFormat value="#{kunde.geburtsdatum}">
 							<f:convertDateTime pattern="MM/dd/yyyy" />
 						</h:outputFormat>
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg_en.Rolle}</f:facet>
+						<f:facet name="header">#{msg.Rolle}</f:facet>
 						<h:outputFormat value="#{kunde.rolle}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg_en.Bearbeiten}</f:facet>
+						<f:facet name="header">#{msg.Bearbeiten}</f:facet>
 						<p:commandButton icon="pi pi-pencil"
 							action="#{loginHandler.normaleKundeBearbeiten()}" />
-					</p:column> 
+					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg_en.Loeschen}</f:facet>
+						<f:facet name="header">#{msg.kreditKarte}</f:facet>
+						<p:commandButton update="@none" process="@this"
+							icon="pi pi-info" oncomplete="PF('infoDialog').show()" >
+							<f:setPropertyActionListener value="#{kunde.kreditKarte}"
+								target="#{loginHandler.kreditKarte}" />
+						</p:commandButton>
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.Loeschen}</f:facet>
 						<p:commandButton icon="pi pi-user-minus" process="@this"
 							action="#{loginHandler.userLöschen()}" />
 					</p:column>
-					<f:facet name="footer">
-		        	#{msg_en.textAnzahl} #{kundenHandler.kundenListe.size()} #{msg_en.Benutzer}.
-		    		</f:facet>
 				</p:dataTable>
 
 			</div>
 			<b:commandButton id="addButton" action="#{artikelHandler.neuArtikel}"
-				value="#{msg_en.NeuenArtikelAnlegen}" look="primary" />
+				value="#{msg.NeuenArtikelAnlegen}" look="primary" />
 			<br />
 
 			<div style="margin: 5px 0px;">
@@ -143,57 +152,81 @@
 					value="#{artikelHandler.artikelListe}" rowClasses="odd,even"
 					headerClass="header" paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					currentPageReportTemplate="{startRecord}-{endRecord} #{msg_en.von} {totalRecords} #{msg_en.Aufzeichnung}"
+					currentPageReportTemplate="{startRecord}-{endRecord} #{msg.von} {totalRecords} #{msg.Aufzeichnung}"
 					rowsPerPageTemplate="5,10,15,20" rows="5">
-					<p:autoUpdate/>
+					<p:autoUpdate />
 					<f:facet name="header">
-						<p:commandButton id="toggler" type="button" value="#{msg_en.Spalte}"
+						<p:commandButton id="toggler" type="button" value="#{msg.Spalte}"
 							style="float:left" icon="pi pi-align-justify" />
 						<p:columnToggler datasource="artikelTable" trigger="toggler" />
 					</f:facet>
 
 					<p:column>
-						<f:facet name="header">#{msg_en.Name}</f:facet>
+						<f:facet name="header">#{msg.Name}</f:facet>
 						<h:outputText value="#{artikel.name}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg_en.Beschreibung}</f:facet>
+						<f:facet name="header">#{msg.Beschreibung}</f:facet>
 						<h:outputText value="#{artikel.beschreibung}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg_en.Preis}</f:facet>
+						<f:facet name="header">#{msg.Preis}</f:facet>
 						<h:outputLabel value="#{artikel.preis}"> €</h:outputLabel>
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg_en.Bild}</f:facet>
+						<f:facet name="header">#{msg.Bild}</f:facet>
 						<p:graphicImage width="80px" height="50px"
 							value="/resources/IMAGES/ARTIKEL/#{artikel.image}" />
 					</p:column>
 
 					<p:column>
-						<f:facet name="header">#{msg_en.Anzahl}</f:facet>
+						<f:facet name="header">#{msg.Anzahl}</f:facet>
 						<h:outputFormat value="#{artikel.anzahl}" />
 					</p:column>
 
 					<p:column>
-						<f:facet name="header">#{msg_en.Bearbeiten}</f:facet>
+						<f:facet name="header">#{msg.Bearbeiten}</f:facet>
 						<p:commandButton icon="pi pi-pencil"
 							action="#{artikelHandler.artikelBearbeiten}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg_en.Loeschen}</f:facet>
+						<f:facet name="header">#{msg.Loeschen}</f:facet>
 						<p:commandButton icon="pi pi-trash" icon-size="1x"
 							update="artikelTable" action="#{artikelHandler.löschen}" />
 					</p:column>
 				</p:dataTable>
 			</div>
+
+			<p:dialog widgetVar="infoDialog"
+				header="#{msg.KreditkarteDetails}" modal="true"
+				resizable="false" showEffect="clip" hideEffect="explode">
+
+				<p:autoUpdate />
+				<p:outputPanel style="text-align:center;">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel for="Name" value="#{msg.ArtderKreditkarte} :" />
+						<h:outputText id="Name"
+							value="#{loginHandler.kreditKarte.karteArt}" />
+
+						<h:outputLabel for="Nummer" value="#{msg.Nummer} :" />
+						<h:outputText id="Nummer"
+							value="#{loginHandler.kreditKarte.nummer} €" />
+
+						<h:outputLabel for="endDate"
+							value="#{msg.Gueltigbis} :" />
+						<h:outputText id="endDate"
+							value="#{loginHandler.kreditKarte.endDate}" />
+					</h:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+
 		</div>
 	</h:form>
 
 
 	<div id="footer">
-		<span>Copyright 2019 | Ben Inza Coulibaly | Amadou Sow | Lionel
-			Babou</span>
+		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
+			WEB-APPLICATION </span>
 	</div>
 </h:body>
 
