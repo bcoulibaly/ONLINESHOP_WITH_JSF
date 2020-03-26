@@ -11,7 +11,7 @@ import javax.faces.validator.ValidatorException;
 public class NummerValidator implements Validator {
 
 	/**
-	 * Der PLZ, SeCURITY CODE sollen nur aus zahlen besetehen
+	 * Der PLZ, Security CODE sollen nur aus zahlen besetehen
 	 * 
 	 */
 	@Override
@@ -21,7 +21,7 @@ public class NummerValidator implements Validator {
 		String gg = String.valueOf(value);
 		
 		try {
-			 Integer.valueOf(gg);
+			 Long.valueOf(gg);
 		} catch (NumberFormatException ex) {
 			throw new ValidatorException(
 					new FacesMessage(

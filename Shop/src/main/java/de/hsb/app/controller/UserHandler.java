@@ -159,12 +159,12 @@ public class UserHandler implements Serializable {
 
 			List<User> tmpKundeList = query.getResultList();
 			if (tmpKundeList.size() == 0 || tmpKundeList == null) {
-				kreditKarte.setUser(merkeKunde);
-				kreditKarte = entityManager.merge(kreditKarte);
-				entityManager.persist(kreditKarte);
 				merkeKunde.setKreditKarte(kreditKarte);
 				merkeKunde = entityManager.merge(merkeKunde);
 				entityManager.persist(merkeKunde);
+				kreditKarte.setUser(merkeKunde);
+				kreditKarte = entityManager.merge(kreditKarte);
+				entityManager.persist(kreditKarte);
 				updateUserList();
 			} else
 				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Anmeldedaten",
@@ -416,9 +416,9 @@ public class UserHandler implements Serializable {
 		try {
 			totalArtikelInsWarenkorb = 0;
 			totalPreisInsWarenkorb = 0;
-			userTransaction.begin();
 			updateArtikelValue();
 			user.clearArtikels();
+			userTransaction.begin();
 			user = entityManager.merge(user);
 			entityManager.persist(user);
 			userTransaction.commit();
@@ -431,7 +431,7 @@ public class UserHandler implements Serializable {
 		}
 	}
 	
-	/** gekaufte Artikel von Bestand abziehen
+	/** gekaufte Artikel vom Bestand abziehen
 	 * 
 	 */
 	public void updateArtikelValue() {
@@ -480,15 +480,16 @@ public class UserHandler implements Serializable {
 	 * 
 	 * @return null
 	 */
-	public String englischLang() {
+	public void englischLang() {
 		context.getViewRoot().setLocale(new Locale("en"));
-		return null;
 	}
 
-	public String deutschLang() {
+	public void deutschLang() {
 		context.getViewRoot().setLocale(new Locale("de"));
-		return null;
-
+	}
+	
+	public void frenchLang() {
+		context.getViewRoot().setLocale(new Locale("fr"));
 	}
 
 //	private int getInteger(String string) {

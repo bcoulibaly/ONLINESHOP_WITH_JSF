@@ -16,33 +16,26 @@
 <h:body>
 	<h:form>
 		<p:autoUpdate />
-		<b:navBar id="top" brand="BELISO SHOP"
-			brandImg="resources/IMAGES/finallogo1.png"
-			brand-img-style="width:60px;
-				height:30px" fluid="true"
+		<b:navBar id="top"
+			brandImg="resources/IMAGES/finallogo1.png" brand-img-style="width:100%; height:40px;" 
+			fluid="true"
 			sticky="true" look="primary">
 			<b:navbarLinks style="text-color:white;" pull="right">
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="group" />
-					<h:outputLabel value="#{msg.Kontakt}" />
-				</b:navCommandLink>
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="info" />
-					<h:outputLabel value="#{msg.Impressum} " />
-				</b:navCommandLink>
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="leaf" />
-					<h:outputLabel value="#{msg.UeberUns}" />
-				</b:navCommandLink>
-				<b:navCommandLink></b:navCommandLink>
+				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="#" />
+				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="#" />
+				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="#" />
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
-					<b:navCommandLink value="DE"
+					<b:navCommandLink value="#{msg.deutsch} (DE)  "
 						action="#{loginHandler.deutschLang()}" immediate="true">
 						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
 					</b:navCommandLink>
-					<b:navCommandLink value="EN"
+					<b:navCommandLink value="#{msg.englisch} (EN)  "
 						action="#{loginHandler.englischLang()}" immediate="true">
 						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="#{msg.franzoesich} (FR)  "
+						action="#{loginHandler.frenchLang()}" immediate="true">
+						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
 					</b:navCommandLink>
 				</b:dropMenu>
 
@@ -55,8 +48,8 @@
 	<h:form>
 
 		<b:container styleClass="content-container">
-			<b:jumbotron>
-
+			<b:jumbotron >
+				
 				<h3>#{msg.jumbotron_welcome}</h3>
 				<p>
 					#{msg.jumbotron_welcometext2}. <i class="pi pi-thumbs-up"></i>
@@ -75,7 +68,7 @@
 						<p:graphicImage style="width:200px;height:100px;"
 							value="/resources/IMAGES/ARTIKEL/#{artikel.image}" />
 
-						<h:outputText value="preis: #{artikel.preis} €" />
+						<h:outputText value=" #{msg.preis}: #{artikel.preis} €" />
 						<br />
 						<p:commandButton value="#{msg.Infosanzeigen}" update="@none"
 							process="@this" icon="pi pi-search"
@@ -101,11 +94,11 @@
 							width="250" />
 					</div>
 					<h:panelGrid columns="2" cellpadding="5">
-						<h:outputLabel for="Name" value="Name : " />
+						<h:outputLabel for="Name" value="#{msg.Name} : " />
 						<h:outputText id="Name"
 							value="#{artikelHandler.merkeArtikel.name}" />
 
-						<h:outputLabel for="#{msg.Preis}" value="Preis :" />
+						<h:outputLabel for="Preis" value="#{msg.preis} :" />
 						<h:outputText id="Preis"
 							value="#{artikelHandler.merkeArtikel.preis} €" />
 

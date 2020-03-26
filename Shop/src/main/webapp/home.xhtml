@@ -21,39 +21,38 @@
 			sticky="true">
 			<b:navbarLinks pull="right">
 
-				<b:navCommandLink href="#" value="#{msg.Kontakt} ">
-					<b:iconAwesome name="group" />
-				</b:navCommandLink>
-
-				<b:navCommandLink href="#" value="#{msg.Impressum} ">
-					<b:iconAwesome name="balance-scale" />
-				</b:navCommandLink>
-
-				<b:navCommandLink href="#" value="#{msg.UeberUns} ">
-					<b:iconAwesome name="leaf" />
-				</b:navCommandLink>
-				<b:navCommandLink></b:navCommandLink>
+				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="#" />
+				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="#" />
+				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="#" />
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
-					<b:navCommandLink value="DE"
-						action="#{loginHandler.deutschLang()}" immediate="true">
+					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
+						immediate="true">
 						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
 					</b:navCommandLink>
 					<b:navCommandLink value="EN"
 						action="#{loginHandler.englischLang()}" immediate="true">
 						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
 					</b:navCommandLink>
+					<b:navCommandLink value="FR" action="#{loginHandler.frenchLang()}"
+						immediate="true">
+						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
+					</b:navCommandLink>
 				</b:dropMenu>
 
 				<b:dropMenu iconAwesome="user-circle"
 					value="#{loginHandler.user.benutzername}">
 
-					<b:navCommandLink iconAwesome="pencil" value="#{msg.ProfilBearbeiten}"
+					<b:navCommandLink iconAwesome="pencil"
+						value="#{msg.ProfilBearbeiten}"
 						action="#{loginHandler.loggedKundeBearbeiten}" />
 					<b:navCommandLink iconAwesome="sign-out"
-						action="#{loginHandler.logout}" value="#{msg.Abmelden}"/>
+						action="#{loginHandler.logout}" value="#{msg.Abmelden}">
+						<f:actionListener binding="#{shop.updateArtikelList(null)}"/>
+  						<f:actionListener binding="#{artikelHandler.updateArtikelnList(null)}"/>
+  					</b:navCommandLink>
 					<b:navCommandLink></b:navCommandLink>
-					<b:navCommandLink iconAwesome="shopping-cart" value="#{msg.Warenkorb}"
-						action="#{loginHandler.goToShopCard()}" />
+					<b:navCommandLink iconAwesome="shopping-cart"
+						value="#{msg.Warenkorb}" action="#{loginHandler.goToShopCard()}" />
 				</b:dropMenu>
 			</b:navbarLinks>
 		</b:navBar>
@@ -71,9 +70,11 @@
 			</b:jumbotron>
 
 
-			<p:dataGrid var="ca" value="#{artikelHandler.artikelListe}"
+			<p:dataGrid var="ca" value="#{shop.artikelList}"
 				columns="3" rows="8" paginator="true"
-				style="width:100%; background-color: #2E64FE; margin-top: 50px;" 
+				style="width:100%; background-color: #2E64FE; margin-top: 50px;"
+				emptyMessage="#{msg.keineAufzeichnungen}"
+				currentPageReportTemplate="{startRecord}-{endRecord} #{msg.von} {totalRecords} #{msg.Aufzeichnung}"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="8,12,16">
 
@@ -84,10 +85,11 @@
 							value="/resources/IMAGES/ARTIKEL/#{ca.image}" />
 
 						<h:outputText value="#{msg.Name} :		#{ca.name}" />
-						<h:outputText value="#{msg.Preis} :		#{ca.preis} €" />
+						<h:outputText value="#{msg.preis} :		#{ca.preis} €" />
 						<br style="margin-top: 10px" />
-						<p:commandButton value="#{msg.Infosanzeigen}" update="@none" process="@this"
-							icon="pi pi-search" oncomplete="PF('infoDialog').show()" >
+						<p:commandButton value="#{msg.Infosanzeigen}" update="@none"
+							process="@this" icon="pi pi-search"
+							oncomplete="PF('infoDialog').show()">
 							<f:setPropertyActionListener value="#{ca}"
 								target="#{artikelHandler.merkeArtikel}" />
 						</p:commandButton>
@@ -108,24 +110,26 @@
 					value="#{loginHandler.totalPreisInsWarenkorb} €" />
 			</p:panelGrid>
 
-			<p:dialog widgetVar="infoDialog" header="#{msg.header_dialog_artikel_info}"
-				modal="true" resizable="false" showEffect="clip" 
-				hideEffect="explode">
+			<p:dialog widgetVar="infoDialog"
+				header="#{msg.header_dialog_artikel_info}" modal="true"
+				resizable="false" showEffect="clip" hideEffect="explode">
 
 				<p:autoUpdate />
 				<p:outputPanel style="text-align:center;">
 					<p:graphicImage
-						value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.image}" width="250"/>
+						value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.image}"
+						width="250" />
 					<h:panelGrid columns="2" cellpadding="5">
 						<h:outputLabel for="Name" value="#{msg.Name} :" />
 						<h:outputText id="Name"
 							value="#{artikelHandler.merkeArtikel.name}" />
 
-						<h:outputLabel for="Preis" value="#{msg.Preis} :" />
+						<h:outputLabel for="Preis" value="#{msg.preis} :" />
 						<h:outputText id="Preis"
 							value="#{artikelHandler.merkeArtikel.preis} €" />
 
-						<h:outputLabel for="beschreibungartikel" value="#{msg.Beschreibung} :" />
+						<h:outputLabel for="beschreibungartikel"
+							value="#{msg.Beschreibung} :" />
 						<h:outputText id="beschreibungartikel"
 							value="#{artikelHandler.merkeArtikel.beschreibung}" />
 
@@ -135,11 +139,12 @@
 
 						<h:outputLabel for="spinner" value="#{msg.Anzahl} : " />
 						<p:outputPanel>
-							<p:spinner id="spinner" stepFactor="1" value="#{artikelHandler.merkeArtikel.kaufAnzahl}" />
+							<p:spinner id="spinner" stepFactor="1"
+								value="#{artikelHandler.merkeArtikel.kaufAnzahl}" />
 						</p:outputPanel>
 						<h:outputLabel />
 						<h:outputLabel />
-						<p:commandButton value="#{msg.Warenkorbhinzufuegen}" 
+						<p:commandButton value="#{msg.Warenkorbhinzufuegen}"
 							update="@form" icon="pi pi-warenkorb"
 							action="#{loginHandler.addToCardShop()}">
 							<f:setPropertyActionListener
@@ -154,7 +159,8 @@
 		</b:container>
 
 		<div id="footer">
-			<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF WEB-APPLICATION </span>
+			<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
+				WEB-APPLICATION </span>
 		</div>
 
 	</b:form>

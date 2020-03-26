@@ -45,24 +45,14 @@
 <h:body>
 	<b:form id="navBarForm">
 		<b:navBar id="top" brand="BELISO SHOP"
-			brandImg="resources/IMAGES/logo1.png" brandHref="loginSeite.xhtml"
+			brandImg="resources/IMAGES/finallogo1.png" brandHref="loginSeite.xhtml"
 			brand-img-style="width:60px;
 				height:30px" fluid="true"
 			sticky="true">
 			<b:navbarLinks pull="right">
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="group" spin="true" />
-					<h:outputLabel value="#{msg.Kontakt}" />
-				</b:navCommandLink>
-				<b:navCommandLink href="#">
-					<h:outputLabel value="#{msg.Impressum}" />
-					<b:iconAwesome name="info" />
-				</b:navCommandLink>
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="leaf" />
-					<h:outputLabel value="#{msg.UeberUns}" />
-				</b:navCommandLink>
-				<b:navCommandLink></b:navCommandLink>
+				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="#" />
+				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="#" />
+				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="#" />
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
 					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
 						immediate="true">
@@ -72,10 +62,14 @@
 						action="#{loginHandler.englischLang()}" immediate="true">
 						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
 					</b:navCommandLink>
+					<b:navCommandLink value="FR"
+						action="#{loginHandler.frenchLang()}" immediate="true">
+						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
+					</b:navCommandLink>
 				</b:dropMenu>
 
 				<b:navCommandLink icon-awesome="home"
-					action="#{loginHandler.abbrechen()}" value="#{msg.Abbrechen}" />
+					action="#{loginHandler.abbrechen()}" value="#{msg.ZurueckZumShop}" />
 
 			</b:navbarLinks>
 		</b:navBar>
@@ -159,7 +153,7 @@
 							<p:inputText value="#{loginHandler.kreditKarte.nummer}"
 								required="true" requiredMessage="#{msg.kreditKarte_fehler}">
 								<f:converter converterId="kreditkartenConverter" />
-								<f:validator validatorId="nummerValidator" />
+								<f:validator validatorId="kreditKarteValidator" />
 							</p:inputText>
 
 							<h:outputText value="#{msg.SicherheitsPIN} : " />

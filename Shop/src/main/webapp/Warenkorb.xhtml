@@ -24,19 +24,10 @@
 			sticky="true">
 			<b:navbarLinks pull="right">
 
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="group" />
-					<h:outputLabel value="#{msg.Kontakt}" />
-				</b:navCommandLink>
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="info" />
-					<h:outputLabel value="#{msg.Impressum}" />
-				</b:navCommandLink>
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="leaf" />
-					<h:outputLabel value="#{msg.UeberUns}" />
-				</b:navCommandLink>
-				<b:navCommandLink></b:navCommandLink>
+				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="#" />
+				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="#" />
+				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="#" />
+				
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
 					<b:navCommandLink value="DE"
 						action="#{loginHandler.deutschLang()}" immediate="true">
@@ -45,6 +36,10 @@
 					<b:navCommandLink value="EN"
 						action="#{loginHandler.englischLang()}" immediate="true">
 						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="FR"
+						action="#{loginHandler.frenchLang()}" immediate="true">
+						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
 					</b:navCommandLink>
 				</b:dropMenu>
 
@@ -110,7 +105,7 @@
 						<h:outputText value="#{artikel.kaufAnzahl}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg.Preis}</f:facet>
+						<f:facet name="header">#{msg.preis}</f:facet>
 						<h:outputText value="#{artikel.preis} €" />
 					</p:column>
 					<p:column>
@@ -138,11 +133,13 @@
 						<h:outputText value="#{msg.Nummer}. : " />
 						<p:inputText value="#{loginHandler.kreditKarte.nummer}">
 							<f:converter converterId="kreditkartenConverter" />
+							<f:validator validatorId="kreditKarteValidator" />
 						</p:inputText>
 
 						<h:outputText value="#{msg.SicherheitsPIN} : " />
 						<p:inputText value="#{loginHandler.kreditKarte.code}">
 							<f:converter converterId="kreditkartenConverter" />
+							<f:validator validatorId="nummerValidator" />
 						</p:inputText>
 
 						<h:outputText value="#{msg.Gueltigbis} : " />
@@ -151,7 +148,6 @@
 							monthNavigator="true" hideOnDateTimeSelect="true"
 							value="#{loginHandler.kreditKarte.endDate}" pattern="MM/yyyy"
 							mindate="#{loginHandler.maxDate}" />
-
 					</p:panelGrid>
 				</p:panel>
 
@@ -172,7 +168,9 @@
 
 				<p:commandButton id="confirmShop" update="@form" style="margin-left:600px"
 					action="#{loginHandler.Kaufbestätigen()}"
-					value="#{msg.KaufBestaetigen}" />
+					value="#{msg.KaufBestaetigen}">
+					<f:actionListener binding="#{artikelHandler.updateArtikelnList(null)}"/>
+				</p:commandButton>
 
 			</div>
 		</div>

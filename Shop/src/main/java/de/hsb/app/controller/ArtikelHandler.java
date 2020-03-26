@@ -12,6 +12,7 @@ import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
 import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
+import javax.faces.event.ActionListener;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.persistence.EntityManager;
@@ -127,6 +128,11 @@ public class ArtikelHandler {
 			FacesMessage error = new FacesMessage("The files were  not uploaded!");
 			FacesContext.getCurrentInstance().addMessage(null, error);
 		}
+	}
+	
+	public void updateArtikelnList(ActionListener event) {
+		artikelListe = new ListDataModel<Artikel>();
+		artikelListe.setWrappedData(entityManager.createNamedQuery("SelectArtikel").getResultList());
 	}
 	
 	public void updateArtikelList() {

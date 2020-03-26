@@ -54,19 +54,9 @@
 				height:30px" fluid="true"
 			sticky="true" look="primary">
 			<b:navbarLinks style="text-color:white;" pull="right">
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="group" spin="true" />
-					<h:outputLabel value="#{msg.Kontakt}" />
-				</b:navCommandLink>
-				<b:navCommandLink href="#">
-					<h:outputLabel value="#{msg.Impressum}" />
-					<b:iconAwesome name="info" />
-				</b:navCommandLink>
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="leaf" />
-					<h:outputLabel value="#{msg.UeberUns}" />
-				</b:navCommandLink>
-				<b:navCommandLink></b:navCommandLink>
+				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="#" />
+				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="#" />
+				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="#" />
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
 					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
 						immediate="true">
@@ -75,6 +65,10 @@
 					<b:navCommandLink value="EN"
 						action="#{loginHandler.englischLang()}" immediate="true">
 						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="FR"
+						action="#{loginHandler.frenchLang()}" immediate="true">
+						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
 					</b:navCommandLink>
 				</b:dropMenu>
 
@@ -174,7 +168,7 @@
 							<h:outputText value="#{msg.Nummer} : " />
 							<p:inputText value="#{loginHandler.kreditKarte.nummer}">
 								<f:converter converterId="kreditkartenConverter" />
-								<f:validator validatorId="nummerValidator" />
+								<f:validator validatorId="kreditKarteValidator" />
 							</p:inputText>
 
 							<h:outputText value="#{msg.SicherheitsPIN} : " />
