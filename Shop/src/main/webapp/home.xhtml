@@ -6,7 +6,7 @@
 	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
 
 <h:head>
-	<title><ui:insert name="title">Kundenverwaltung</ui:insert></title>
+	<title><ui:insert name="title">Beliso Shop| HOME</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
 	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.png" />
 </h:head>
@@ -21,9 +21,10 @@
 			sticky="true">
 			<b:navbarLinks pull="right">
 
-				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="#" />
-				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="#" />
-				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="#" />
+				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="kontakt.xhtml" />
+				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="Impressum.xhtml" />
+				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="UeberUns.xhtml" />
+				
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
 					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
 						immediate="true">
@@ -72,13 +73,13 @@
 
 			<p:dataGrid var="ca" value="#{shop.artikelList}"
 				columns="3" rows="8" paginator="true"
-				style="width:100%; background-color: #2E64FE; margin-top: 50px;"
+				style="width:100%; margin-top: 50px;"
 				emptyMessage="#{msg.keineAufzeichnungen}"
 				currentPageReportTemplate="{startRecord}-{endRecord} #{msg.von} {totalRecords} #{msg.Aufzeichnung}"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 				rowsPerPageTemplate="8,12,16">
 
-				<b:panel style="text-align:center">
+				<b:panel style="text-align:center;">
 					<b:panelGrid columns="1" style="width:100%;">
 
 						<p:graphicImage style="width:200px;height:100px;"

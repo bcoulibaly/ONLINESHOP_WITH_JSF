@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
 	xmlns:ui="http://java.sun.com/jsf/facelets"
 	xmlns:f="http://java.sun.com/jsf/core"
@@ -55,9 +55,11 @@
 				height:30px" fluid="true"
 			sticky="true" look="primary">
 			<b:navbarLinks style="text-color:white;" pull="right">
-				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="#" />
-				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="#" />
-				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="#" />
+				
+				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="kontakt.xhtml" />
+				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="Impressum.xhtml" />
+				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="UeberUns.xhtml" />
+				
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
 					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
 						immediate="true">
@@ -89,7 +91,6 @@
 		<ui:insert name="headPage">#{msg.BenutzerProfil}</ui:insert>
 	</h2>
 	<hr width="80%" align="center" />
-	<div id="content" align="center">
 		<h:form>
 			<b:container class="content-container">
 				<p:growl id="growl" sticky="true" showDetail="true" />
@@ -117,7 +118,7 @@
 								<b:inputText value="#{loginHandler.user.name}" required="true" />
 
 								<h:outputText value="#{msg.Geburtsdatum} : " />
-								<p:datePicker id="geburtsdatum" hideOnDateTimeSelect="true"
+								<p:calendar id="geburtsdatum" 
 									value="#{loginHandler.user.geburtsdatum}" pattern="dd/MM/yyyy"
 									maxdate="#{loginHandler.maxDate}" required="true"
 									requiredMessage="Geburtsdatum fehlt" monthNavigator="true"
@@ -177,12 +178,12 @@
 								</p:inputText>
 
 								<h:outputText value="#{msg.Gueltigbis} : " />
-								<p:datePicker id="validCard" yearNavigator="true"
-									monthNavigator="true" hideOnDateTimeSelect="true"
+								<p:calendar id="validCard" yearNavigator="true"
+									monthNavigator="true"
 									value="#{loginHandler.kreditKarte.endDate}"
 									pattern="dd/MM/yyyy" mindate="#{loginHandler.maxDate}">
 									<f:convertDateTime pattern="dd/MM/yyyy" />
-								</p:datePicker>
+								</p:calendar>
 
 							</p:panelGrid>
 						</p:panel>
@@ -287,7 +288,6 @@
 				</p:wizard>
 			</b:container>
 		</h:form>
-	</div>
 	<br />
 	<div id="footer">
 		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF

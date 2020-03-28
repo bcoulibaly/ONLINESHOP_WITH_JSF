@@ -50,9 +50,11 @@
 				height:30px" fluid="true"
 			sticky="true">
 			<b:navbarLinks pull="right">
-				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="#" />
-				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="#" />
-				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="#" />
+				
+				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="kontakt.xhtml" />
+				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="Impressum.xhtml" />
+				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="UeberUns.xhtml" />
+				
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
 					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
 						immediate="true">
@@ -101,11 +103,11 @@
 
 							<h:outputText value="#{msg.Nachname} : *" />
 							<p:inputText value="#{loginHandler.merkeKunde.name}"
-								required="true" />
+								required="true" converter="javax.faces.Character" converterMessage="Der Nachname sollte keine Nummer oder Zeichnen enthalten" />
 
 							<h:outputText value="#{msg.Geburtsdatum} : " />
-							<p:datePicker id="geburtsdatum" yearNavigator="true"
-								monthNavigator="true" hideOnDateTimeSelect="true"
+							<p:calendar id="geburtsdatum" yearNavigator="true"
+								monthNavigator="true" locale="#{loginHandler.locale}"
 								value="#{loginHandler.merkeKunde.geburtsdatum}"
 								pattern="dd/MM/yyyy" maxdate="#{loginHandler.maxDate}"
 								required="true" requiredMessage="Geburtsdatum fehlt" />
@@ -128,12 +130,12 @@
 							<b:inputText value="#{loginHandler.merkeKunde.strasse}" />
 
 							<h:outputText value="#{msg.PLZ}: " />
-							<b:inputText value="#{loginHandler.merkeKunde.plz}">
+							<b:inputText maxlength="7" value="#{loginHandler.merkeKunde.plz}">
 								<f:validator validatorId="nummerValidator" />
 							</b:inputText>
 
 							<h:outputText value="#{msg.Stadt} : " />
-							<b:inputText value="#{loginHandler.merkeKunde.ort}" />
+							<b:inputText converter="javax.faces.Character" converterMessage="Die Eingabe soll nur aus Charactern bestehen!!" value="#{loginHandler.merkeKunde.ort}" />
 						</b:panelGrid>
 					</b:panel>
 				</p:tab>
@@ -150,27 +152,27 @@
 							</b:selectOneMenu>
 
 							<h:outputText value="#{msg.Nummer} : " />
-							<p:inputText value="#{loginHandler.kreditKarte.nummer}"
+							<p:inputText value="#{loginHandler.kreditKarte.nummer}" maxlength="16"
 								required="true" requiredMessage="#{msg.kreditKarte_fehler}">
 								<f:converter converterId="kreditkartenConverter" />
 								<f:validator validatorId="kreditKarteValidator" />
 							</p:inputText>
 
 							<h:outputText value="#{msg.SicherheitsPIN} : " />
-							<p:inputText value="#{loginHandler.kreditKarte.code}"
+							<p:inputText value="#{loginHandler.kreditKarte.code}" maxlength="3" size="3"
 								required="true" requiredMessage="#{msg.Sicherheit_Pin_Fehler}">
 								<f:converter converterId="kreditkartenConverter" />
 								<f:validator validatorId="nummerValidator" />
 							</p:inputText>
 
 							<h:outputText value="#{msg.Gueltigbis} : " />
-							<p:datePicker id="valideCard" yearNavigator="true"
-								monthNavigator="true"
+							<p:calendar id="valideCard" yearNavigator="true"
+								monthNavigator="true" locale='"#{loginHandler.locale}"'
 								value="#{loginHandler.kreditKarte.endDate}" pattern="MM/yyyy"
 								mindate="#{loginHandler.maxDate}" required="true"
 								requiredMessage="#{msg.Gueltigbis_fehler}">
 								<f:convertDateTime pattern="MM/yyyy" type="date" />
-							</p:datePicker>
+							</p:calendar>
 						</p:panelGrid>
 					</p:panel>
 				</p:tab>

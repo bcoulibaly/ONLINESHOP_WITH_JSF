@@ -42,7 +42,7 @@ public class ArtikelHandler {
 	@ManagedProperty(value = "#{shop.artikelList}")
 	private DataModel<Artikel> artikelListe;
 
-	private Artikel merkeArtikel;
+	private Artikel merkeArtikel=new Artikel();
 
 	private UploadedFile uploadedFile;
 

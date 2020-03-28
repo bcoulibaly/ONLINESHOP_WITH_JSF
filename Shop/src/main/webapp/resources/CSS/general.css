@@ -42,6 +42,15 @@ body {
 
 .navbar {
 	background: linear-gradient(90deg, #edd77e, #5cdbca);
+	text-align: center;
+}
+
+body .ui-datagrid-content .ui-widget-content {
+	border:none;
+	background-color:rgba(0,0,255,0.2);
+	text-align: center;
+	width:100%;
+	margin-top: 50px;
 }
 
 footer, #footer, .footer {

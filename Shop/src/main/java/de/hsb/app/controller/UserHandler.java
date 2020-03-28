@@ -70,11 +70,10 @@ public class UserHandler implements Serializable {
 	private boolean skip;
 	private Date maxDate;
 
-	private String inter_DE = "de";
-	private String inter_EN = "en";
-
 	private int totalArtikelInsWarenkorb = 0;
 	private double totalPreisInsWarenkorb = 0;
+	
+	private String locale="de";
 
 	public UserHandler() {
 	}
@@ -97,8 +96,8 @@ public class UserHandler implements Serializable {
 
 		Query query = entityManager.createQuery(
 				"select k from User k " + "where k.benutzername = :benutzername and k.passwort = :passwort ");
-		query.setParameter("benutzername", credential.getUsername());
-		query.setParameter("passwort", credential.getPassword());
+		query.setParameter("benutzername", credential.getUsername().trim());
+		query.setParameter("passwort", credential.getPassword().trim());
 
 		@SuppressWarnings("unchecked")
 		List<User> kunden = query.getResultList();
@@ -128,18 +127,20 @@ public class UserHandler implements Serializable {
 	}
 
 	/** normal Kunde registrieren **/
-	public String registrieren() {
+	public void registrieren() {
 		System.out.println("Neue Kunde wird registriert");
 		merkeKunde = new User();
 		merkeKunde.setGeburtsdatum(getMaxDate());
 		merkeKunde.setRolle(Rolle.KUNDE);
 		kreditKarte = new KreditKarte();
-		return "/registrieren.xhtml?faces-redirect=true";
+		context.getApplication().getNavigationHandler().handleNavigation(context, null,
+				"/registrieren.xhtml?faces-redirect=true");
 	}
 
 	/** Weiterleitung auf die LoginSeite **/
-	public String redirectToLoginPage() {
-		return "/loginSeite.xhtml?faces-redirect=true";
+	public void redirectToLoginPage() {
+		context.getApplication().getNavigationHandler().handleNavigation(context, null,
+				"/loginSeite.xhtml?faces-redirect=true");
 	}
 
 	/** Speicherung des bereit angetragene User beim Registrieren
@@ -147,7 +148,7 @@ public class UserHandler implements Serializable {
 	 * @return login Seite zurueck
 	 */
 	@SuppressWarnings("unchecked")
-	public String registrierungSpeichern() {
+	public void registrierungSpeichern() {
 		try {
 
 			userTransaction.begin();
@@ -176,7 +177,8 @@ public class UserHandler implements Serializable {
 			e.printStackTrace();
 		}
 		user = null;
-		return "/loginSeite.xhtml?faces-redirect=true";
+		context.getApplication().getNavigationHandler().handleNavigation(context, null,
+				"/loginSeite.xhtml?faces-redirect=true");
 	}
 
 	/**
@@ -300,30 +302,35 @@ public class UserHandler implements Serializable {
 	}
 
 	/**
-	 * Zurueck zum Home Page 
+	 * Zurueck zum Home Page
+	 * 
 	 * @return
 	 */
-	public String abbrechen() {
+	public void abbrechen() {
 		if (user != null)
 			if (user.getRolle() == Rolle.ADMIN)
-				return "/homePageAdmin.xhtml?faces-redirect=true";
+				context.getApplication().getNavigationHandler().handleNavigation(context, null,
+						"/homePageAdmin.xhtml?faces-redirect=true");
 			else
-				return "/home.xhtml?faces-redirect=true";
+				context.getApplication().getNavigationHandler().handleNavigation(context, null,
+						"/home.xhtml?faces-redirect=true");
 		else
-			return "/shopView.xhtml?faces-redirect=true";
+			context.getApplication().getNavigationHandler().handleNavigation(context, null,
+					"/shopView.xhtml?faces-redirect=true");
 	}
 
-	public String normaleKundeBearbeiten() {
+	public void normaleKundeBearbeiten() {
 		merkeKunde = kundenList.getRowData();
 		kreditKarte = merkeKunde.getKreditKarte();
-		return "/KundeBearbeiten.xhtml?faces-redirect=true";
+		context.getApplication().getNavigationHandler().handleNavigation(context, null,
+				"/KundeBearbeiten.xhtml?faces-redirect=true");
 	}
 
 	/** Wenn ein Admin das ein Benutzer löscht 
 	 * 
 	 * @return Admin StartSeite
 	 */
-	public String userLöschen() {
+	public void userLöschen() {
 		try {
 			merkeKunde = kundenList.getRowData();
 			userTransaction.begin();
@@ -339,7 +346,8 @@ public class UserHandler implements Serializable {
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
-		return "/homePageAdmin.xhtml?faces-redirect=true";
+		context.getApplication().getNavigationHandler().handleNavigation(context, null,
+				"/homePageAdmin.xhtml?faces-redirect=true");
 
 	}
 
@@ -482,14 +490,17 @@ public class UserHandler implements Serializable {
 	 */
 	public void englischLang() {
 		context.getViewRoot().setLocale(new Locale("en"));
+		locale="en";
 	}
 
 	public void deutschLang() {
 		context.getViewRoot().setLocale(new Locale("de"));
+		locale="de";
 	}
 	
 	public void frenchLang() {
 		context.getViewRoot().setLocale(new Locale("fr"));
+		locale="fr";
 	}
 
 //	private int getInteger(String string) {
@@ -612,20 +623,12 @@ public class UserHandler implements Serializable {
 		this.maxDate = maxDate;
 	}
 
-	public String getInter_DE() {
-		return inter_DE;
+	public String getLocale() {
+		return locale;
 	}
 
-	public void setInter_DE(String inter_DE) {
-		this.inter_DE = inter_DE;
-	}
-
-	public String getInter_EN() {
-		return inter_EN;
-	}
-
-	public void setInter_EN(String inter_EN) {
-		this.inter_EN = inter_EN;
+	public void setLocale(String locale) {
+		this.locale = locale;
 	}
 
 }

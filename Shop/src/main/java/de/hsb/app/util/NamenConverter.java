@@ -11,26 +11,23 @@ import javax.faces.convert.FacesConverter;
 public class NamenConverter implements Converter {
 
 	/*
-	 * Den ersten Buchstaben des Namens oder Vornamens des Users wird automatisch Groß geschrieben
+	 * Den ersten Buchstaben des Namens oder Vornamens des Users wird automatisch
+	 * Groß geschrieben
 	 * 
-	 * */
+	 */
 	@Override
-	public Object getAsObject(FacesContext context, UIComponent component,
-			String value) {
-		if (value.trim().equals("")) {
+	public Object getAsObject(FacesContext context, UIComponent component, String value) {
+		if (value.trim().equals(""))
 			return null;
-
-		} else {
+		else {
 			try {
 				char newChar = value.charAt(0);
 				newChar = Character.toUpperCase(newChar);
-				value = value.replaceFirst(String.valueOf(value.charAt(0)),
-						String.valueOf(newChar));
+				value = value.replaceFirst(String.valueOf(value.charAt(0)), String.valueOf(newChar));
 				return (String) value;
 
 			} catch (NumberFormatException exception) {
-				throw new ConverterException(new FacesMessage(
-						FacesMessage.SEVERITY_ERROR, "Conversion Error",
+				throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error",
 						"Das eingegebene Daten enthält Nummer, Bitte keine Nummer in diesen Feld eingeben"));
 			}
 		}
@@ -38,8 +35,7 @@ public class NamenConverter implements Converter {
 	}
 
 	@Override
-	public String getAsString(FacesContext context, UIComponent component,
-			Object value) {
+	public String getAsString(FacesContext context, UIComponent component, Object value) {
 		return (String) value;
 	}
 

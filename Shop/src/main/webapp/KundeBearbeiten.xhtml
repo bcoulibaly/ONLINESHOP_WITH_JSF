@@ -50,9 +50,11 @@
 				height:30px" fluid="true"
 			sticky="true">
 			<b:navbarLinks pull="right">
-				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="#" />
-				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="#" />
-				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="#" />
+			
+				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="kontakt.xhtml" />
+				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="Impressum.xhtml" />
+				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="UeberUns.xhtml" />
+				
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
 					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
 						immediate="true">
