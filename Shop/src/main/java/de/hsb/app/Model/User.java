@@ -38,7 +38,7 @@ public class User {
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@NotNull
 	@Column(name = "User_ID", nullable = false, unique = true)
-	private Integer id;
+	private Long id;
 
 	@Column(name = "NAME")
 	private String name;
@@ -62,11 +62,11 @@ public class User {
 	@Email
 	private String email;
 
-	@Size(min = 3, max = 10)
+	@Size(min = 3, max = 5)
 	@Column(name = "PLZ")
 	private String plz;
 
-	@Size(min = 3, max = 100)
+	@Size(min = 6, max = 100)
 	@Column(name = "Ort")
 	private String ort;
 
@@ -81,7 +81,7 @@ public class User {
 	@Column(name = "GEBURTSDATUM")
 	private Date geburtsdatum;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Artikel> warenkorb;
 
 	private double gesamtPreis;
@@ -141,11 +141,11 @@ public class User {
 		this.geburtsdatum = geburtsdatum;
 	}
 
-	public Integer getId() {
+	public long getId() {
 		return this.id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -244,20 +244,10 @@ public class User {
 	 */
 	private void updateValue() {
 		double tmpPreis = 0.0;
-		for (Artikel artikel : warenkorb) {
+		for (Artikel artikel : this.warenkorb) {
 			tmpPreis += artikel.getPreis() * artikel.getKaufAnzahl();
 		}
 		setGesamtPreis(tmpPreis);
-	}
-	
-	/**
-	 * Diese Methode wird aufgerufen, wenn der Benutzer seiner Warenkorb leer. 
-	 * Also er setzt alle Artikel, die diesen Benutzer auf @null hatten. 
-	 */
-	public void clearArtikels() {
-		for (Artikel artikel : warenkorb)
-			artikel.setUser(null);
-		warenkorb.clear();
 	}
 
 	/**
@@ -288,4 +278,22 @@ public class User {
 	public void setMinDate(Date minDate) {
 		this.minDate = minDate;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+
+		if (this == null || obj == null) {
+			return false;
+		} else if (this.getClass() == obj.getClass()) {
+			if ((this.id == ((User) obj).id)
+					&& ((this.benutzername == ((User) obj).benutzername) && (this.vorname == ((User) obj).vorname))) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+    }
+	
 }

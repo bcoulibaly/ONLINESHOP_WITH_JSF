@@ -4,57 +4,56 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
-
+<f:view locale="#{loginHandler.locale}"/>
 <h:head>
 
 	<title><ui:insert name="title">BelissoShop-UserBearbeiten</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
 	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
 	<style type="text/css">
-.label {
-	width: 20%;
-	padding: 4px;
-}
-
-.value {
-	width: 80%;
-	padding: 4px;
-}
-
-.grid {
-	width: 100%;
-}
-
-.error {
-	color: red;
-}
-
-.outputLabel {
-	font-weight: bold;
-}
-
-.grid {
-	width: 33%;
-	padding: 4px;
-}
-</style>
+		.label {
+			width: 20%;	padding: 4px;color:black;
+		}
+		
+		.value {
+			width: 80%;	padding: 4px;
+		}
+		
+		.grid {
+			width: 100%;
+		}
+		
+		.error {
+			color: red;
+		}
+		
+		.outputLabel {
+			font-weight: bold;
+		}
+		
+		.grid {
+			width: 33%;	padding: 4px;
+		}
+	</style>
 
 </h:head>
 <h:body>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
 
 	<h:form id="kundenBearbeiten">
-		<b:navBar brand="BELISO SHOP"
+		<b:navBar 
 			brandImg="resources/IMAGES/finallogo1.png"
-			brand-img-style="width:60px;
-				height:30px" fluid="true"
-			sticky="true">
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
+			fluid="true" sticky="true">
 			<b:navbarLinks pull="right">
-			
-				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="kontakt.xhtml" />
-				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="Impressum.xhtml" />
-				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="UeberUns.xhtml" />
-				
+
+				<b:navCommandLink iconAwesome="group" value="#{msg.Kontakt}"
+					href="kontakt.xhtml" />
+				<b:navCommandLink iconAwesome="info" value="#{msg.Impressum}"
+					href="Impressum.xhtml" />
+				<b:navCommandLink iconAwesome="leaf" value="#{msg.UeberUns}"
+					href="UeberUns.xhtml" />
+
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
 					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
 						immediate="true">
@@ -74,7 +73,7 @@
 					value="#{loginHandler.user.benutzername}">
 					<b:navCommandLink icon-awesome="sign-out-alt"
 						action="#{loginHandler.logout()}" value="#{msg.Abmelden}" />
-					<b:navCommandLink icon-awesome="pen"
+					<b:navCommandLink icon-awesome="pen" disabled="true"
 						action="#{loginHandler.loggedKundeBearbeiten()}"
 						value="#{msg.ProfilBearbeiten}"></b:navCommandLink>
 				</b:dropMenu>
@@ -82,85 +81,92 @@
 		</b:navBar>
 
 		<hr width="80%" align="center" />
-		<h2 id="headPage" align="center">
-			<ui:insert name="headPage"> #{msg.BenutzerProfil}</ui:insert>
+		<h2 id="headPage" align="center" style="color: white;">
+			<ui:insert name="headPage"> #{msg.ProfilBearbeiten}</ui:insert>
 		</h2>
 		<hr width="80%" align="center" />
 
-		<div class="content-container">
+		<h:form>
+	
+		<b:container class="content-container">
 			<p:growl id="growl" sticky="true" showDetail="true" />
-			<p:wizard flowListener="#{loginHandler.onFlowProcess}"
-				backLabel="#{msg.Zurueck}" nextLabel="#{msg.Weiter}">
+			
+			<b:commandButton icon-awesome="home" style="margin:10px 0px;" immediate="true"
+					action="#{loginHandler.abbrechen()}" value="#{msg.ZurueckZumShop}" />
 
+			<p:wizard flowListener="#{loginHandler.onFlowProcess}">
 				<p:tab id="personal" title="#{msg.tabs_name_persoenliches}">
-					<p:panel header="Personal Details">
-						<p:messages />
+					<b:panel>
+						<b:messages />
 
-						<p:panelGrid columns="2" columnClasses="label, value">
+						<b:panelGrid columns="2" columnClasses="label, value">
 
 							<h:outputLabel value="#{msg.Anrede} :" for="anrede" />
 
-							<p:selectOneMenu id="anrede"
+							<b:selectOneMenu id="anrede"
 								value="#{loginHandler.merkeKunde.anrede}">
-								<f:selectItem
-									itemLabel="#{loginHandler.merkeKunde.anrede.label}"
-									itemValue="#{loginHandler.merkeKunde.anrede}" />
-							</p:selectOneMenu>
+								<f:selectItems value="#{loginHandler.anredeValues}" var="status"
+									itemValue="#{status}" itemLabel="#{status.label}" />
+							</b:selectOneMenu>
+
 
 							<h:outputText value="#{msg.Vorname} : *" />
-							<p:inputText value="#{loginHandler.merkeKunde.vorname}"
-								required="true" requiredMessage="#{msg.Vorname_Fehlt}!!">
+							<b:inputText value="#{loginHandler.merkeKunde.vorname}"
+								required="true">
 								<f:converter converterId="namenConverter" />
-							</p:inputText>
+							</b:inputText>
 
 							<h:outputText value="#{msg.Nachname} : *" />
-							<p:inputText value="#{loginHandler.merkeKunde.name}"
-								required="true" requiredMessage="#{msg.Vorname_Fehlt}!!">
+							<b:inputText value="#{loginHandler.merkeKunde.name}"
+								required="true">
 								<f:converter converterId="namenConverter" />
-							</p:inputText>
+							</b:inputText>
 
 							<h:outputText value="#{msg.Geburtsdatum} : " />
-							<p:datePicker id="geburtsdatum" hideOnDateTimeSelect="true"
+							<p:calendar id="geburtsdatum"
 								value="#{loginHandler.merkeKunde.geburtsdatum}"
 								pattern="dd/MM/yyyy" maxdate="#{loginHandler.maxDate}"
 								required="true" requiredMessage="Geburtsdatum fehlt"
-								monthNavigator="true" yearNavigator="true" />
+								navigator="true" />
 
-							<h:outputText value="#{msg.Email}: *" />
+							<h:outputText value="#{msg.Email} : *" />
 							<p:inputText value="#{loginHandler.merkeKunde.email}"
 								required="true" placeholder="Email"
-								requiredMessage="#{msg.Email_fehlt}">
+								requiredMessage="Email fehlt!!">
 								<f:validator validatorId="emailValidator" />
 							</p:inputText>
-						</p:panelGrid>
-					</p:panel>
+
+						</b:panelGrid>
+					</b:panel>
 				</p:tab>
 
 				<p:tab id="address" title="#{msg.tabs_name_Adresse}">
-					<p:panel header="Address Details">
-						<p:messages />
-						<p:panelGrid columns="2" columnClasses="label, value">
+					<b:panel>
+						<b:messages />
+						<b:panelGrid columns="2" columnClasses="label, value">
 							<h:outputText value="#{msg.Strasse}: " />
-							<p:inputText value="#{loginHandler.merkeKunde.strasse}" />
+							<b:inputText value="#{loginHandler.merkeKunde.strasse}" />
 
-							<h:outputText value="#{msg.PLZ}: " />
-							<p:inputText value="#{loginHandler.merkeKunde.plz}">
-								<f:converter converterId="kreditkartenConverter" />
+							<h:outputText value="#{msg.PLZ} : " />
+							<b:inputText value="#{loginHandler.merkeKunde.plz}">
 								<f:converter converterId="kreditkartenConverter" />
 								<f:validator validatorId="nummerValidator" />
-							</p:inputText>
+							</b:inputText>
 
-							<h:outputText value="#{msg.Stadt}: " />
-							<p:inputText value="#{loginHandler.merkeKunde.ort}" />
-						</p:panelGrid>
-					</p:panel>
+							<h:outputText value="#{msg.Stadt} : " />
+							<b:inputText value="#{loginHandler.merkeKunde.ort}">
+								<f:converter converterId="namenConverter" />
+							</b:inputText>
+						</b:panelGrid>
+					</b:panel>
 				</p:tab>
 
-				<p:tab id="kreditKarte" title="#{msg.kreditKarte}">
-					<p:panel header="#{msg.KreditkarteDetails}">
+				<p:tab id="kreditKarte" title="#{msg.tabs_name_KreditKarte}">
+					<p:panel>
 						<p:messages />
 						<p:panelGrid columns="2" columnClasses="label, value">
-							<h:outputText value="#{msg.ArtderKreditkarte}: " />
+
+							<h:outputText value="#{msg.ArtderKreditkarte} : " />
 							<b:selectOneMenu id="artKreditKarte"
 								value="#{loginHandler.kreditKarte.karteArt}">
 								<f:selectItems value="#{loginHandler.karteArtValues}"
@@ -180,14 +186,35 @@
 							</p:inputText>
 
 							<h:outputText value="#{msg.Gueltigbis} : " />
-							<p:datePicker id="validCard" yearNavigator="true"
-								monthNavigator="true"
+							<p:calendar id="validCard" navigator="true"
 								value="#{loginHandler.kreditKarte.endDate}" pattern="MM/yyyy"
 								mindate="#{loginHandler.maxDate}">
 								<f:convertDateTime pattern="MM/yyyy" type="date" />
-							</p:datePicker>
+							</p:calendar>
+
 						</p:panelGrid>
 					</p:panel>
+				</p:tab>
+
+				<p:tab id="loginData" title="#{msg.tabs_name_AnmeldeDaten}">
+					<b:panel>
+						<b:messages />
+						<b:panelGrid columns="2" columnClasses="label, value">
+							<h:outputText value="#{msg.Benutzername} : *" />
+							<b:inputText value="#{loginHandler.merkeKunde.benutzername}"
+								required="true" requiredMessage="#{msg.Benutzername_fehler}!!" />
+
+							<h:outputText value="#{msg.Passwort} : *" />
+							<p:password id="pwd1" value="#{loginHandler.merkeKunde.passwort}"
+								match="pwd2" feedback="true"
+								requiredMessage="#{msg.Passwort_fehler}" />
+
+							<h:outputText value="#{msg.Passwortwiederholen} : *" />
+							<p:password id="pwd2"
+								value="#{loginHandler.merkeKunde.passwortWiederholen}"
+								feedback="true" requiredMessage="#{msg.Passwortwiederholen}" />
+						</b:panelGrid>
+					</b:panel>
 				</p:tab>
 
 				<p:tab id="confirm" title="Confirmation">
@@ -250,19 +277,26 @@
 									styleClass="outputLabel" />
 							</p:panelGrid>
 						</p:panelGrid>
-
-						<p:commandButton value="#{msg.Abschicken}"
-							style="margin-top:10px;" action="#{loginHandler.speichern()}"
-							update="@form" />
 					</p:panel>
+
+					<p:commandButton value="#{msg.Abschicken}"
+						style="margin-top:10px 0px;" action="#{loginHandler.speichern()}"
+						update="@form" />
+					<b:commandButton action="#{loginHandler.abbrechen}"
+						value="Abbrechen" immediate="true" look="primary" />
 				</p:tab>
 			</p:wizard>
-		</div>
 
-		<div id="footer">
+		</b:container>
+	</h:form>
+
+		<div id="footer"  style="margin-top: 325px;">
+			<p:graphicImage style="width:200px;height:40px;"
+				value="resources/IMAGES/finallogo1.png" />
 			<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
 				WEB-APPLICATION </span>
 		</div>
+
 	</h:form>
 </h:body>
 </html>

@@ -4,9 +4,9 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
-
+<f:view locale="#{loginHandler.locale}"/>
 <h:head>
-	<title><ui:insert name="title">Kundenverwaltung</ui:insert></title>
+	<title><ui:insert name="title">Belisso-Shop- Neuer Admin hinzufügen</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
 	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.jpg" />
 
@@ -48,17 +48,19 @@
 		animation-enter="animated bounceInDown"
 		animation-exit="animated flipOutX" escape="true" />
 	<h:form>
-		<b:navBar id="top" brand="BELISO SHOP"
+		<b:navBar id="top"
 			brandImg="resources/IMAGES/finallogo1.png"
-			brand-img-style="width:60px;
-				height:30px" fluid="true"
-			sticky="true" look="primary">
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
+			fluid="true" sticky="true">
 			<b:navbarLinks style="text-color:white;" pull="right">
-				
-				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="kontakt.xhtml" />
-				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="Impressum.xhtml" />
-				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="UeberUns.xhtml" />
-				
+
+				<b:navCommandLink iconAwesome="group" value="#{msg.Kontakt}"
+					href="kontakt.xhtml" />
+				<b:navCommandLink iconAwesome="info" value="#{msg.Impressum}"
+					href="Impressum.xhtml" />
+				<b:navCommandLink iconAwesome="leaf" value="#{msg.UeberUns}"
+					href="UeberUns.xhtml" />
+
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
 					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
 						immediate="true">
@@ -68,8 +70,8 @@
 						action="#{loginHandler.englischLang()}" immediate="true">
 						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
 					</b:navCommandLink>
-					<b:navCommandLink value="FR"
-						action="#{loginHandler.frenchLang()}" immediate="true">
+					<b:navCommandLink value="FR" action="#{loginHandler.frenchLang()}"
+						immediate="true">
 						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
 					</b:navCommandLink>
 				</b:dropMenu>
@@ -86,12 +88,12 @@
 		</b:navBar>
 	</h:form>
 	<hr width="80%" align="center" />
-	<h2 id="headPage" align="center">
+	<h2 id="headPage" align="center" style="color: white;">
 		<ui:insert name="headPage">#{msg.Anlegen_Neuer_Admin}</ui:insert>
 	</h2>
 	<hr width="80%" align="center" />
 	<h:form>
-		<div class="content-container">
+		<b:container class="content-container">
 			<p:growl id="growl" sticky="true" showDetail="true" />
 
 			<p:wizard flowListener="#{loginHandler.onFlowProcess}">
@@ -112,18 +114,22 @@
 
 							<h:outputText value="#{msg.Vorname} : *" />
 							<b:inputText value="#{loginHandler.merkeKunde.vorname}"
-								required="true" />
+								required="true" >
+								<f:converter converterId="namenConverter"/>
+							</b:inputText>
 
 							<h:outputText value="#{msg.Nachname} : *" />
 							<b:inputText value="#{loginHandler.merkeKunde.name}"
-								required="true" />
+								required="true" >
+								<f:converter converterId="namenConverter"/>
+							</b:inputText>
 
 							<h:outputText value="#{msg.Geburtsdatum} : " />
-							<p:datePicker id="geburtsdatum" hideOnDateTimeSelect="true"
+							<p:calendar id="geburtsdatum" 
 								value="#{loginHandler.merkeKunde.geburtsdatum}"
 								pattern="dd/MM/yyyy" maxdate="#{loginHandler.maxDate}"
 								required="true" requiredMessage="Geburtsdatum fehlt"
-								monthNavigator="true" yearNavigator="true" />
+								navigator="true" />
 
 							<h:outputText value="#{msg.Email} : *" />
 							<p:inputText value="#{loginHandler.merkeKunde.email}"
@@ -150,7 +156,9 @@
 							</b:inputText>
 
 							<h:outputText value="#{msg.Stadt} : " />
-							<b:inputText value="#{loginHandler.merkeKunde.ort}" />
+							<b:inputText value="#{loginHandler.merkeKunde.ort}" >
+								<f:converter converterId="namenConverter"/>
+							</b:inputText>
 						</b:panelGrid>
 					</b:panel>
 				</p:tab>
@@ -180,12 +188,11 @@
 							</p:inputText>
 
 							<h:outputText value="#{msg.Gueltigbis} : " />
-							<p:datePicker id="validCard" yearNavigator="true"
-								monthNavigator="true" hideOnDateTimeSelect="true"
+							<p:calendar id="validCard" navigator="true"
 								value="#{loginHandler.kreditKarte.endDate}" pattern="dd/MM/yyyy"
 								mindate="#{loginHandler.maxDate}">
 								<f:convertDateTime pattern="dd/MM/yyyy" type="date" />
-							</p:datePicker>
+							</p:calendar>
 
 						</p:panelGrid>
 					</p:panel>
@@ -282,15 +289,18 @@
 				</p:tab>
 			</p:wizard>
 
-		</div>
+		</b:container>
 
 	</h:form>
 	<br />
 
-	<div id="footer">
+	<div id="footer" style="margin-top:375px;">
+		<p:graphicImage style="width:200px;height:40px;"
+			value="resources/IMAGES/finallogo1.png" />
 		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
 			WEB-APPLICATION </span>
 	</div>
+
 </h:body>
 
 </html>

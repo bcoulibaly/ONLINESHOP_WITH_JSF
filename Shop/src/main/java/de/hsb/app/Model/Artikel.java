@@ -18,7 +18,7 @@ public class Artikel {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "Artikel_ID", unique = true)
-	private Integer id;
+	private Long id;
 	@Column(name = "NAME")
 	private String name;
 	@Column(name = "BESCHREIBUNG")
@@ -64,11 +64,11 @@ public class Artikel {
 		this.beschreibung = beschreibung;
 	}
 
-	public Integer getId() {
+	public long getId() {
 		return this.id;
 	}
 
-	public void setId(Integer id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -90,14 +90,6 @@ public class Artikel {
 	
 	public int getPreisxnumber() {
 		return (int) (this.getPreis() * this.getKaufAnzahl());
-	}
-
-	public String getImage() {
-		return this.imgName;
-	}
-
-	public void setImage(String image) {
-		this.imgName = image;
 	}
 
 	public int getKaufAnzahl() {

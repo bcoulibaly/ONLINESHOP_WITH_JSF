@@ -4,7 +4,7 @@ body {
 	height: 100%;
 	font-family: Eras ITC, Felix Titling, Tw Cen MT, Verdana, Arial,
 		Helvetica, sans-serif;
-	font-size: 17px;
+	/* font-size: 17px; */
 	/* background: linear-gradient(90deg, #00DBDE, #2E64FE); */
 	/* background: linear-gradient(90deg, #edd77e, #5cdbca); */
 	background-image: url("../IMAGES/hinterground2.jpg");
@@ -45,9 +45,9 @@ body {
 	text-align: center;
 }
 
-body .ui-datagrid-content .ui-widget-content {
+.ui-datagrid-content .ui-widget-content {
 	border:none;
-	background-color:rgba(0,0,255,0.2);
+	background-color:rgba(0,0,255,0.2) !important;
 	text-align: center;
 	width:100%;
 	margin-top: 50px;
@@ -61,6 +61,6 @@ footer, #footer, .footer {
 	height: 100px;
 	text-align: center;
 	width: 100%;
-	color: white;
+	color: black;
 	background: linear-gradient(90deg, #edd77e, #5cdbca);
 }

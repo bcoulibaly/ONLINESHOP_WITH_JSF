@@ -29,7 +29,7 @@ public class KreditKarte {
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	@Column(name = "id", unique = true)
-	private int ID;
+	private Long ID;
 	
 	@Column(name = "NUMMER")
 	@Size(min = 12, max = 16)
@@ -66,11 +66,11 @@ public class KreditKarte {
 	public void setNummer(String nummer) {
 		this.nummer = nummer;
 	}   
-	public int getID() {
+	public long getID() {
 		return this.ID;
 	}
 
-	public void setID(int ID) {
+	public void setID(long ID) {
 		this.ID = ID;
 	}   
 	public KarteArt getKarteArt() {
@@ -108,5 +108,22 @@ public class KreditKarte {
 	public void setUser(User user) {
 		this.user = user;
 	}
+	
+	@Override
+	public boolean equals(Object obj) {
+
+		if (this == null || obj == null) {
+			return false;
+		} else if (this.getClass() == obj.getClass()) {
+			if ((this.ID == ((KreditKarte) obj).ID)
+					&& ((this.nummer == ((KreditKarte) obj).nummer) && (this.code == ((KreditKarte) obj).code))) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
+    }
    
 }

@@ -4,20 +4,20 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
-
+<f:view locale="#{loginHandler.locale}"/>
 <h:head>
-	<title><ui:insert name="title">BelissoShop-ShopView</ui:insert></title>
+	<title><ui:insert name="title">Belisso Shop - Ueber Uns</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/alleKunden.css"
 		type="text/css" />
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
 	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.png" />
 </h:head>
 
-<h:body>
+<h:body style="background-color:white; background-image:none;">
 	<h:form>
 		<p:autoUpdate />
-		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png" 
-			brand-img-style="width:100%; height:40px;" fluid="true" sticky="true"
+		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;" fluid="true" sticky="true"
 			look="primary">
 			<b:navbarLinks style="text-color:white;" pull="right">
 
@@ -54,17 +54,21 @@
 		<b:container styleClass="content-container">
 			<b:jumbotron>
 
-				<h3>#{msg.jumbotron_welcome}</h3>
-				<p>
-					#{msg.jumbotron_welcometext2}. <i class="pi pi-thumbs-up"></i>
-				</p>
+				<h2>#{msg.UeberUns}</h2>
 			</b:jumbotron>
 
+			<div align="center" style="background-color: white; color: black; width: 55%;margin-left: 20%;">
+				<p>#{msg.UeberUnsText1}</p>
+				<br />
+				<p>#{msg.UeberUnsText2}</p>
+			</div>
 
 		</b:container>
 	</h:form>
 
-	<div id="footer">
+	<div id="footer" style="margin-top:405px;">
+		<p:graphicImage style="width:200px;height:40px;"
+			value="resources/IMAGES/finallogo1.png" />
 		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
 			WEB-APPLICATION </span>
 	</div>

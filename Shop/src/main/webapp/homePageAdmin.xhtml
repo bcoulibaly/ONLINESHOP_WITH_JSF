@@ -4,7 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
-
+<f:view locale="#{loginHandler.locale}" />
 <h:head>
 	<title><ui:insert name="title">Belisso Shop - Home Page Admin</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/alleKunden.css"
@@ -17,17 +17,18 @@
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
 
 	<h:form>
-		<b:navBar id="top" brand="BELISO SHOP"
-			brandImg="resources/IMAGES/finallogo1.png"
-			brand-img-style="width:40px;
-				height:30px" fluid="true"
-			sticky="true">
+		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
+			fluid="true" sticky="true">
 			<b:navbarLinks pull="right">
-			
-				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="kontakt.xhtml" />
-				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="Impressum.xhtml" />
-				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="UeberUns.xhtml" />
-				
+
+				<b:navCommandLink iconAwesome="group" value="#{msg.Kontakt}"
+					href="kontakt.xhtml" />
+				<b:navCommandLink iconAwesome="info" value="#{msg.Impressum}"
+					href="Impressum.xhtml" />
+				<b:navCommandLink iconAwesome="leaf" value="#{msg.UeberUns}"
+					href="UeberUns.xhtml" />
+
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
 					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
 						immediate="true">
@@ -37,8 +38,8 @@
 						action="#{loginHandler.englischLang()}" immediate="true">
 						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
 					</b:navCommandLink>
-					<b:navCommandLink value="FR"
-						action="#{loginHandler.frenchLang()}" immediate="true">
+					<b:navCommandLink value="FR" action="#{loginHandler.frenchLang()}"
+						immediate="true">
 						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
 					</b:navCommandLink>
 				</b:dropMenu>
@@ -61,10 +62,7 @@
 		<hr width="80%" align="center" />
 
 		<div class="content-container">
-			<p:growl placementFrom="top" show-detail="true" global-only="false"
-				show-summary="true" allow-dismiss="true"
-				animation-enter="animated bounceInDown"
-				animation-exit="animated flipOutX" escape="true" />
+			<p:messages />
 
 			<b:commandButton action="#{loginHandler.neu()}"
 				value="#{msg.Neuer_Admin_Hinzufuegen}" iconAwesome="user-plus"
@@ -101,7 +99,7 @@
 						<h:outputText value="#{kunde.name}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg.Benutzername}e</f:facet>
+						<f:facet name="header">#{msg.Benutzername}</f:facet>
 						<h:outputText value="#{kunde.benutzername}" />
 					</p:column>
 					<p:column>
@@ -125,8 +123,8 @@
 					</p:column>
 					<p:column>
 						<f:facet name="header">#{msg.kreditKarte}</f:facet>
-						<p:commandButton update="@none" process="@this"
-							icon="pi pi-info" oncomplete="PF('infoDialog').show()" >
+						<p:commandButton update="@none" process="@this" icon="pi pi-info"
+							oncomplete="PF('infoDialog').show()">
 							<f:setPropertyActionListener value="#{kunde.kreditKarte}"
 								target="#{loginHandler.kreditKarte}" />
 						</p:commandButton>
@@ -167,12 +165,14 @@
 					</p:column>
 					<p:column>
 						<f:facet name="header">#{msg.preis}</f:facet>
-						<h:outputLabel value="#{artikel.preis}"> €</h:outputLabel>
+						<h:outputLabel value="#{artikel.preis} €">
+							<f:convertNumber pattern="#0.00" />
+						</h:outputLabel>
 					</p:column>
 					<p:column>
 						<f:facet name="header">#{msg.Bild}</f:facet>
 						<p:graphicImage width="80px" height="50px"
-							value="/resources/IMAGES/ARTIKEL/#{artikel.image}" />
+							value="/resources/IMAGES/ARTIKEL/#{artikel.imgName}" />
 					</p:column>
 
 					<p:column>
@@ -193,9 +193,9 @@
 				</p:dataTable>
 			</div>
 
-			<p:dialog widgetVar="infoDialog"
-				header="#{msg.KreditkarteDetails}" modal="true"
-				resizable="false" showEffect="clip" hideEffect="explode">
+			<p:dialog widgetVar="infoDialog" header="#{msg.KreditkarteDetails}"
+				modal="true" resizable="false" showEffect="clip"
+				hideEffect="explode">
 
 				<p:autoUpdate />
 				<p:outputPanel style="text-align:center;">
@@ -206,12 +206,14 @@
 
 						<h:outputLabel for="Nummer" value="#{msg.Nummer} :" />
 						<h:outputText id="Nummer"
-							value="#{loginHandler.kreditKarte.nummer} €" />
+							value="#{loginHandler.kreditKarte.nummer}" />
 
-						<h:outputLabel for="endDate"
-							value="#{msg.Gueltigbis} :" />
+						<h:outputLabel for="endDate" value="#{msg.Gueltigbis} :" />
 						<h:outputText id="endDate"
-							value="#{loginHandler.kreditKarte.endDate}" />
+							value="#{loginHandler.kreditKarte.endDate}">
+							<f:convertDateTime locale="#{loginHandler.locale}"
+								pattern="MM/yyy" />
+						</h:outputText>
 					</h:panelGrid>
 				</p:outputPanel>
 			</p:dialog>
@@ -221,9 +223,12 @@
 
 
 	<div id="footer">
+		<p:graphicImage style="width:200px;height:40px;"
+			value="resources/IMAGES/finallogo1.png" />
 		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
 			WEB-APPLICATION </span>
 	</div>
+
 </h:body>
 
 </html>

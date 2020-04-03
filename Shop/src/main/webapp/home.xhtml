@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
-
+<f:view locale="#{loginHandler.locale}"/>
 <h:head>
 	<title><ui:insert name="title">Beliso Shop| HOME</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
@@ -13,11 +13,11 @@
 
 <h:body>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
+	<f:event listener="#{artikelHandler.updateArtikelnListen}" type="preRenderView" />
 	<b:form>
-		<b:navBar id="top" brand="BELISO SHOP"
+		<b:navBar id="top"
 			brandImg="resources/IMAGES/finallogo1.png"
-			brand-img-style="width:40px;
-				height:30px" fluid="true"
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;" fluid="true"
 			sticky="true">
 			<b:navbarLinks pull="right">
 
@@ -71,7 +71,7 @@
 			</b:jumbotron>
 
 
-			<p:dataGrid var="ca" value="#{shop.artikelList}"
+			<p:dataGrid var="ca" value="#{artikelHandler.artikelListe}"
 				columns="3" rows="8" paginator="true"
 				style="width:100%; margin-top: 50px;"
 				emptyMessage="#{msg.keineAufzeichnungen}"
@@ -81,9 +81,9 @@
 
 				<b:panel style="text-align:center;">
 					<b:panelGrid columns="1" style="width:100%;">
-
+					
 						<p:graphicImage style="width:200px;height:100px;"
-							value="/resources/IMAGES/ARTIKEL/#{ca.image}" />
+							value="/resources/IMAGES/ARTIKEL/#{ca.imgName}" />
 
 						<h:outputText value="#{msg.Name} :		#{ca.name}" />
 						<h:outputText value="#{msg.preis} :		#{ca.preis} €" />
@@ -118,7 +118,7 @@
 				<p:autoUpdate />
 				<p:outputPanel style="text-align:center;">
 					<p:graphicImage
-						value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.image}"
+						value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.imgName}"
 						width="250" />
 					<h:panelGrid columns="2" cellpadding="5">
 						<h:outputLabel for="Name" value="#{msg.Name} :" />
@@ -130,7 +130,7 @@
 							value="#{artikelHandler.merkeArtikel.preis} €" />
 
 						<h:outputLabel for="beschreibungartikel"
-							value="#{msg.Beschreibung} :" />
+							value="#{msg.Beschreibung}: " />
 						<h:outputText id="beschreibungartikel"
 							value="#{artikelHandler.merkeArtikel.beschreibung}" />
 
@@ -160,9 +160,12 @@
 		</b:container>
 
 		<div id="footer">
+			<p:graphicImage style="width:200px;height:40px;"
+				value="resources/IMAGES/finallogo1.png" />
 			<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
 				WEB-APPLICATION </span>
 		</div>
+
 
 	</b:form>
 </h:body>

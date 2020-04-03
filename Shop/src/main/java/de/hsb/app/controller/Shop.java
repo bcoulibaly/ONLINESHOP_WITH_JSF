@@ -7,6 +7,7 @@ import javax.annotation.Resource;
 import javax.faces.bean.ApplicationScoped;
 import javax.faces.bean.ManagedBean;
 import javax.faces.event.ActionListener;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.persistence.EntityManager;
@@ -50,25 +51,25 @@ public class Shop {
 		try {
 			User user = new User("Ben", "Coulibaly", new GregorianCalendar(1997, 4, 3).getTime(), "ben", "ben",
 					Rolle.ADMIN, Anrede.HERR);
-			KreditKarte karte = new KreditKarte("1230456987456321", "586", KarteArt.MASTERCARD);
+			KreditKarte karte = new KreditKarte("4917820120076273", "586", KarteArt.MASTERCARD);
 			user.setKreditKarte(karte);
 			karte.setUser(user);
 
 			User user2 = new User("Leonardo", "Kouassi", new GregorianCalendar(1990, 9, 15).getTime(), "lkouassi",
 					"leoardo", Rolle.KUNDE, Anrede.HERR);
-			KreditKarte karte2 = new KreditKarte("951245698745632", "958", KarteArt.MASTERCARD);
+			KreditKarte karte2 = new KreditKarte("4917820120076273", "958", KarteArt.MASTERCARD);
 			user2.setKreditKarte(karte2);
 			karte2.setUser(user2);
 
 			User user3 = new User("Kone", "Salimata", new GregorianCalendar(1994, 5, 21).getTime(), "kone", "sali",
 					Rolle.KUNDE, Anrede.FRAU);
-			KreditKarte karte3 = new KreditKarte("1458963254789563", "874", KarteArt.MASTERCARD);
+			KreditKarte karte3 = new KreditKarte("4917820120076273", "874", KarteArt.MASTERCARD);
 			user3.setKreditKarte(karte3);
 			karte3.setUser(user3);
 
 			User user4 = new User("Schmidt", "Lina Sophie", new GregorianCalendar(1993, 11, 30).getTime(), "lsophie",
 					"lina", Rolle.KUNDE, Anrede.FRAU);
-			KreditKarte karte4 = new KreditKarte("3214586395415638", "693", KarteArt.MASTERCARD);
+			KreditKarte karte4 = new KreditKarte("4917820120076273", "693", KarteArt.MASTERCARD);
 			user4.setKreditKarte(karte4);
 			karte4.setUser(user4);
 
@@ -83,34 +84,16 @@ public class Shop {
 			entityManager.persist(karte2);
 			entityManager.persist(karte3);
 			entityManager.persist(karte4);
-
-//			entityManager.persist(new User("Ben", "Coulibaly", new GregorianCalendar(1997, 4, 3).getTime(), "ben",
-//					"ben", Rolle.ADMIN, Anrede.HERR));
-//			entityManager.persist(new User("Leonardo", "Kouassi", new GregorianCalendar(1990, 9, 15).getTime(),
-//					"lkouassi", "leoardo", Rolle.KUNDE, Anrede.HERR));
-//			entityManager.persist(new User("Kone", "Salimata", new GregorianCalendar(1994, 5, 21).getTime(), "kone",
-//					"sali", Rolle.KUNDE, Anrede.HERR));	
-//			entityManager.persist(new User("Schmidt", "Lina Sophie", new GregorianCalendar(1993, 11, 30).getTime(), "lsophie",
-//					"lina", Rolle.KUNDE, Anrede.FRAU));
-//			entityManager.persist(new User("Berte", "Mamadou", new GregorianCalendar(1997, 5, 15).getTime(), "mberte",
-//					"mamadou", Rolle.KUNDE, Anrede.HERR));
-//			entityManager.persist(new User("Conde", "Maimouna", new GregorianCalendar(2000, 03, 15).getTime(), "cmina",
-//					"mina", Rolle.ADMIN, Anrede.FRAU));
-//			entityManager.persist(new User("Hans", "Bineta", new GregorianCalendar(2000, 11, 30).getTime(), "hbineta",
-//					"hans", Rolle.ADMIN, Anrede.FRAU));
-//			entityManager.persist(new User("Kelb", "Geofrey", new GregorianCalendar(1983, 02, 14).getTime(), "gkelb",
-//					"kelb", Rolle.KUNDE, Anrede.HERR));
-//			entityManager.persist(new User("Schneider", "Benjamin", new GregorianCalendar(1993, 11, 30).getTime(), "sbenji",
-//					"benji63", Rolle.KUNDE, Anrede.FRAU));
+			
 			appTransaction.commit();
 			this.kundenList = new ListDataModel<User>();
 			this.kundenList.setWrappedData(entityManager.createNamedQuery("SelectUser").getResultList());
 
 			appTransaction.begin();
 			entityManager.persist(new Artikel("Surface Book 2", "Das sollte eine Beschribung sein", 2999.99,
-					"Microsoft_Surface_Laptop_2.jpg", 12));
+					"Microsoft_Surface_Laptop_2.png", 12));
 			entityManager.persist(
-					new Artikel("IPhone 7", "Tolles Handy mit hohem Display auflösung", 689.99, "Iphone7.jpg", 19));
+					new Artikel("IPhone 7", "Tolles Handy mit hohem Display auflösung", 689.99, "Iphone7.png", 19));
 			entityManager.persist(new Artikel("Canon Photo",
 					"Apparat Photo von Canon mit tollen Effekten wie Panorama,Zeitraffler, Scharf, 8GB-Speicherplatz",
 					259.99, "canon_photo.png", 40));
@@ -121,23 +104,23 @@ public class Shop {
 
 			entityManager.persist(new Artikel("Arduino Board ",
 					"Mini-Computer Arduino neueste Generation mit Kamera-Anschlüss, Microphone", 69.99,
-					"ArduinoBoard.jpg", 40));
+					"ArduinoBoard.png", 40));
 
 			entityManager.persist(new Artikel("Gaming Mouse",
 					"Sensibele Gaming Mouse von ??, Empfindlichkeit bis 4 Stufe Einstellbar, Extra Knöpfe an den Seiten fuer ein gemütliches Surfen/ Spiel",
-					49.99, "Gaming-mouse.jpg", 40));
+					49.99, "Gaming-mouse.png", 40));
 
 			entityManager.persist(new Artikel("Gaming Tastaur",
 					"Gaming Tastatur füe ein entspanntes Erlebnis beim Spielen oder Schreiben, Soundlos, mit Kabel",
-					79.99, "Gaming Tastatur USB.jpg", 40));
+					79.99, "Gaming Tastatur USB.png", 40));
 
 			entityManager.persist(new Artikel("JBL Lautsprecher Xtrem",
 					"Lautsprecher von JBL Xtrem, eigetlich kann man es für eine Party benutzen, weil es zu Laut ist",
-					259.99, "jbl-sound-xtrem.jpg", 40));
+					259.99, "jbl-sound-xtrem.png", 40));
 
 			entityManager.persist(new Artikel("Monitor Benq",
 					"Monitor vonb Benq, 3D, 3 USB-Anschluesse, 4KUHD, 3 HDMI-Anschluesse, VGA, 3258*2500 Auflösung",
-					799.00, "monitor_Benq.jpg", 40));
+					799.00, "monitor_Benq.png", 40));
 
 			entityManager.persist(new Artikel("Sony Camera S5248",
 					"Sony Kamera mit tollen Effekten wie Panorama, Zeitraffler, slow motion, Portrait, 16GB-Speicherplatz",
@@ -145,7 +128,7 @@ public class Shop {
 
 			entityManager.persist(new Artikel("Surface Arc Mouse",
 					"Surface Mouse von Microsoft, angenehme Führung des Mauses und Geschwingkeit bis 5mal einstellen, Das Maus ist von Form her verstellbar",
-					99.99, "Surface Arc Mouse.jpg", 40));
+					99.99, "Surface Arc Mouse.png", 40));
 			
 			entityManager.flush();
 			appTransaction.commit();
@@ -159,6 +142,11 @@ public class Shop {
 	}
 
 	public void updateArtikelList(ActionListener event) {
+		artikelListe = new ListDataModel<Artikel>();
+		artikelListe.setWrappedData(entityManager.createNamedQuery("SelectArtikel").getResultList());
+	}
+	
+	public void updateArtikelListen(ComponentSystemEvent event) {
 		artikelListe = new ListDataModel<Artikel>();
 		artikelListe.setWrappedData(entityManager.createNamedQuery("SelectArtikel").getResultList());
 	}

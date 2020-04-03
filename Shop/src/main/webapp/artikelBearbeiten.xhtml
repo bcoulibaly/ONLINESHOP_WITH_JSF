@@ -4,6 +4,8 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+	
+<f:view locale="#{loginHandler.locale}"/>
 
 <h:head>
 
@@ -44,26 +46,27 @@ grid {
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
 
 	<h:form id="top">
-		<b:navBar id="top" brand="BELISO SHOP"
-			brandImg="resources/IMAGES/finallogo1.png"
-			brand-img-style="width:40px;
-				height:30px" fluid="true"
-			sticky="true">
+		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
+			fluid="true" sticky="true">
 			<b:navbarLinks pull="right">
-				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="kontakt.xhtml" />
-				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="Impressum.xhtml" />
-				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="UeberUns.xhtml" />
+				<b:navCommandLink iconAwesome="group" value="#{msg.Kontakt}"
+					href="kontakt.xhtml" />
+				<b:navCommandLink iconAwesome="info" value="#{msg.Impressum}"
+					href="Impressum.xhtml" />
+				<b:navCommandLink iconAwesome="leaf" value="#{msg.UeberUns}"
+					href="UeberUns.xhtml" />
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
-					<b:navCommandLink value="DE"
-						action="#{loginHandler.deutschLang()}" immediate="true">
+					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
+						immediate="true">
 						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
 					</b:navCommandLink>
 					<b:navCommandLink value="EN"
 						action="#{loginHandler.englischLang()}" immediate="true">
 						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
 					</b:navCommandLink>
-					<b:navCommandLink value="FR"
-						action="#{loginHandler.frenchLang()}" immediate="true">
+					<b:navCommandLink value="FR" action="#{loginHandler.frenchLang()}"
+						immediate="true">
 						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
 					</b:navCommandLink>
 				</b:dropMenu>
@@ -79,7 +82,11 @@ grid {
 			</b:navbarLinks>
 		</b:navBar>
 	</h:form>
-
+	<hr width="80%" align="center" />
+	<h2 id="headPage" align="center" style="color: white;">
+		<ui:insert name="headPage">#{msg.Bearbeiten}</ui:insert>
+	</h2>
+	<hr width="80%" align="center" />
 	<div class="content-container" align="center">
 		<h:form id="neuArtikel">
 			<p:growl placementFrom="top" show-detail="true" global-only="false"
@@ -87,7 +94,8 @@ grid {
 				animation-enter="animated bounceInDown"
 				animation-exit="animated flipOutX" escape="true" />
 
-			<h:panelGrid columns="2" headerClass="header" footerClass="footer" style="background-color:DodgerBlue">
+			<h:panelGrid columns="2" headerClass="header" footerClass="footer"
+				style="background-color:DodgerBlue">
 
 				<h:outputLabel value="#{msg.Bild} :" for="img" />
 				<h:panelGroup>
@@ -140,8 +148,11 @@ grid {
 	</div>
 
 	<div id="footer">
+		<p:graphicImage style="width:200px;height:40px;"
+			value="resources/IMAGES/finallogo1.png" />
 		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
 			WEB-APPLICATION </span>
 	</div>
+
 </h:body>
 </html>

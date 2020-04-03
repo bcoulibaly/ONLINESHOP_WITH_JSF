@@ -4,28 +4,30 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
-
+<f:view locale="#{loginHandler.locale}"/>
 <h:head>
-	<title><ui:insert name="title">BelissoShop-ShopView</ui:insert></title>
+	<title><ui:insert name="title">Belisso Shop - Kontakt</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/alleKunden.css"
 		type="text/css" />
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
 	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.png" />
 </h:head>
 
-<h:body>
-	<h:form>
+<h:body style="background-color:white; background-image:none;">
+	<h:form >
 		<p:autoUpdate />
-		<b:navBar id="top"
-			brandImg="resources/IMAGES/finallogo1.png" brand-img-style="width:100%; height:40px;" 
-			fluid="true"
-			sticky="true" look="primary">
+		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
+			fluid="true" sticky="true">
 			<b:navbarLinks style="text-color:white;" pull="right">
-			
-				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="kontakt.xhtml" />
-				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="Impressum.xhtml" />
-				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="UeberUns.xhtml" />
-				
+
+				<b:navCommandLink iconAwesome="group" value="#{msg.Kontakt}"
+					href="kontakt.xhtml" />
+				<b:navCommandLink iconAwesome="info" value="#{msg.Impressum}"
+					href="Impressum.xhtml" />
+				<b:navCommandLink iconAwesome="leaf" value="#{msg.UeberUns}"
+					href="UeberUns.xhtml" />
+
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
 					<b:navCommandLink value="#{msg.deutsch} (DE)  "
 						action="#{loginHandler.deutschLang()}" immediate="true">
@@ -50,29 +52,32 @@
 	<h:form>
 
 		<b:container styleClass="content-container">
-			<b:jumbotron >
+			<b:jumbotron>
 				<h3>#{msg.Kontakt}</h3>
 			</b:jumbotron>
-			
-			<h4 style="color: white" >#{msg.Kontakt}</h4>
-			<p style="color: white">
-				Telefon: +49 (0) 1542748596588
-				<br />
-				#{msg.Email}:	infos@beliso-shop.de
-				<br />
-				#{msg.tabs_name_Adresse} : Stadtwerke Musterstadt, 50829 Köln.
+
+			<h4>#{msg.Kontakt}</h4>
+			<p>
+				Telefon: +49 (0) 1542748596588 <br /> #{msg.Email}:
+				infos@beliso-shop.de <br /> #{msg.tabs_name_Adresse} : Stadtwerke
+				Musterstadt, 50829 Köln.
 			</p>
-						
-			<script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true"></script>
-			<h4 style="color: white">Google Maps</h4>
-       		<p:gmap center="50.987904,6.886009" zoom="15" type="HYBRID" style="width:100%;height:500px" />
+
+			<script type="text/javascript"
+				src="https://maps.google.com/maps/api/js?sensor=true"></script>
+			<h4>Google Maps</h4>
+			<p:gmap center="50.987904,6.886009" zoom="15" type="HYBRID"
+				style="width:100%;height:500px" />
 		</b:container>
 	</h:form>
 
 	<div id="footer">
+		<p:graphicImage style="width:200px;height:40px;"
+			value="resources/IMAGES/finallogo1.png" />
 		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
 			WEB-APPLICATION </span>
 	</div>
+
 </h:body>
 
 </html>

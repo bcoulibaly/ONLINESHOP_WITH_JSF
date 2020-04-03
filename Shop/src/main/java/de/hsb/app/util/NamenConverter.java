@@ -21,6 +21,7 @@ public class NamenConverter implements Converter {
 			return null;
 		else {
 			try {
+				
 				char newChar = value.charAt(0);
 				newChar = Character.toUpperCase(newChar);
 				value = value.replaceFirst(String.valueOf(value.charAt(0)), String.valueOf(newChar));

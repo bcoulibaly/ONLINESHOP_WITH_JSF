@@ -4,7 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
-
+<f:view locale="#{loginHandler.locale}"/>
 <h:head>
 	<title><ui:insert name="title">Belisso Shop - Warenkorb</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/alleKunden.css"
@@ -17,28 +17,30 @@
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
 
 	<h:form>
-		<b:navBar id="top" brand="BELISO SHOP"
+		<b:navBar id="top"
 			brandImg="resources/IMAGES/finallogo1.png"
-			brand-img-style="width:40px;
-				height:30px" fluid="true"
-			sticky="true">
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
+			fluid="true" sticky="true">
 			<b:navbarLinks pull="right">
 
-				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="kontakt.xhtml" />
-				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="Impressum.xhtml" />
-				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="UeberUns.xhtml" />
-				
+				<b:navCommandLink iconAwesome="group" value="#{msg.Kontakt}"
+					href="kontakt.xhtml" />
+				<b:navCommandLink iconAwesome="info" value="#{msg.Impressum}"
+					href="Impressum.xhtml" />
+				<b:navCommandLink iconAwesome="leaf" value="#{msg.UeberUns}"
+					href="UeberUns.xhtml" />
+
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
-					<b:navCommandLink value="DE"
-						action="#{loginHandler.deutschLang()}" immediate="true">
+					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
+						immediate="true">
 						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
 					</b:navCommandLink>
 					<b:navCommandLink value="EN"
 						action="#{loginHandler.englischLang()}" immediate="true">
 						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
 					</b:navCommandLink>
-					<b:navCommandLink value="FR"
-						action="#{loginHandler.frenchLang()}" immediate="true">
+					<b:navCommandLink value="FR" action="#{loginHandler.frenchLang()}"
+						immediate="true">
 						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
 					</b:navCommandLink>
 				</b:dropMenu>
@@ -81,14 +83,15 @@
 				</div>
 				<br />
 				<p:dataTable id="artikels" value="#{loginHandler.user.warenkorb}"
-					style="background-color:white;" var="artikel" rows="5" emptyMessage="#{msg.keineAufzeichnungen}"
-					selectionMode="single" selection="#{loginHandler.merkeArtikel}"
-					rowKey="#{artikel.name}" paginator="true">
-
+					style="background-color:white;" var="artikel" rows="5"
+					emptyMessage="#{msg.keineAufzeichnungen}" selectionMode="single"
+					selection="#{loginHandler.merkeArtikel}" rowKey="#{artikel.name}"
+					paginator="true">
+					
+					
 					<f:facet name="header">
-						<p:commandButton id="toggler" type="button"
-							value="#{msg.Spalte}" style="float:left"
-							icon="pi pi-align-justify" />
+						<p:commandButton id="toggler" type="button" value="#{msg.Spalte}"
+							style="float:left" icon="pi pi-align-justify" />
 						<p:columnToggler datasource="artikels" trigger="toggler" />
 					</f:facet>
 					<p:column>
@@ -98,7 +101,7 @@
 					<p:column>
 						<f:facet name="header">#{msg.Bild}</f:facet>
 						<p:graphicImage width="80px" height="50px"
-							value="/resources/IMAGES/ARTIKEL/#{artikel.image}" />
+							value="/resources/IMAGES/ARTIKEL/#{artikel.imgName}" />
 					</p:column>
 					<p:column>
 						<f:facet name="header">#{msg.Anzahl}</f:facet>
@@ -106,11 +109,15 @@
 					</p:column>
 					<p:column>
 						<f:facet name="header">#{msg.preis}</f:facet>
-						<h:outputText value="#{artikel.preis} €" />
+						<h:outputText value="#{artikel.preis}" > €
+							<f:convertNumber pattern="#0.00"/>
+						</h:outputText>
 					</p:column>
 					<p:column>
 						<f:facet name="header">#{msg.TotalPreis}</f:facet>
-						<h:outputText value="#{artikel.preisxnumber} €" />
+						<h:outputText value="#{artikel.preisxnumber}">
+						<f:convertNumber pattern="#0.00"/>€
+						</h:outputText>
 					</p:column>
 					<p:column>
 						<f:facet name="header">#{msg.Loeschen}</f:facet>
@@ -119,8 +126,7 @@
 					</p:column>
 				</p:dataTable>
 
-				<p:panel header="#{msg.KreditkarteDetails}"
-					style="margin-top:20px;">
+				<p:panel header="#{msg.KreditkarteDetails}" style="margin-top:20px;">
 					<p:messages />
 					<p:panelGrid columns="2" columnClasses="label, value">
 						<h:outputText value="#{msg.ArtderKreditkarte}: " />
@@ -143,9 +149,8 @@
 						</p:inputText>
 
 						<h:outputText value="#{msg.Gueltigbis} : " />
-						<p:datePicker id="validCard" yearNavigator="true" required="true"
+						<p:calendar id="validCard" navigator="true" required="true"
 							requiredMessage="#{msg.Gueltigbis_fehler}"
-							monthNavigator="true" hideOnDateTimeSelect="true"
 							value="#{loginHandler.kreditKarte.endDate}" pattern="MM/yyyy"
 							mindate="#{loginHandler.maxDate}" />
 					</p:panelGrid>
@@ -160,26 +165,32 @@
 
 					<h:outputLabel for="totalPreis" value="#{msg.TotalPreis} :" />
 					<h:outputText id="totalPreis"
-						value="#{loginHandler.totalPreisInsWarenkorb} €" />
+						value="#{loginHandler.totalPreisInsWarenkorb} " >€
+						<f:convertNumber pattern="#0.00"/>
+					</h:outputText>
 				</p:panelGrid>
 
 				<p:commandButton id="shop" action="#{loginHandler.abbrechen()}"
 					value="#{msg.ZurueckZumShop}" immediate="true" />
 
-				<p:commandButton id="confirmShop" update="@form" style="margin-left:600px"
-					action="#{loginHandler.Kaufbestätigen()}"
+				<p:commandButton id="confirmShop" update="@form"
+					style="margin-left:600px" action="#{loginHandler.Kaufbestätigen()}"
 					value="#{msg.KaufBestaetigen}">
-					<f:actionListener binding="#{artikelHandler.updateArtikelnList(null)}"/>
+					<f:actionListener
+						binding="#{artikelHandler.updateArtikelnList(null)}" />
 				</p:commandButton>
 
 			</div>
 		</div>
 	</h:form>
 
-	<div  id="footer">
+	<div id="footer">
+		<p:graphicImage style="width:200px;height:40px;"
+			value="resources/IMAGES/finallogo1.png" />
 		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
 			WEB-APPLICATION </span>
 	</div>
-	
+
+
 </h:body>
 </html>

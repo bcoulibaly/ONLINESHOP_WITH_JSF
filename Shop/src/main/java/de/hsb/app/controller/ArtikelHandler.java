@@ -4,15 +4,16 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
 
 import javax.annotation.Resource;
 import javax.faces.application.FacesMessage;
 import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ManagedProperty;
 import javax.faces.bean.SessionScoped;
-import javax.faces.context.ExternalContext;
 import javax.faces.context.FacesContext;
 import javax.faces.event.ActionListener;
+import javax.faces.event.ComponentSystemEvent;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
 import javax.persistence.EntityManager;
@@ -26,7 +27,6 @@ import javax.transaction.UserTransaction;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
-import org.primefaces.shaded.commons.io.FilenameUtils;
 
 import de.hsb.app.Model.Artikel;
 
@@ -38,13 +38,15 @@ public class ArtikelHandler {
 	private EntityManager entityManager;
 	@Resource
 	private UserTransaction artikelTransaction;
-	
+
 	@ManagedProperty(value = "#{shop.artikelList}")
 	private DataModel<Artikel> artikelListe;
 
-	private Artikel merkeArtikel=new Artikel();
+	private Artikel merkeArtikel = new Artikel();
 
 	private UploadedFile uploadedFile;
+	private UploadedFile tmpuploadedFile;
+	private String fileName="nichts";
 
 //	@PostConstruct
 //	public void init() {
@@ -64,6 +66,14 @@ public class ArtikelHandler {
 
 	public String speichernArtikel() {
 		try {
+			
+//			Path folder=Paths.get("F:/Files");
+//            String filename = FilenameUtils.getBaseName(uploadFile.getFileName()); 
+//            String extension = FilenameUtils.getExtension(uploadFile.getFileName());
+//            Path file = Files.createTempFile(folder, filename + "-", "." + extension);
+//            Files.copy(input, file, StandardCopyOption.REPLACE_EXISTING);
+			
+			saveImage();
 			artikelTransaction.begin();
 			merkeArtikel = entityManager.merge(merkeArtikel);
 			entityManager.persist(merkeArtikel);
@@ -91,37 +101,38 @@ public class ArtikelHandler {
 		}
 		return "/homePageAdmin.xhtml?faces-redirect=true";
 	}
+	
+	public void saveFileListener(FileUploadEvent event) {
+		tmpuploadedFile= event.getFile();
+		uploadedFile=tmpuploadedFile;
+		fileName = event.getFile().getFileName();
+		FacesMessage msg = new FacesMessage("Successful", event.getFile().getFileName() + " is uploaded.");
+        FacesContext.getCurrentInstance().addMessage(null, msg);
+	}
 
-	public void saveImage(FileUploadEvent event) {
-		
-		ExternalContext extContext = FacesContext.getCurrentInstance().getExternalContext();		
-		String filename = FilenameUtils.getBaseName(event.getFile().getFileName());
-		String extension = FilenameUtils.getExtension(event.getFile().getFileName());
-		File result = new File(extContext.getApplicationContextPath()+"/resources/IMAGES/ARTIKEL/"+ event.getFile().getFileName());
-		merkeArtikel.setImgName(filename+extension);
-		merkeArtikel.setImage(filename+extension);
+	public void saveImage() {
+
+		String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/")+File.separator
+				+"resources"+File.separator+"IMAGES"+File.separator+ "ARTIKEL"+File.separator;
+		System.out.println(path);
+
 		try {
-			FileOutputStream fileOutputStream = new FileOutputStream(result);
+			OutputStream out = new FileOutputStream(new File(path + uploadedFile.getFileName()));
 
-			byte[] buffer = new byte[1024];
+			int read = 0;
+			byte[] bytes = uploadedFile.getContents();
 
-			int bulk;
-			InputStream inputStream = event.getFile().getInputstream();
-			while (true) {
-				bulk = inputStream.read(buffer);
-				if (bulk < 0) {
-					break;
-				}
-				fileOutputStream.write(buffer, 0, bulk);
-				fileOutputStream.flush();
+			InputStream in = uploadedFile.getInputstream();
+			while ((read = in.read(bytes)) != -1) {
+				out.write(bytes, 0, read);
 			}
 
-			fileOutputStream.close();
-			inputStream.close();
-
-			FacesMessage msg = new FacesMessage("Succesful", event.getFile().getFileName() + " is uploaded.");
+			in.close();
+			out.flush();
+			out.close();
+			FacesMessage msg = new FacesMessage("Succesful", uploadedFile.getFileName() + " is uploaded at " +path);
 			FacesContext.getCurrentInstance().addMessage(null, msg);
-
+				
 		} catch (IOException e) {
 			e.printStackTrace();
 
@@ -129,12 +140,17 @@ public class ArtikelHandler {
 			FacesContext.getCurrentInstance().addMessage(null, error);
 		}
 	}
-	
+
 	public void updateArtikelnList(ActionListener event) {
 		artikelListe = new ListDataModel<Artikel>();
 		artikelListe.setWrappedData(entityManager.createNamedQuery("SelectArtikel").getResultList());
 	}
-	
+
+	public void updateArtikelnListen(ComponentSystemEvent event) {
+		artikelListe = new ListDataModel<Artikel>();
+		artikelListe.setWrappedData(entityManager.createNamedQuery("SelectArtikel").getResultList());
+	}
+
 	public void updateArtikelList() {
 		artikelListe = new ListDataModel<Artikel>();
 		artikelListe.setWrappedData(entityManager.createNamedQuery("SelectArtikel").getResultList());
@@ -178,6 +194,22 @@ public class ArtikelHandler {
 
 	public void setUploadedFile(UploadedFile uploadedFile) {
 		this.uploadedFile = uploadedFile;
+	}
+
+	public UploadedFile getTmpuploadedFile() {
+		return tmpuploadedFile;
+	}
+
+	public void setTmpuploadedFile(UploadedFile tmpuploadedFile) {
+		this.tmpuploadedFile = tmpuploadedFile;
+	}
+
+	public String getFileName() {
+		return fileName;
+	}
+
+	public void setFileName(String fileName) {
+		this.fileName = fileName;
 	}
 
 }

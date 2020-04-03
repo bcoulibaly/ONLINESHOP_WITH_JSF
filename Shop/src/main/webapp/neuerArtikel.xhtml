@@ -4,29 +4,30 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
-
+<f:view locale="#{loginHandler.locale}" />
 <h:head>
-	<title><ui:insert name="title">Artikel verwaltung</ui:insert></title>
+	<title><ui:insert name="title">Belisso Shop - Neuer Artikel hinzufügen</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
-	<!-- <link rel="stylesheet" href="resources/fontaws/css/font-awesome.css" /> -->
 	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
+
 </h:head>
 
 <h:body>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
 	<h:form id="top">
 
-		<b:navBar id="top" brand="BELISO SHOP"
-			brandImg="resources/IMAGES/finallogo1.png"
-			brand-img-style="width:40px;
-				height:30px" fluid="true"
-			sticky="true">
+		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
+			fluid="true" sticky="true">
 			<b:navbarLinks pull="right">
-				
-				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="kontakt.xhtml" />
-				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="Impressum.xhtml" />
-				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="UeberUns.xhtml" />
-				
+
+				<b:navCommandLink iconAwesome="group" value="#{msg.Kontakt}"
+					href="kontakt.xhtml" />
+				<b:navCommandLink iconAwesome="info" value="#{msg.Impressum}"
+					href="Impressum.xhtml" />
+				<b:navCommandLink iconAwesome="leaf" value="#{msg.UeberUns}"
+					href="UeberUns.xhtml" />
+
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
 					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
 						immediate="true">
@@ -36,8 +37,8 @@
 						action="#{loginHandler.englischLang()}" immediate="true">
 						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
 					</b:navCommandLink>
-					<b:navCommandLink value="FR"
-						action="#{loginHandler.frenchLang()}" immediate="true">
+					<b:navCommandLink value="FR" action="#{loginHandler.frenchLang()}"
+						immediate="true">
 						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
 					</b:navCommandLink>
 				</b:dropMenu>
@@ -55,70 +56,73 @@
 	</h:form>
 
 	<hr width="80%" align="center" />
-	<h2 id="headPage" align="center">
+	<h2 id="headPage" align="center" style="color: white;">
 		<ui:insert name="headPage">#{msg.NeuenArtikelAnlegen}</ui:insert>
 	</h2>
 	<hr width="80%" align="center" />
 
 	<b:container styleClass="content-container" align="center">
 		<h:form id="neuArtikel">
-			<p:growl placementFrom="top" show-detail="true" global-only="false"
-				show-summary="true" allow-dismiss="true"
-				animation-enter="animated bounceInDown"
-				animation-exit="animated flipOutX" escape="true" />
+			<p:growl id="messages" showDetail="true" />
+			<p:panel>
+				<h:panelGrid value="#{artikelHandler.merkeArtikel}" columns="2"
+					headerClass="header" footerClass="footer">
 
-			<h:panelGrid var="artikel" value="#{artikelHandler.merkeArtikel}"
-				columns="2" headerClass="header" footerClass="footer">
+					<h:outputLabel value="#{msg.Bild}" for="img" />
+					<p:fileUpload id="img"
+						fileUploadListener="#{artikelHandler.saveFileListener}"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="advanced"
+						update="messages,fileName" />
 
-				<h:outputLabel value="#{msg.Bild}" for="img" />
-				<h:panelGroup>
-					<p:fileUpload id="img" skinSimple="true" accept="image/*"
-						listener="#{artikelHandler.saveImage()}"
-						validateContentType="true" mode="advanced" dragDropSupport="true"
-						sizeLimit="3000000" allowTypes="/(\.|\/)(gif|jpeg|png)$/" />
-				</h:panelGroup>
+					<p:messages id="msgs" showDetail="true" />
+					<h:outputLabel id="fileName" value="#{artikelHandler.fileName}" />
 
-				<h:outputLabel value="#{msg.Name}:" for="name" />
-				<h:panelGroup>
-					<h:inputText id="name" required="true"
-						requiredMessage="#{msg.Name_fehlt}"
-						value="#{artikelHandler.merkeArtikel.name}" />
-				</h:panelGroup>
+					<h:outputLabel value="#{msg.Name}:" for="name" />
+					<h:panelGroup>
+						<h:inputText id="name" required="true"
+							requiredMessage="#{msg.Name_fehlt}"
+							value="#{artikelHandler.merkeArtikel.name}" />
+					</h:panelGroup>
 
-				<h:outputLabel value="#{msg.Anzahl}:" for="anzahl" />
-				<h:panelGroup>
-					<h:inputText id="anzahl" converter="javax.faces.Integer"
-						required="true" requiredMessage="#{msg.AnzahlFehlt}"
-						value="#{artikelHandler.merkeArtikel.anzahl}" />
-				</h:panelGroup>
+					<h:outputLabel value="#{msg.Anzahl}:" for="anzahl" />
+					<h:panelGroup>
+						<h:inputText id="anzahl" converter="javax.faces.Integer"
+							required="true" requiredMessage="#{msg.AnzahlFehlt}"
+							value="#{artikelHandler.merkeArtikel.anzahl}" />
+					</h:panelGroup>
 
-				<h:outputLabel value="#{msg.preis}:" for="preis" />
-				<h:panelGroup>
-					<h:inputText id="preis" converter="javax.faces.Double"
-						required="true" requiredMessage="#{msg.PreisFehler}"
-						value="#{artikelHandler.merkeArtikel.preis}" />
-				</h:panelGroup>
+					<h:outputLabel value="#{msg.preis}:" for="preis" />
+					<h:panelGroup>
+						<h:inputText id="preis" converter="javax.faces.Double"
+							required="true" requiredMessage="#{msg.PreisFehler}"
+							value="#{artikelHandler.merkeArtikel.preis}">
+							<f:convertNumber pattern="#0.00" />
+						</h:inputText>
+					</h:panelGroup>
 
-				<h:outputLabel value="#{msg.Beschreibung}:" for="desc" />
-				<h:panelGroup>
-					<p:inputTextarea id="desc"
-						value="#{artikelHandler.merkeArtikel.beschreibung}" />
-				</h:panelGroup>
-			</h:panelGrid>
-			<br />
-			<p:commandButton action="#{artikelHandler.speichernArtikel}"
-				value="#{msg.Speichern}" />
-			<p:commandButton
-				action="#{loginHandler.abbrechen(loginHandler.user)}"
-				value="#{msg.Abbrechen}" />
+					<h:outputLabel value="#{msg.Beschreibung}:" for="desc" />
+					<h:panelGroup>
+						<p:inputTextarea id="desc"
+							value="#{artikelHandler.merkeArtikel.beschreibung}" />
+					</h:panelGroup>
+					<p:commandButton action="#{artikelHandler.speichernArtikel}" update="messages"
+						value="#{msg.Speichern}" />
+					<p:commandButton action="#{loginHandler.abbrechen()}"
+						value="#{msg.Abbrechen}" />
+				</h:panelGrid>
+				<br />
+			</p:panel>
 		</h:form>
-		<br />
+
 	</b:container>
 
 	<div id="footer">
-		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
+		<p:graphicImage style="width:200px;height:40px;"
+			value="resources/IMAGES/finallogo1.png" />
+		<span> ©Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
 			WEB-APPLICATION </span>
 	</div>
+
 </h:body>
 
 </html>
