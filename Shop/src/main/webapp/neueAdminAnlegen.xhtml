@@ -189,9 +189,9 @@
 
 							<h:outputText value="#{msg.Gueltigbis} : " />
 							<p:calendar id="validCard" navigator="true"
-								value="#{loginHandler.kreditKarte.endDate}" pattern="dd/MM/yyyy"
+								value="#{loginHandler.kreditKarte.endDate}" pattern="MM/yyyy"
 								mindate="#{loginHandler.maxDate}">
-								<f:convertDateTime pattern="dd/MM/yyyy" type="date" />
+								<f:convertDateTime pattern="MM/yyyy" type="date" />
 							</p:calendar>
 
 						</p:panelGrid>
@@ -234,7 +234,10 @@
 
 								<h:outputText value="#{msg.Geburtsdatum} : " />
 								<h:outputText value="#{loginHandler.merkeKunde.geburtsdatum}"
-									styleClass="outputLabel" />
+									styleClass="outputLabel" >
+									<f:convertDateTime locale="#{loginHandler.locale}"
+											pattern="MM/yyyy" />
+								</h:outputText>
 							</p:panelGrid>
 
 							<p:panelGrid columns="2" columnClasses="label, value">
@@ -266,7 +269,10 @@
 
 								<h:outputText value="#{msg.Gueltigbis} : " />
 								<h:outputText value="#{loginHandler.kreditKarte.endDate}"
-									styleClass="outputLabel" />
+									styleClass="outputLabel">
+									<f:convertDateTime locale="#{loginHandler.locale}"
+											pattern="MM/yyyy" />
+								</h:outputText>
 							</p:panelGrid>
 
 							<p:panelGrid columns="2" columnClasses="label, value">

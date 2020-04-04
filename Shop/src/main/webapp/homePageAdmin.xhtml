@@ -103,8 +103,8 @@
 						<h:outputText value="#{kunde.benutzername}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg.Strasse}</f:facet>
-						<h:outputText value="#{kunde.strasse}" />
+						<f:facet name="header">#{msg.tabs_name_Adresse}</f:facet>
+						<h:outputText value="#{kunde.strasse}, #{kunde.plz} #{kunde.ort}" />
 					</p:column>
 					<p:column>
 						<f:facet name="header">#{msg.Geburtsdatum}</f:facet>

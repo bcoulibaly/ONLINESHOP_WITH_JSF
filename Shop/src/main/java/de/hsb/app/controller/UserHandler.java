@@ -253,27 +253,28 @@ public class UserHandler implements Serializable {
 	/** Speichert die bearbeitete Daten des aktuellen Benutzer **/
 	public void bearbeitungSpeichern() {
 		try {
-			System.out.println("Speichern wurde aufgerufen");
 			userTransaction.begin();
-
-			kreditKarte = entityManager.merge(kreditKarte);
-			entityManager.persist(kreditKarte);
 
 			user.setKreditKarte(kreditKarte);
 			user = entityManager.merge(user);
 			entityManager.persist(user);
-
-			updateUserList();
+			
+			kreditKarte = entityManager.merge(kreditKarte);
+			entityManager.persist(kreditKarte);
+			
 			userTransaction.commit();
+			updateUserList();
 		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
 
 		if (user.getRolle() == Rolle.ADMIN) {
+			System.out.println("WEITERLEITUNG ZU hOME PAGE ADMIN");
 			context.getApplication().getNavigationHandler().handleNavigation(context, null,
 					"/homePageAdmin.xhtml?faces-redirect=true");
 		} else {
+			System.out.println("WEITERLEITUNG ZU HOMEALS NORMAL USER");
 			context.getApplication().getNavigationHandler().handleNavigation(context, null,
 					"/home.xhtml?faces-redirect=true");
 		}
@@ -284,16 +285,16 @@ public class UserHandler implements Serializable {
 		try {
 			System.out.println("Speichern wurde aufgerufen");
 			userTransaction.begin();
-
-			kreditKarte.setUser(merkeKunde);
-			kreditKarte = entityManager.merge(kreditKarte);
-			entityManager.persist(kreditKarte);
-
+			
 			merkeKunde.setKreditKarte(kreditKarte);
 			merkeKunde = entityManager.merge(merkeKunde);
 			entityManager.persist(merkeKunde);
-			updateUserList();
+			
+			kreditKarte.setUser(merkeKunde);
+			kreditKarte = entityManager.merge(kreditKarte);
+			entityManager.persist(kreditKarte);
 			userTransaction.commit();
+			updateUserList();
 			
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"USER","Bearbeitung wurde Erfolgreich gespeichert"));
 			context.getApplication().getNavigationHandler().handleNavigation(context, null,

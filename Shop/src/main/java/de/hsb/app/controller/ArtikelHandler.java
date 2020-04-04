@@ -1,10 +1,11 @@
 package de.hsb.app.controller;
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
 import javax.annotation.Resource;
 import javax.faces.application.FacesMessage;
@@ -27,6 +28,7 @@ import javax.transaction.UserTransaction;
 
 import org.primefaces.event.FileUploadEvent;
 import org.primefaces.model.UploadedFile;
+import org.primefaces.shaded.commons.io.FilenameUtils;
 
 import de.hsb.app.Model.Artikel;
 
@@ -67,20 +69,21 @@ public class ArtikelHandler {
 	public String speichernArtikel() {
 		try {
 			
-//			Path folder=Paths.get("F:/Files");
-//            String filename = FilenameUtils.getBaseName(uploadFile.getFileName()); 
-//            String extension = FilenameUtils.getExtension(uploadFile.getFileName());
-//            Path file = Files.createTempFile(folder, filename + "-", "." + extension);
-//            Files.copy(input, file, StandardCopyOption.REPLACE_EXISTING);
-			
-			saveImage();
+			Path folder=Paths.get( FacesContext.getCurrentInstance().getExternalContext().getRealPath("/")+File.separator
+					+"resources"+File.separator+"IMAGES"+File.separator+ "ARTIKEL"+File.separator);
+			System.out.println(folder.toAbsolutePath().toString());
+            String filename = FilenameUtils.getBaseName(uploadedFile.getFileName()); 
+            String extension = FilenameUtils.getExtension(uploadedFile.getFileName());
+            Path file = Files.createTempFile(folder, filename + "-", "." + extension);
+            Files.copy(uploadedFile.getInputstream(), file, StandardCopyOption.REPLACE_EXISTING);
+//			saveImage();
 			artikelTransaction.begin();
 			merkeArtikel = entityManager.merge(merkeArtikel);
 			entityManager.persist(merkeArtikel);
 			artikelTransaction.commit();
 			updateArtikelList();
 
-		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
+		} catch (NotSupportedException | SystemException | IOException | SecurityException | IllegalStateException | RollbackException
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
@@ -110,36 +113,36 @@ public class ArtikelHandler {
         FacesContext.getCurrentInstance().addMessage(null, msg);
 	}
 
-	public void saveImage() {
-
-		String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/")+File.separator
-				+"resources"+File.separator+"IMAGES"+File.separator+ "ARTIKEL"+File.separator;
-		System.out.println(path);
-
-		try {
-			OutputStream out = new FileOutputStream(new File(path + uploadedFile.getFileName()));
-
-			int read = 0;
-			byte[] bytes = uploadedFile.getContents();
-
-			InputStream in = uploadedFile.getInputstream();
-			while ((read = in.read(bytes)) != -1) {
-				out.write(bytes, 0, read);
-			}
-
-			in.close();
-			out.flush();
-			out.close();
-			FacesMessage msg = new FacesMessage("Succesful", uploadedFile.getFileName() + " is uploaded at " +path);
-			FacesContext.getCurrentInstance().addMessage(null, msg);
-				
-		} catch (IOException e) {
-			e.printStackTrace();
-
-			FacesMessage error = new FacesMessage("The files were  not uploaded!");
-			FacesContext.getCurrentInstance().addMessage(null, error);
-		}
-	}
+//	public void saveImage() {
+//
+//		String path = FacesContext.getCurrentInstance().getExternalContext().getRealPath("/")+File.separator
+//				+"resources"+File.separator+"IMAGES"+File.separator+ "ARTIKEL"+File.separator;
+//		System.out.println(path);
+//
+//		try {
+//			OutputStream out = new FileOutputStream(new File(path + uploadedFile.getFileName()));
+//
+//			int read = 0;
+//			byte[] bytes = uploadedFile.getContents();
+//
+//			InputStream in = uploadedFile.getInputstream();
+//			while ((read = in.read(bytes)) != -1) {
+//				out.write(bytes, 0, read);
+//			}
+//
+//			in.close();
+//			out.flush();
+//			out.close();
+//			FacesMessage msg = new FacesMessage("Succesful", uploadedFile.getFileName() + " is uploaded at " +path);
+//			FacesContext.getCurrentInstance().addMessage(null, msg);
+//				
+//		} catch (IOException e) {
+//			e.printStackTrace();
+//
+//			FacesMessage error = new FacesMessage("The files were  not uploaded!");
+//			FacesContext.getCurrentInstance().addMessage(null, error);
+//		}
+//	}
 
 	public void updateArtikelnList(ActionListener event) {
 		artikelListe = new ListDataModel<Artikel>();

@@ -98,19 +98,19 @@ grid {
 				style="background-color:DodgerBlue">
 
 				<h:outputLabel value="#{msg.Bild} :" for="img" />
-				<h:panelGroup>
-					<p:graphicImage width="80px" height="50px"
-						value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.image}" />
-
-				</h:panelGroup>
+				<p:graphicImage width="80px" height="50px"
+						value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.imgName}" />
+				<p:messages id="msgs" showDetail="true" />
+					<h:outputLabel id="fileName" value="#{artikelHandler.fileName}" />
 
 				<h:outputLabel value="#{msg.NeuesBildHochladen} :" for="img" />
-				<h:panelGroup>
-					<p:fileUpload id="img"
-						fileUploadListener="#{artikelHandler.saveImage()}" mode="advanced"
-						dragDropSupport="true" sizeLimit="3000000"
-						allowTypes="/(\.|\/)(gif|jpeg|png)$/" />
-				</h:panelGroup>
+				<p:fileUpload id="img"
+						fileUploadListener="#{artikelHandler.saveFileListener}"
+						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="advanced"
+						update="messages,fileName" />
+
+					<p:messages id="msgs" showDetail="true" />
+					<h:outputLabel id="fileName" value="#{artikelHandler.fileName}" />
 
 				<h:outputLabel value="#{msg.Name} :" for="name" />
 				<h:panelGroup>

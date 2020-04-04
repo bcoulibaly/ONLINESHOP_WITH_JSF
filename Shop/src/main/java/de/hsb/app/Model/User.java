@@ -81,7 +81,7 @@ public class User {
 	@Column(name = "GEBURTSDATUM")
 	private Date geburtsdatum;
 
-	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+	@OneToMany(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
 	private List<Artikel> warenkorb;
 
 	private double gesamtPreis;
