@@ -72,12 +72,12 @@
 
 
 			<p:dataGrid var="ca" value="#{artikelHandler.artikelListe}"
-				columns="3" rows="8" paginator="true"
+				columns="3" rows="9" paginator="true"
 				style="width:100%; margin-top: 50px;"
 				emptyMessage="#{msg.keineAufzeichnungen}"
 				currentPageReportTemplate="{startRecord}-{endRecord} #{msg.von} {totalRecords} #{msg.Aufzeichnung}"
 				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="8,12,16">
+				rowsPerPageTemplate="12,15,18">
 
 				<b:panel style="text-align:center;">
 					<b:panelGrid columns="1" style="width:100%;">
@@ -108,7 +108,9 @@
 
 				<h:outputLabel for="totalPreis" value="#{msg.TotalPreis} :" />
 				<h:outputText id="totalPreis"
-					value="#{loginHandler.totalPreisInsWarenkorb} €" />
+					value="#{loginHandler.totalPreisInsWarenkorb} €">
+					<f:convertNumber maxFractionDigits="1" pattern="#0.00" />
+				</h:outputText>
 			</p:panelGrid>
 
 			<p:dialog widgetVar="infoDialog"
@@ -140,7 +142,7 @@
 
 						<h:outputLabel for="spinner" value="#{msg.Anzahl} : " />
 						<p:outputPanel>
-							<p:spinner id="spinner" stepFactor="1"
+							<p:spinner id="spinner" stepFactor="1" min="1"
 								value="#{artikelHandler.merkeArtikel.kaufAnzahl}" />
 						</p:outputPanel>
 						<h:outputLabel />

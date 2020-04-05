@@ -69,7 +69,7 @@ public class UserHandler implements Serializable {
 	private boolean skip;
 	private Date maxDate;
 
-	private int totalArtikelInsWarenkorb = 0;
+	private long totalArtikelInsWarenkorb = 0;
 	private double totalPreisInsWarenkorb = 0;
 
 	private String locale = "de";
@@ -497,15 +497,15 @@ public class UserHandler implements Serializable {
 	 */
 	public void addToCardShop() {
 		try {
-			userTransaction.begin();
 			if (merkeArtikel.getKaufAnzahl() < merkeArtikel.getAnzahl()) {
+				userTransaction.begin();
 				user.getWarenkorb().add(merkeArtikel);
-				merkeArtikel.setUser(user);
+//				merkeArtikel.setUser(user);
 				totalArtikelInsWarenkorb = user.getTotalArtikel();
 				totalPreisInsWarenkorb = user.getGesamtPreis();
 				user = entityManager.merge(user);
-				merkeArtikel = entityManager.merge(merkeArtikel);
 				entityManager.persist(user);
+				merkeArtikel = entityManager.merge(merkeArtikel);
 				entityManager.persist(merkeArtikel);
 				userTransaction.commit();
 				context.addMessage(null, new FacesMessage("Artikel erfolgreich in Warenkorb hinzugefügt"));
@@ -638,11 +638,11 @@ public class UserHandler implements Serializable {
 		this.kreditKarte = kreditKarte;
 	}
 
-	public int getTotalArtikelInsWarenkorb() {
+	public long getTotalArtikelInsWarenkorb() {
 		return totalArtikelInsWarenkorb;
 	}
 
-	public void setTotalArtikelInsWarenkorb(int totalArtikelInsWarenkorb) {
+	public void setTotalArtikelInsWarenkorb(long totalArtikelInsWarenkorb) {
 		this.totalArtikelInsWarenkorb = totalArtikelInsWarenkorb;
 	}
 

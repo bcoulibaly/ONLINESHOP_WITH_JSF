@@ -90,44 +90,44 @@ public class Shop {
 			this.kundenList.setWrappedData(entityManager.createNamedQuery("SelectUser").getResultList());
 
 			appTransaction.begin();
-			entityManager.persist(new Artikel("Surface Book 2", "Das sollte eine Beschribung sein", 2999.99,
+			entityManager.persist(new Artikel("Surface Book 2", "Das sollte eine Beschreibung sein", 2999.99,
 					"Microsoft_Surface_Laptop_2.png", 12));
 			entityManager.persist(
-					new Artikel("IPhone 7", "Tolles Handy mit hohem Display auflösung", 689.99, "Iphone7.png", 19));
+					new Artikel("IPhone 7", "Tolles Handy mit hoher Displayauflösung", 689.99, "Iphone7.png", 19));
 			entityManager.persist(new Artikel("Canon Photo",
-					"Apparat Photo von Canon mit tollen Effekten wie Panorama,Zeitraffler, Scharf, 8GB-Speicherplatz",
+					"Kamera von Canon mit tollen Effekten wie Panorama, Zeitraffer, Scharf, 8GB-Speicherplatz",
 					259.99, "canon_photo.png", 40));
 
 			entityManager.persist(new Artikel("Apple Monitor",
-					"Letzte Generation Monitor von Apple mit 3258*2500 Auflösung, 4HDMI, VGA, 4USB 3.0, integrierte Front-Kamera",
+					"Neueste Generation Monitor von Apple mit 3258*2500 Auflösung, 4HDMI, VGA, 4USB 3.0, integrierte Front-Kamera",
 					1099.99, "apple-Monitor.png", 40));
 
 			entityManager.persist(new Artikel("Arduino Board ",
-					"Mini-Computer Arduino neueste Generation mit Kamera-Anschlüss, Microphone", 69.99,
+					"Mini-Computer Arduino neueste Generation mit Kamera-Anschluss, Microphone", 69.99,
 					"ArduinoBoard.png", 40));
 
 			entityManager.persist(new Artikel("Gaming Mouse",
-					"Sensibele Gaming Mouse von ??, Empfindlichkeit bis 4 Stufe Einstellbar, Extra Knöpfe an den Seiten fuer ein gemütliches Surfen/ Spiel",
+					"Sensible Gaming Mouse von ??, Empfindlichkeit bis 4 Stufen einstellbar, extra Knöpfe an den Seiten für ein entspanntes Surfen/ Spiel",
 					49.99, "Gaming-mouse.png", 40));
 
-			entityManager.persist(new Artikel("Gaming Tastaur",
-					"Gaming Tastatur füe ein entspanntes Erlebnis beim Spielen oder Schreiben, Soundlos, mit Kabel",
+			entityManager.persist(new Artikel("Gaming Tastatur",
+					"Gaming Tastatur für ein entspanntes Erlebnis beim Spielen oder Schreiben, Soundlos, mit Kabel",
 					79.99, "Gaming Tastatur USB.png", 40));
 
 			entityManager.persist(new Artikel("JBL Lautsprecher Xtrem",
-					"Lautsprecher von JBL Xtrem, eigetlich kann man es für eine Party benutzen, weil es zu Laut ist",
+					"Lautsprecher von JBL Xtrem, wegen der Lautstärke gut für Parties geeignet",
 					259.99, "jbl-sound-xtrem.png", 40));
 
 			entityManager.persist(new Artikel("Monitor Benq",
-					"Monitor vonb Benq, 3D, 3 USB-Anschluesse, 4KUHD, 3 HDMI-Anschluesse, VGA, 3258*2500 Auflösung",
+					"Monitor von Benq, 3D, 3 USB-Anschlüsse, 4K UHD, 3 HDMI-Anschlüsse, VGA, 3258*2500 Auflösung",
 					799.00, "monitor_Benq.png", 40));
 
 			entityManager.persist(new Artikel("Sony Camera S5248",
-					"Sony Kamera mit tollen Effekten wie Panorama, Zeitraffler, slow motion, Portrait, 16GB-Speicherplatz",
+					"Sony Kamera mit tollen Effekten wie Panorama, Zeitraffer, Slow motion, Portrait, 16GB-Speicherplatz",
 					499.99, "sony-camera.png", 40));
 
 			entityManager.persist(new Artikel("Surface Arc Mouse",
-					"Surface Mouse von Microsoft, angenehme Führung des Mauses und Geschwingkeit bis 5mal einstellen, Das Maus ist von Form her verstellbar",
+					"Surface Mouse von Microsoft, angenehme Führung der Mouse und Geschwindigkeit bis 5mal einstellen, die Form der Mouse ist verstellbar",
 					99.99, "Surface Arc Mouse.png", 40));
 			
 			entityManager.flush();

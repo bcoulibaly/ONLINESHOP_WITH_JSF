@@ -116,15 +116,15 @@ public class Artikel {
 		this.imgName = imgName;
 	}
 		
-	 @Override
-	    public boolean equals(Object o) {
-	        if (this == o) return true;
-	        if (!(o instanceof Artikel )) return false;
-	        return id != null && id.equals(((Artikel) o).getId());
-	    }
+	@Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Artikel )) return false;
+        return id != null && id.equals(((Artikel) o).getId());
+    }
 	 
-	 @Override
-	    public int hashCode() {
-	        return 62;
-	    }
+	@Override
+    public int hashCode() {
+        return 62;
+    }
 }

@@ -177,10 +177,10 @@
 								</b:selectOneMenu>
 
 								<h:outputText value="#{msg.Nummer} : " />
-								<p:inputText value="#{loginHandler.kreditKarte.nummer}">
+								<p:inputNumber value="#{loginHandler.kreditKarte.nummer}" minValue="010" >
 									<f:converter converterId="kreditkartenConverter" />
 									<f:validator validatorId="kreditKarteValidator" />
-								</p:inputText>
+								</p:inputNumber>
 
 								<h:outputText value="#{msg.SicherheitsPIN} : " />
 								<p:inputText value="#{loginHandler.kreditKarte.code}">

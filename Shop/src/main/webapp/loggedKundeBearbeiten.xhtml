@@ -180,10 +180,10 @@
 								</p:inputText>
 
 								<h:outputText value="#{msg.SicherheitsPIN} : " />
-								<p:inputText value="#{loginHandler.kreditKarte.code}">
+								<p:inputNumber value="#{loginHandler.kreditKarte.code}"   minValue="010">
 									<f:converter converterId="kreditkartenConverter" />
 									<f:validator validatorId="nummerValidator" />
-								</p:inputText>
+								</p:inputNumber>
 
 								<h:outputText value="#{msg.Gueltigbis} : " />
 								<p:calendar id="validCard" navigator="true"

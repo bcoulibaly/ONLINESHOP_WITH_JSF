@@ -97,8 +97,8 @@ grid {
 			<h:panelGrid columns="2" headerClass="header" footerClass="footer"
 				style="background-color:DodgerBlue">
 
-				<h:outputLabel value="#{msg.Bild} :" for="img" />
-				<p:graphicImage width="80px" height="50px"
+				<h:outputLabel value="#{msg.Bild} :" for="bild" />
+				<p:graphicImage id="bild" width="80px" height="50px"
 						value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.imgName}" />
 				<p:messages id="msgs" showDetail="true" />
 					<h:outputLabel id="fileName" value="#{artikelHandler.fileName}" />

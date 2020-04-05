@@ -165,8 +165,8 @@
 
 					<h:outputLabel for="totalPreis" value="#{msg.TotalPreis} :" />
 					<h:outputText id="totalPreis"
-						value="#{loginHandler.totalPreisInsWarenkorb} " >€
-						<f:convertNumber pattern="#0.00"/>
+						value="#{loginHandler.totalPreisInsWarenkorb} €" >
+						<f:convertNumber maxFractionDigits="1" pattern="#0.00"/>
 					</h:outputText>
 				</p:panelGrid>
 

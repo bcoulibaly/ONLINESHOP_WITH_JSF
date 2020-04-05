@@ -8,7 +8,7 @@
 <h:head>
 	<title><ui:insert name="title">Belisso-Shop- Neuer Admin hinzufügen</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
-	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.jpg" />
+	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.png" />
 
 	<style type="text/css">
 .label {
@@ -182,10 +182,7 @@
 							</p:inputText>
 
 							<h:outputText value="#{msg.SicherheitsPIN} : " />
-							<p:inputText value="#{loginHandler.kreditKarte.code}">
-								<f:converter converterId="kreditkartenConverter" />
-								<f:validator validatorId="nummerValidator" />
-							</p:inputText>
+							<p:inputNumber value="#{loginHandler.kreditKarte.code}" minValue="0" maxValue="999"/>
 
 							<h:outputText value="#{msg.Gueltigbis} : " />
 							<p:calendar id="validCard" navigator="true"

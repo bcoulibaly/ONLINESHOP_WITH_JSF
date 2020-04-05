@@ -87,7 +87,7 @@ public class User {
 	private double gesamtPreis;
 
 	@Column(name = "TOTAL_ARTIKEL")
-	private int totalArtikel;
+	private long totalArtikel;
 
 	@OneToOne(cascade = CascadeType.ALL)
     @JoinTable(name = "user_kreditkarte", 
@@ -244,22 +244,25 @@ public class User {
 	 */
 	private void updateValue() {
 		double tmpPreis = 0.0;
+		long tmpArtikel = 0;
 		for (Artikel artikel : this.warenkorb) {
 			tmpPreis += artikel.getPreis() * artikel.getKaufAnzahl();
+			tmpArtikel += artikel.getKaufAnzahl();
 		}
 		setGesamtPreis(tmpPreis);
+		setTotalArtikel(tmpArtikel);
 	}
 
 	/**
 	 * Gib den anzahl der gesamten Artikeln in einer Warenkorb zurueck.
 	 * @return
 	 */
-	public int getTotalArtikel() {
-		this.totalArtikel = this.warenkorb.size();
+	public long getTotalArtikel() {
+		updateValue();
 		return this.totalArtikel;
 	}
 
-	public void setTotalArtikel(int totalArtikel) {
+	public void setTotalArtikel(long totalArtikel) {
 		this.totalArtikel = totalArtikel;
 	}
 
