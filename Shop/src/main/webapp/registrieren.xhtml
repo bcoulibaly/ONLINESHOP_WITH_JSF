@@ -9,7 +9,7 @@
 
 	<title><ui:insert name="title">Belisso Shop - Registrieren</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
-	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
+	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.png" />
 	<style type="text/css">
 .label {
 	width: 20%;
@@ -58,16 +58,16 @@
 					href="UeberUns.xhtml" />
 
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
-					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
-						immediate="true">
+					<b:navCommandLink value="#{msg.deutsch} (DE)  "
+						action="#{loginHandler.deutschLang()}" immediate="true">
 						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
 					</b:navCommandLink>
-					<b:navCommandLink value="EN"
+					<b:navCommandLink value="#{msg.englisch} (EN)  "
 						action="#{loginHandler.englischLang()}" immediate="true">
 						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
 					</b:navCommandLink>
-					<b:navCommandLink value="FR" action="#{loginHandler.frenchLang()}"
-						immediate="true">
+					<b:navCommandLink value="#{msg.franzoesich} (FR)  "
+						action="#{loginHandler.frenchLang()}" immediate="true">
 						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
 					</b:navCommandLink>
 				</b:dropMenu>
@@ -89,6 +89,8 @@
 	
 		<b:container class="content-container">
 			<p:growl id="growl" sticky="true" showDetail="true" />
+			
+			<p:messages showDetail="true" />
 
 			<p:wizard flowListener="#{loginHandler.onFlowProcess}">
 				<p:tab id="personal" title="#{msg.tabs_name_persoenliches}">
@@ -176,14 +178,11 @@
 							</p:inputText>
 
 							<h:outputText value="#{msg.SicherheitsPIN} : " />
-							<p:inputNumber value="#{loginHandler.kreditKarte.code}"  minValue="010">
-								<f:converter converterId="kreditkartenConverter" />
-								<f:validator validatorId="nummerValidator" />
-							</p:inputNumber>
+							<p:inputNumber value="#{loginHandler.kreditKarte.code}" maxValue="999" maxlength="3" minValue="0"/>
 
 							<h:outputText value="#{msg.Gueltigbis} : " />
 							<p:calendar id="validCard" navigator="true"
-								value="#{loginHandler.kreditKarte.endDate}" pattern="dd/MM/yyyy"
+								value="#{loginHandler.kreditKarte.endDate}" pattern="MM/yyyy"
 								mindate="#{loginHandler.maxDate}">
 								<f:convertDateTime pattern="MM/yyyy" type="date" />
 							</p:calendar>

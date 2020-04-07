@@ -26,16 +26,16 @@
 				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="UeberUns.xhtml" />
 				
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
-					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
-						immediate="true">
+					<b:navCommandLink value="#{msg.deutsch} (DE)  "
+						action="#{loginHandler.deutschLang()}" immediate="true">
 						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
 					</b:navCommandLink>
-					<b:navCommandLink value="EN"
+					<b:navCommandLink value="#{msg.englisch} (EN)  "
 						action="#{loginHandler.englischLang()}" immediate="true">
 						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
 					</b:navCommandLink>
-					<b:navCommandLink value="FR" action="#{loginHandler.frenchLang()}"
-						immediate="true">
+					<b:navCommandLink value="#{msg.franzoesich} (FR)  "
+						action="#{loginHandler.frenchLang()}" immediate="true">
 						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
 					</b:navCommandLink>
 				</b:dropMenu>
@@ -59,7 +59,7 @@
 		</b:navBar>
 
 		<b:container styleClass="content-container">
-			<p:growl placementFrom="top" show-detail="true" global-only="false"
+			<p:growl placementFrom="top" show-detail="true" 
 				show-summary="true" allow-dismiss="true"
 				animation-enter="animated bounceInDown"
 				animation-exit="animated flipOutX" escape="true" />
@@ -70,35 +70,36 @@
 				</ui:insert>
 			</b:jumbotron>
 
-
-			<p:dataGrid var="ca" value="#{artikelHandler.artikelListe}"
-				columns="3" rows="9" paginator="true"
-				style="width:100%; margin-top: 50px;"
-				emptyMessage="#{msg.keineAufzeichnungen}"
-				currentPageReportTemplate="{startRecord}-{endRecord} #{msg.von} {totalRecords} #{msg.Aufzeichnung}"
-				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="12,15,18">
-
-				<b:panel style="text-align:center;">
-					<b:panelGrid columns="1" style="width:100%;">
-					
-						<p:graphicImage style="width:200px;height:100px;"
-							value="/resources/IMAGES/ARTIKEL/#{ca.imgName}" />
-
-						<h:outputText value="#{msg.Name} :		#{ca.name}" />
-						<h:outputText value="#{msg.preis} :		#{ca.preis} €" />
-						<br style="margin-top: 10px" />
-						<p:commandButton value="#{msg.Infosanzeigen}" update="@none"
-							process="@this" icon="pi pi-search"
-							oncomplete="PF('infoDialog').show()">
-							<f:setPropertyActionListener value="#{ca}"
-								target="#{artikelHandler.merkeArtikel}" />
-						</p:commandButton>
-
-					</b:panelGrid>
-				</b:panel>
-			</p:dataGrid>
-
+			
+			<p:messages showDetail="true"/>
+				<p:dataGrid var="ca" value="#{artikelHandler.artikelListe}"
+					columns="3" rows="9" paginator="true"
+					style="width:100%; margin-top: 50px;"
+					emptyMessage="#{msg.keineAufzeichnungen}"
+					currentPageReportTemplate="{startRecord}-{endRecord} #{msg.von} {totalRecords} #{msg.Aufzeichnung}"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					rowsPerPageTemplate="9,12,15">
+	
+					<b:panel style="text-align:center;">
+						<b:panelGrid columns="1" style="width:100%;">
+						
+							<p:graphicImage style="width:200px;height:100px;"
+								value="/resources/IMAGES/ARTIKEL/#{ca.imgName}" />
+	
+							<h:outputText value="#{msg.Name} :		#{ca.name}" />
+							<h:outputText value="#{msg.preis} :		#{ca.preis} €" />
+							<br style="margin-top: 10px" />
+							<p:commandButton value="#{msg.Infosanzeigen}" update="@none"
+								process="@this" icon="pi pi-search"
+								oncomplete="PF('infoDialog').show()">
+								<f:setPropertyActionListener value="#{ca}"
+									target="#{artikelHandler.merkeArtikel}" />
+							</p:commandButton>
+	
+						</b:panelGrid>
+					</b:panel>
+				</p:dataGrid>
+			
 			<p:panelGrid id="warenkorbPanel" columns="5" layout="grid"
 				style="width:100%; background-color: white; margin-top: 50px;"
 				styleClass="showcase-text-align-center">
@@ -109,12 +110,13 @@
 				<h:outputLabel for="totalPreis" value="#{msg.TotalPreis} :" />
 				<h:outputText id="totalPreis"
 					value="#{loginHandler.totalPreisInsWarenkorb} €">
-					<f:convertNumber maxFractionDigits="1" pattern="#0.00" />
+					<f:convertNumber maxFractionDigits="2" pattern="#0.00" />
 				</h:outputText>
 			</p:panelGrid>
 
 			<p:dialog widgetVar="infoDialog"
-				header="#{msg.header_dialog_artikel_info}" modal="true"
+				header="#{msg.header_dialog_artikel_info}" modal="true" dynamic="true"
+				closeOnEscape="true" fitViewport="true" width="400px"
 				resizable="false" showEffect="clip" hideEffect="explode">
 
 				<p:autoUpdate />

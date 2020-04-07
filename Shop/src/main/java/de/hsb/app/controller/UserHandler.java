@@ -149,36 +149,36 @@ public class UserHandler implements Serializable {
 	 */
 	@SuppressWarnings("unchecked")
 	public void registrierungSpeichern() {
-		try {
 
-			userTransaction.begin();
+		Query query = entityManager
+				.createQuery("Select k from User k " + "where k.benutzername = :username or k.passwort = :passwort ");
+		query.setParameter("username", merkeKunde.getBenutzername());
+		query.setParameter("passwort", merkeKunde.getPasswort());
 
-			Query query = entityManager.createQuery(
-					"Select k from User k " + "where k.benutzername = :username and k.passwort = :passwort ");
-			query.setParameter("username", merkeKunde.getBenutzername());
-			query.setParameter("passwort", merkeKunde.getPasswort());
-
-			List<User> tmpKundeList = query.getResultList();
-			if (tmpKundeList.size() == 0 || tmpKundeList == null) {
+		List<User> tmpKundeList = query.getResultList();
+		if (tmpKundeList.isEmpty()) {
+			try {
+				userTransaction.begin();
 				merkeKunde.setKreditKarte(kreditKarte);
 				merkeKunde = entityManager.merge(merkeKunde);
 				entityManager.persist(merkeKunde);
 				kreditKarte.setUser(merkeKunde);
 				kreditKarte = entityManager.merge(kreditKarte);
 				entityManager.persist(kreditKarte);
+				userTransaction.commit();
 				updateUserList();
-			} else
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Anmeldedaten",
-						"Ihr Passwort oder Benutzername sind bereit Vorhanden"));
-
-			userTransaction.commit();
-		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
-				| HeuristicMixedException | HeuristicRollbackException e) {
-			e.printStackTrace();
-		}
-		user = null;
-		context.getApplication().getNavigationHandler().handleNavigation(context, null,
-				"/loginSeite.xhtml?faces-redirect=true");
+				
+				user = null;
+				context.getApplication().getNavigationHandler().handleNavigation(context, null,
+						"/loginSeite.xhtml?faces-redirect=true");
+			} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException
+					| RollbackException | HeuristicMixedException | HeuristicRollbackException e) {
+				e.printStackTrace();
+			}
+		} else
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Anmeldedaten",
+					"Ihr Passwort und/oder Benutzername sind bereit Vorhanden"));
+		
 	}
 
 	/**
@@ -214,9 +214,8 @@ public class UserHandler implements Serializable {
 			user.setKreditKarte(kreditKarte);
 			user = entityManager.merge(user);
 			entityManager.persist(user);
-			entityManager.flush();
-			updateUserList();
 			userTransaction.commit();
+			updateUserList();
 		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
@@ -252,57 +251,81 @@ public class UserHandler implements Serializable {
 
 	/** Speichert die bearbeitete Daten des aktuellen Benutzer **/
 	public void bearbeitungSpeichern() {
-		try {
-			userTransaction.begin();
 
-			user.setKreditKarte(kreditKarte);
-			user = entityManager.merge(user);
-			entityManager.persist(user);
-			
-			kreditKarte = entityManager.merge(kreditKarte);
-			entityManager.persist(kreditKarte);
-			
-			userTransaction.commit();
-			updateUserList();
-		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
-				| HeuristicMixedException | HeuristicRollbackException e) {
-			e.printStackTrace();
-		}
+		Query query = entityManager
+				.createQuery("Select k from User k " + "where k.benutzername = :username or k.passwort = :passwort ");
+		query.setParameter("username", user.getBenutzername());
+		query.setParameter("passwort", user.getPasswort());
 
-		if (user.getRolle() == Rolle.ADMIN) {
-			System.out.println("WEITERLEITUNG ZU hOME PAGE ADMIN");
-			context.getApplication().getNavigationHandler().handleNavigation(context, null,
-					"/homePageAdmin.xhtml?faces-redirect=true");
-		} else {
-			System.out.println("WEITERLEITUNG ZU HOMEALS NORMAL USER");
-			context.getApplication().getNavigationHandler().handleNavigation(context, null,
-					"/home.xhtml?faces-redirect=true");
-		}
+		@SuppressWarnings("unchecked")
+		List<User> tmpKundeList = query.getResultList();
+		if (tmpKundeList.isEmpty()) {
+			try {
+				userTransaction.begin();
+
+				user.setKreditKarte(kreditKarte);
+				user = entityManager.merge(user);
+				entityManager.persist(user);
+
+				kreditKarte = entityManager.merge(kreditKarte);
+				entityManager.persist(kreditKarte);
+
+				userTransaction.commit();
+				updateUserList();
+			} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException
+					| RollbackException | HeuristicMixedException | HeuristicRollbackException e) {
+				e.printStackTrace();
+			}
+
+			if (user.getRolle() == Rolle.ADMIN) {
+				System.out.println("WEITERLEITUNG ZU hOME PAGE ADMIN");
+				context.getApplication().getNavigationHandler().handleNavigation(context, null,
+						"/homePageAdmin.xhtml?faces-redirect=true");
+			} else {
+				System.out.println("WEITERLEITUNG ZU HOMEALS NORMAL USER");
+				context.getApplication().getNavigationHandler().handleNavigation(context, null,
+						"/home.xhtml?faces-redirect=true");
+			}
+		} else
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Anmeldedaten",
+					"Ihr Passwort und/oder Benutzername sind bereit Vorhanden"));
 	}
 
 	/** Speichern des neuen angelegten ADMIN-Benutzer **/
 	public void speichern() {
-		try {
-			System.out.println("Speichern wurde aufgerufen");
-			userTransaction.begin();
-			
-			merkeKunde.setKreditKarte(kreditKarte);
-			merkeKunde = entityManager.merge(merkeKunde);
-			entityManager.persist(merkeKunde);
-			
-			kreditKarte.setUser(merkeKunde);
-			kreditKarte = entityManager.merge(kreditKarte);
-			entityManager.persist(kreditKarte);
-			userTransaction.commit();
-			updateUserList();
-			
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"USER","Bearbeitung wurde Erfolgreich gespeichert"));
-			context.getApplication().getNavigationHandler().handleNavigation(context, null,
-					"/homePageAdmin.xhtml?faces-redirect=true");
-		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
-				| HeuristicMixedException | HeuristicRollbackException e) {
-			e.printStackTrace();
-		}
+		Query query = entityManager
+				.createQuery("Select k from User k " + "where k.benutzername = :username or k.passwort = :passwort ");
+		query.setParameter("username", merkeKunde.getBenutzername());
+		query.setParameter("passwort", merkeKunde.getPasswort());
+
+		@SuppressWarnings("unchecked")
+		List<User> tmpKundeList = query.getResultList();
+		if (tmpKundeList.isEmpty()) {
+			try {
+				System.out.println("Speichern wurde aufgerufen");
+				userTransaction.begin();
+
+				merkeKunde.setKreditKarte(kreditKarte);
+				merkeKunde = entityManager.merge(merkeKunde);
+				entityManager.persist(merkeKunde);
+
+				kreditKarte.setUser(merkeKunde);
+				kreditKarte = entityManager.merge(kreditKarte);
+				entityManager.persist(kreditKarte);
+				userTransaction.commit();
+				updateUserList();
+
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "USER",
+						"Bearbeitung wurde Erfolgreich gespeichert"));
+				context.getApplication().getNavigationHandler().handleNavigation(context, null,
+						"/homePageAdmin.xhtml?faces-redirect=true");
+			} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException
+					| RollbackException | HeuristicMixedException | HeuristicRollbackException e) {
+				e.printStackTrace();
+			}
+		} else
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Anmeldedaten",
+					"Ihr Passwort und/oder Benutzername sind bereit Vorhanden"));
 	}
 
 	/**
@@ -335,19 +358,21 @@ public class UserHandler implements Serializable {
 	 * @return Admin StartSeite
 	 */
 	public void userLöschen() {
+		merkeKunde = kundenList.getRowData();
 		try {
-			merkeKunde = kundenList.getRowData();
 			if (!merkeKunde.equals(user)) {
-				userTransaction.begin();
 				clearArtikels();
+				userTransaction.begin();
 				merkeKunde = entityManager.merge(merkeKunde);
 				entityManager.remove(merkeKunde);
 				userTransaction.commit();
 				updateUserList();
 				merkeKunde = null;
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"USER","USER wurde erfolgreich gelöscht"));
+				context.addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "USER", "USER wurde erfolgreich gelöscht"));
 			} else
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"USER","User kann sich selbst nicht löschen!!"));
+				context.addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_WARN, "USER", "User kann sich selbst nicht löschen!!"));
 
 		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
 				| HeuristicMixedException | HeuristicRollbackException e) {
@@ -436,7 +461,6 @@ public class UserHandler implements Serializable {
 				userTransaction.begin();
 				user = entityManager.merge(user);
 				entityManager.persist(user);
-				entityManager.flush();
 				userTransaction.commit();
 				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"WARENKORB","Ihr Einkauf wurde Erfolgreich"));
 				context.getApplication().getNavigationHandler().handleNavigation(context, null,
@@ -477,7 +501,7 @@ public class UserHandler implements Serializable {
 	public void updateArtikelValue() {
 		try {
 			userTransaction.begin();
-			int artikelAnzahl = 0;
+			long artikelAnzahl = 0;
 			for (Artikel artikel : user.getWarenkorb()) {
 				artikelAnzahl = artikel.getAnzahl() - artikel.getKaufAnzahl();
 				artikel.setAnzahl(artikelAnzahl);

@@ -64,6 +64,9 @@ and set Breakpoint in the class, that should have the problem***
 
 OTHER NOTES
 -----------
+While adding article images in the WebApp (front side), the article is in the following folder :
+
+Path-to-Wildfly-installation-folder\wildfly-10.1.0.Final\standalone\tmp\vfs\temp\temp-generated-number\content-generated-number\resources\IMAGES\ARTIKEL
 
 If you have a great idea or want to help out, just message me with your change proposal
 at at my email : bcoulibaly93@hotmail.com, so that i can make a pull-request for you.

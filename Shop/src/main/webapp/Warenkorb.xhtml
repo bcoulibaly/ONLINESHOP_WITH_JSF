@@ -31,16 +31,16 @@
 					href="UeberUns.xhtml" />
 
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
-					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
-						immediate="true">
+					<b:navCommandLink value="#{msg.deutsch} (DE)  "
+						action="#{loginHandler.deutschLang()}" immediate="true">
 						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
 					</b:navCommandLink>
-					<b:navCommandLink value="EN"
+					<b:navCommandLink value="#{msg.englisch} (EN)  "
 						action="#{loginHandler.englischLang()}" immediate="true">
 						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
 					</b:navCommandLink>
-					<b:navCommandLink value="FR" action="#{loginHandler.frenchLang()}"
-						immediate="true">
+					<b:navCommandLink value="#{msg.franzoesich} (FR)  "
+						action="#{loginHandler.frenchLang()}" immediate="true">
 						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
 					</b:navCommandLink>
 				</b:dropMenu>
@@ -82,6 +82,7 @@
 						action="#{loginHandler.warenkorbLeeren()}" />
 				</div>
 				<br />
+				<p:messages showDetail="true"/>
 				<p:dataTable id="artikels" value="#{loginHandler.user.warenkorb}"
 					style="background-color:white;" var="artikel" rows="5"
 					emptyMessage="#{msg.keineAufzeichnungen}" selectionMode="single"
@@ -125,9 +126,9 @@
 							action="#{loginHandler.deleteFromCardShop()}" />
 					</p:column>
 				</p:dataTable>
-
+				
+				
 				<p:panel header="#{msg.KreditkarteDetails}" style="margin-top:20px;">
-					<p:messages />
 					<p:panelGrid columns="2" columnClasses="label, value">
 						<h:outputText value="#{msg.ArtderKreditkarte}: " />
 						<b:selectOneMenu id="artKreditKarte"
@@ -155,7 +156,7 @@
 							mindate="#{loginHandler.maxDate}" />
 					</p:panelGrid>
 				</p:panel>
-
+				
 				<p:panelGrid id="warenkorbPanel" columns="5" layout="grid"
 					style="width:100%; background-color: white; margin-top: 50px;"
 					styleClass="showcase-text-align-center">
@@ -164,9 +165,9 @@
 						value="#{loginHandler.totalArtikelInsWarenkorb}" />
 
 					<h:outputLabel for="totalPreis" value="#{msg.TotalPreis} :" />
-					<h:outputText id="totalPreis"
-						value="#{loginHandler.totalPreisInsWarenkorb} €" >
-						<f:convertNumber maxFractionDigits="1" pattern="#0.00"/>
+					<h:outputText id="totalPreis" 
+						value="#{loginHandler.totalPreisInsWarenkorb}" >€
+						<f:convertNumber  maxFractionDigits="2" pattern="#0.00"/>
 					</h:outputText>
 				</p:panelGrid>
 

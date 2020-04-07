@@ -11,7 +11,7 @@
 
 	<title><ui:insert name="title">BelissoShop-KundenBearbeiten</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
-	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
+	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.png" />
 	<style type="text/css">
 label {
 	width: 20%;
@@ -57,16 +57,16 @@ grid {
 				<b:navCommandLink iconAwesome="leaf" value="#{msg.UeberUns}"
 					href="UeberUns.xhtml" />
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
-					<b:navCommandLink value="DE" action="#{loginHandler.deutschLang()}"
-						immediate="true">
+					<b:navCommandLink value="#{msg.deutsch} (DE)  "
+						action="#{loginHandler.deutschLang()}" immediate="true">
 						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
 					</b:navCommandLink>
-					<b:navCommandLink value="EN"
+					<b:navCommandLink value="#{msg.englisch} (EN)  "
 						action="#{loginHandler.englischLang()}" immediate="true">
 						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
 					</b:navCommandLink>
-					<b:navCommandLink value="FR" action="#{loginHandler.frenchLang()}"
-						immediate="true">
+					<b:navCommandLink value="#{msg.franzoesich} (FR)  "
+						action="#{loginHandler.frenchLang()}" immediate="true">
 						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
 					</b:navCommandLink>
 				</b:dropMenu>
@@ -100,17 +100,14 @@ grid {
 				<h:outputLabel value="#{msg.Bild} :" for="bild" />
 				<p:graphicImage id="bild" width="80px" height="50px"
 						value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.imgName}" />
+						
 				<p:messages id="msgs" showDetail="true" />
-					<h:outputLabel id="fileName" value="#{artikelHandler.fileName}" />
-
+				<h:outputLabel id="fileName" value="#{artikelHandler.fileName}" />
 				<h:outputLabel value="#{msg.NeuesBildHochladen} :" for="img" />
 				<p:fileUpload id="img"
 						fileUploadListener="#{artikelHandler.saveFileListener}"
 						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="advanced"
-						update="messages,fileName" />
-
-					<p:messages id="msgs" showDetail="true" />
-					<h:outputLabel id="fileName" value="#{artikelHandler.fileName}" />
+						update="msgs,fileName" />
 
 				<h:outputLabel value="#{msg.Name} :" for="name" />
 				<h:panelGroup>
@@ -121,15 +118,15 @@ grid {
 
 				<h:outputLabel value="#{msg.Anzahl} :" for="anzahl" />
 				<h:panelGroup>
-					<h:inputText id="anzahl" converter="javax.faces.Integer"
+					<p:inputNumber id="anzahl"  converter="javax.faces.Integer"
 						required="true" requiredMessage="#{msg.AnzahlFehlt}"
 						value="#{artikelHandler.merkeArtikel.anzahl}" />
 				</h:panelGroup>
 
 				<h:outputLabel value="#{msg.preis} :" for="preis" />
 				<h:panelGroup>
-					<h:inputText id="preis" converter="javax.faces.Double"
-						required="true" requiredMessage="#{msg.PreisFehler}"
+					<p:inputNumber id="preis" converter="javax.faces.Double"
+						required="true" requiredMessage="#{msg.PreisFehler}" minValue="0" decimalPlaces="2"
 						value="#{artikelHandler.merkeArtikel.preis}" />
 				</h:panelGroup>
 

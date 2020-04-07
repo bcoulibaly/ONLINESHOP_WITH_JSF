@@ -63,7 +63,7 @@
 			<p:dataGrid id="artikelTable" var="artikel"
 				value="#{shop.artikelList}" columns="3" rows="9" paginator="true"
 				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-				rowsPerPageTemplate="12,15,18">
+				rowsPerPageTemplate="9,12,15">
 
 				<b:panel style="text-align:center;">
 					<p:graphicImage style="width:200px;height:100px;"
@@ -86,7 +86,7 @@
 			</p:dataGrid>
 
 			<p:dialog widgetVar="infoDialog"
-				header="#{msg.header_dialog_artikel_info}" dynamic="true"
+				header="#{msg.header_dialog_artikel_info}" dynamic="true" columns="3" rows="7"
 				closeOnEscape="true" fitViewport="true" width="400px" modal="true"
 				resizable="false" showEffect="clip" position="center, center"
 				hideEffect="clip">

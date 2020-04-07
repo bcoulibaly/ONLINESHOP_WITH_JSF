@@ -26,9 +26,9 @@ public class Artikel {
 	@Column(name = "PREIS")
 	private double preis;
 	@Column(name = "TOTAL_ANZAHL")
-	private int anzahl;
+	private long anzahl;
 	
-	private int kaufAnzahl=1;
+	private long kaufAnzahl=1;
 	
 	@ManyToOne(fetch = FetchType.LAZY )
 	User user;
@@ -72,11 +72,11 @@ public class Artikel {
 		this.id = id;
 	}
 
-	public int getAnzahl() {
+	public long getAnzahl() {
 		return this.anzahl;
 	}
 
-	public void setAnzahl(int anzahl) {
+	public void setAnzahl(long anzahl) {
 		this.anzahl = anzahl;
 	}
 
@@ -92,11 +92,11 @@ public class Artikel {
 		return (int) (this.getPreis() * this.getKaufAnzahl());
 	}
 
-	public int getKaufAnzahl() {
+	public long getKaufAnzahl() {
 		return kaufAnzahl;
 	}
 
-	public void setKaufAnzahl(int kaufAnzahl) {
+	public void setKaufAnzahl(long kaufAnzahl) {
 		this.kaufAnzahl = kaufAnzahl;
 	}
 
