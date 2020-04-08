@@ -51,25 +51,25 @@ public class Shop {
 		try {
 			User user = new User("Ben", "Coulibaly", new GregorianCalendar(1997, 4, 3).getTime(), "ben", "ben",
 					Rolle.ADMIN, Anrede.HERR);
-			KreditKarte karte = new KreditKarte("4917820120076273", "586", KarteArt.MASTERCARD);
+			KreditKarte karte = new KreditKarte("1234563456456741", "586", KarteArt.MASTERCARD);
 			user.setKreditKarte(karte);
 			karte.setUser(user);
 
 			User user2 = new User("Leonardo", "Kouassi", new GregorianCalendar(1990, 9, 15).getTime(), "lkouassi",
 					"leoardo", Rolle.KUNDE, Anrede.HERR);
-			KreditKarte karte2 = new KreditKarte("4917820120076273", "958", KarteArt.MASTERCARD);
+			KreditKarte karte2 = new KreditKarte("1233456653455676", "958", KarteArt.MASTERCARD);
 			user2.setKreditKarte(karte2);
 			karte2.setUser(user2);
 
 			User user3 = new User("Kone", "Salimata", new GregorianCalendar(1994, 5, 21).getTime(), "kone", "sali",
 					Rolle.KUNDE, Anrede.FRAU);
-			KreditKarte karte3 = new KreditKarte("4917820120076273", "874", KarteArt.MASTERCARD);
+			KreditKarte karte3 = new KreditKarte("9876496653455677", "874", KarteArt.MASTERCARD);
 			user3.setKreditKarte(karte3);
 			karte3.setUser(user3);
 
 			User user4 = new User("Schmidt", "Lina Sophie", new GregorianCalendar(1993, 11, 30).getTime(), "lsophie",
 					"lina", Rolle.KUNDE, Anrede.FRAU);
-			KreditKarte karte4 = new KreditKarte("4917820120076273", "693", KarteArt.MASTERCARD);
+			KreditKarte karte4 = new KreditKarte("4917820120590323", "693", KarteArt.MASTERCARD);
 			user4.setKreditKarte(karte4);
 			karte4.setUser(user4);
 

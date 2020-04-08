@@ -62,6 +62,12 @@
 		<hr width="80%" align="center" />
 
 		<div class="content-container">
+			
+			<p:growl placementFrom="top" show-detail="true" global-only="false"
+				show-summary="true" allow-dismiss="true"
+				animation-enter="animated bounceInDown"
+				animation-exit="animated flipOutX" />
+					
 			<p:messages />
 
 			<b:commandButton action="#{loginHandler.neu()}"

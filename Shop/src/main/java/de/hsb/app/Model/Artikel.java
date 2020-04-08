@@ -117,10 +117,22 @@ public class Artikel {
 	}
 		
 	@Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (!(o instanceof Artikel )) return false;
-        return id != null && id.equals(((Artikel) o).getId());
+    public boolean equals(Object obj) {
+//        if (this == o) return true;
+//        if (!(o instanceof Artikel )) return false;
+//        return id != null && id.equals(((Artikel) o).getId());
+		if (this == null || obj == null) {
+			return false;
+		} else if (this.getClass() == obj.getClass()) {
+			if ((this.id == ((Artikel) obj).id)
+					&& ((this.name == ((Artikel) obj).name) && (this.name == ((Artikel) obj).name))) {
+				return true;
+			} else {
+				return false;
+			}
+		} else {
+			return false;
+		}
     }
 	 
 	@Override

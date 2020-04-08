@@ -9,7 +9,7 @@
 
 	<title><ui:insert name="title">Belisso Shop - Registrieren</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
-	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.png" />
+	<link href="resources/IMAGES/finallogo1.png" rel="icon" type="image/png" />
 	<style type="text/css">
 .label {
 	width: 20%;
@@ -120,7 +120,7 @@
 								<f:converter converterId="namenConverter" />
 							</b:inputText>
 
-							<h:outputText value="#{msg.Geburtsdatum} : " />
+							<h:outputText value="#{msg.Geburtsdatum} : *" />
 							<p:calendar id="geburtsdatum"
 								value="#{loginHandler.merkeKunde.geburtsdatum}"
 								pattern="dd/MM/yyyy" maxdate="#{loginHandler.maxDate}"
@@ -201,11 +201,11 @@
 
 							<h:outputText value="#{msg.Passwort} : *" />
 							<p:password id="pwd1" value="#{loginHandler.merkeKunde.passwort}"
-								match="pwd2" feedback="true"
+								match="pwd2" feedback="true" required="true"
 								requiredMessage="#{msg.Passwort_fehler}" />
 
 							<h:outputText value="#{msg.Passwortwiederholen} : *" />
-							<p:password id="pwd2"
+							<p:password id="pwd2" required="true"
 								value="#{loginHandler.merkeKunde.passwortWiederholen}"
 								feedback="true" requiredMessage="#{msg.Passwortwiederholen}" />
 						</b:panelGrid>
@@ -278,16 +278,13 @@
 									styleClass="outputLabel" />
 							</p:panelGrid>
 						</p:panelGrid>
+						<b:commandButton value="#{msg.Abschicken}" look="success"
+							style="margin-top:10px 0px;" action="#{loginHandler.registrierungSpeichern()}"
+							update="@form" />
 					</p:panel>
-
-					<p:commandButton value="#{msg.Abschicken}"
-						style="margin-top:10px 0px;" action="#{loginHandler.registrierungSpeichern()}"
-						update="@form" />
-					<b:commandButton action="#{loginHandler.abbrechen}"
-						value="Abbrechen" immediate="true" look="primary" />
 				</p:tab>
 			</p:wizard>
-			<b:commandButton action="#{loginHandler.abbrechen}" 
+			<b:commandButton action="#{loginHandler.abbrechen}"  styleClass="vali-btn"
 					value="Abbrechen" immediate="true" look="primary" />
 		</b:container>
 	</h:form>

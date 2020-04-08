@@ -110,14 +110,14 @@
 					</p:column>
 					<p:column>
 						<f:facet name="header">#{msg.preis}</f:facet>
-						<h:outputText value="#{artikel.preis}" > €
-							<f:convertNumber pattern="#0.00"/>
+						<h:outputText value="#{artikel.preis}"> 
+							<f:convertNumber currencySymbol="€" pattern="#0.00"/>
 						</h:outputText>
 					</p:column>
 					<p:column>
 						<f:facet name="header">#{msg.TotalPreis}</f:facet>
 						<h:outputText value="#{artikel.preisxnumber}">
-						<f:convertNumber pattern="#0.00"/>€
+						<f:convertNumber currencySymbol="€" pattern="#0.00"/>
 						</h:outputText>
 					</p:column>
 					<p:column>
@@ -144,10 +144,7 @@
 						</p:inputText>
 
 						<h:outputText value="#{msg.SicherheitsPIN} : " />
-						<p:inputText value="#{loginHandler.kreditKarte.code}">
-							<f:converter converterId="kreditkartenConverter" />
-							<f:validator validatorId="nummerValidator" />
-						</p:inputText>
+						<p:inputNumber value="#{loginHandler.kreditKarte.code}" maxValue="999" maxlength="3" minValue="0"/>
 
 						<h:outputText value="#{msg.Gueltigbis} : " />
 						<p:calendar id="validCard" navigator="true" required="true"
@@ -166,8 +163,8 @@
 
 					<h:outputLabel for="totalPreis" value="#{msg.TotalPreis} :" />
 					<h:outputText id="totalPreis" 
-						value="#{loginHandler.totalPreisInsWarenkorb}" >€
-						<f:convertNumber  maxFractionDigits="2" pattern="#0.00"/>
+						value="#{loginHandler.totalPreisInsWarenkorb}">
+						<f:convertNumber  maxFractionDigits="2" currencySymbol="€" pattern="#0.00"/>
 					</h:outputText>
 				</p:panelGrid>
 

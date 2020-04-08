@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
-<f:view locale="#{loginHandler.locale}"/>
+<f:view locale="#{loginHandler.locale}" />
 <h:head>
 	<title><ui:insert name="title">Belisso-Shop- Neuer Admin hinzufügen</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
@@ -48,8 +48,7 @@
 		animation-enter="animated bounceInDown"
 		animation-exit="animated flipOutX" escape="true" />
 	<h:form>
-		<b:navBar id="top"
-			brandImg="resources/IMAGES/finallogo1.png"
+		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
 			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
 			fluid="true" sticky="true">
 			<b:navbarLinks style="text-color:white;" pull="right">
@@ -92,10 +91,10 @@
 		<ui:insert name="headPage">#{msg.Anlegen_Neuer_Admin}</ui:insert>
 	</h2>
 	<hr width="80%" align="center" />
-	<h:form>
-		<b:container class="content-container">
-			<p:growl id="growl" sticky="true" showDetail="true" />
+	<b:container class="content-container">
+		<p:growl id="growl" sticky="true" showDetail="true" />
 
+		<h:form id="formular">
 			<p:wizard flowListener="#{loginHandler.onFlowProcess}">
 				<p:tab id="personal" title="#{msg.tabs_name_persoenliches}">
 					<b:panel>
@@ -114,18 +113,18 @@
 
 							<h:outputText value="#{msg.Vorname} : *" />
 							<b:inputText value="#{loginHandler.merkeKunde.vorname}"
-								required="true" >
-								<f:converter converterId="namenConverter"/>
+								required="true">
+								<f:converter converterId="namenConverter" />
 							</b:inputText>
 
 							<h:outputText value="#{msg.Nachname} : *" />
 							<b:inputText value="#{loginHandler.merkeKunde.name}"
-								required="true" >
-								<f:converter converterId="namenConverter"/>
+								required="true">
+								<f:converter converterId="namenConverter" />
 							</b:inputText>
 
 							<h:outputText value="#{msg.Geburtsdatum} : " />
-							<p:calendar id="geburtsdatum" 
+							<p:calendar id="geburtsdatum"
 								value="#{loginHandler.merkeKunde.geburtsdatum}"
 								pattern="dd/MM/yyyy" maxdate="#{loginHandler.maxDate}"
 								required="true" requiredMessage="Geburtsdatum fehlt"
@@ -156,8 +155,8 @@
 							</b:inputText>
 
 							<h:outputText value="#{msg.Stadt} : " />
-							<b:inputText value="#{loginHandler.merkeKunde.ort}" >
-								<f:converter converterId="namenConverter"/>
+							<b:inputText value="#{loginHandler.merkeKunde.ort}">
+								<f:converter converterId="namenConverter" />
 							</b:inputText>
 						</b:panelGrid>
 					</b:panel>
@@ -182,7 +181,8 @@
 							</p:inputText>
 
 							<h:outputText value="#{msg.SicherheitsPIN} : " />
-							<p:inputNumber value="#{loginHandler.kreditKarte.code}" minValue="0" maxValue="999"/>
+							<p:inputNumber value="#{loginHandler.kreditKarte.code}"
+								minValue="0" maxValue="999" />
 
 							<h:outputText value="#{msg.Gueltigbis} : " />
 							<p:calendar id="validCard" navigator="true"
@@ -231,9 +231,9 @@
 
 								<h:outputText value="#{msg.Geburtsdatum} : " />
 								<h:outputText value="#{loginHandler.merkeKunde.geburtsdatum}"
-									styleClass="outputLabel" >
+									styleClass="outputLabel">
 									<f:convertDateTime locale="#{loginHandler.locale}"
-											pattern="dd/MM/yyyy" />
+										pattern="dd/MM/yyyy" />
 								</h:outputText>
 							</p:panelGrid>
 
@@ -268,7 +268,7 @@
 								<h:outputText value="#{loginHandler.kreditKarte.endDate}"
 									styleClass="outputLabel">
 									<f:convertDateTime locale="#{loginHandler.locale}"
-											pattern="MM/yyyy" />
+										pattern="MM/yyyy" />
 								</h:outputText>
 							</p:panelGrid>
 
@@ -282,22 +282,23 @@
 									styleClass="outputLabel" />
 							</p:panelGrid>
 						</p:panelGrid>
+						<b:commandButton value="#{msg.Abschicken}"
+							style="margin-top:10px 0px;"
+							action="#{loginHandler.registrierungSpeichern()}" look="success"
+							process="kundenBearbeiten" />
 					</p:panel>
 
-					<p:commandButton value="#{msg.Abschicken}"
-						style="margin-top:10px 0px;" action="#{loginHandler.speichern()}"
-						update="@form" />
-					<b:commandButton action="#{loginHandler.abbrechen}"
-						value="Abbrechen" immediate="true" look="primary" />
 				</p:tab>
 			</p:wizard>
+			<b:commandButton action="#{loginHandler.abbrechen}"
+				styleClass="vali-btn" value="Abbrechen" immediate="true"
+				look="primary" />
 
-		</b:container>
+		</h:form>
+	</b:container>
 
-	</h:form>
-	<br />
 
-	<div id="footer" style="margin-top:375px;">
+	<div id="footer" style="margin-top: 375px;">
 		<p:graphicImage style="width:200px;height:40px;"
 			value="resources/IMAGES/finallogo1.png" />
 		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF

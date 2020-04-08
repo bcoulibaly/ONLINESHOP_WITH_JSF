@@ -143,7 +143,7 @@ public class UserHandler implements Serializable {
 	}
 
 	/**
-	 * Speicherung des bereit angetragene User beim Registrieren
+	 * Speicherung des bereit angetragene User oder Admin beim Registrieren
 	 * 
 	 * @return login Seite zurueck
 	 */
@@ -167,10 +167,14 @@ public class UserHandler implements Serializable {
 				entityManager.persist(kreditKarte);
 				userTransaction.commit();
 				updateUserList();
-				
-				user = null;
-				context.getApplication().getNavigationHandler().handleNavigation(context, null,
-						"/loginSeite.xhtml?faces-redirect=true");
+				if (user.getRolle() == Rolle.ADMIN) {
+					context.getApplication().getNavigationHandler().handleNavigation(context, null,
+							"/homePageAdmin.xhtml?faces-redirect=true");
+				} else {
+					user = null;
+					context.getApplication().getNavigationHandler().handleNavigation(context, null,
+							"/loginSeite.xhtml?faces-redirect=true");
+				}
 			} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException
 					| RollbackException | HeuristicMixedException | HeuristicRollbackException e) {
 				e.printStackTrace();
@@ -178,7 +182,7 @@ public class UserHandler implements Serializable {
 		} else
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Anmeldedaten",
 					"Ihr Passwort und/oder Benutzername sind bereit Vorhanden"));
-		
+
 	}
 
 	/**
@@ -205,21 +209,6 @@ public class UserHandler implements Serializable {
 	 * Benutzer beendet wird
 	 **/
 	public void logout() {
-		try {
-			System.out.println("User wird abgemeldet");
-			userTransaction.begin();
-
-			kreditKarte = entityManager.merge(kreditKarte);
-			entityManager.persist(kreditKarte);
-			user.setKreditKarte(kreditKarte);
-			user = entityManager.merge(user);
-			entityManager.persist(user);
-			userTransaction.commit();
-			updateUserList();
-		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
-				| HeuristicMixedException | HeuristicRollbackException e) {
-			e.printStackTrace();
-		}
 		user = null;
 		merkeKunde = null;
 		kreditKarte = null;
@@ -259,7 +248,7 @@ public class UserHandler implements Serializable {
 
 		@SuppressWarnings("unchecked")
 		List<User> tmpKundeList = query.getResultList();
-		if (tmpKundeList.isEmpty()) {
+		if (((tmpKundeList.size() == 1) || (user.getId() == tmpKundeList.get(0).getId())) || tmpKundeList.isEmpty()) {
 			try {
 				userTransaction.begin();
 
@@ -291,7 +280,7 @@ public class UserHandler implements Serializable {
 					"Ihr Passwort und/oder Benutzername sind bereit Vorhanden"));
 	}
 
-	/** Speichern des neuen angelegten ADMIN-Benutzer **/
+	/** Speichern des neuen angelegten ADMIN **/
 	public void speichern() {
 		Query query = entityManager
 				.createQuery("Select k from User k " + "where k.benutzername = :username or k.passwort = :passwort ");
@@ -300,7 +289,8 @@ public class UserHandler implements Serializable {
 
 		@SuppressWarnings("unchecked")
 		List<User> tmpKundeList = query.getResultList();
-		if (tmpKundeList.isEmpty()) {
+		if (((tmpKundeList.size() == 1) || (merkeKunde.getId() == tmpKundeList.get(0).getId()))
+				|| tmpKundeList.isEmpty()) {
 			try {
 				System.out.println("Speichern wurde aufgerufen");
 				userTransaction.begin();
@@ -314,7 +304,6 @@ public class UserHandler implements Serializable {
 				entityManager.persist(kreditKarte);
 				userTransaction.commit();
 				updateUserList();
-
 				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "USER",
 						"Bearbeitung wurde Erfolgreich gespeichert"));
 				context.getApplication().getNavigationHandler().handleNavigation(context, null,
@@ -326,6 +315,7 @@ public class UserHandler implements Serializable {
 		} else
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Anmeldedaten",
 					"Ihr Passwort und/oder Benutzername sind bereit Vorhanden"));
+
 	}
 
 	/**
@@ -368,6 +358,8 @@ public class UserHandler implements Serializable {
 				userTransaction.commit();
 				updateUserList();
 				merkeKunde = null;
+				context.getApplication().getNavigationHandler().handleNavigation(context, null,
+						"/homePageAdmin.xhtml?faces-redirect=true");
 				context.addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO, "USER", "USER wurde erfolgreich gelöscht"));
 			} else
@@ -378,9 +370,6 @@ public class UserHandler implements Serializable {
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
-		context.getApplication().getNavigationHandler().handleNavigation(context, null,
-				"/homePageAdmin.xhtml?faces-redirect=true");
-
 	}
 
 	/**
@@ -409,10 +398,10 @@ public class UserHandler implements Serializable {
 			user = entityManager.merge(user);
 			entityManager.persist(user);
 			userTransaction.commit();
-			context.addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_INFO, "Warenkorb", "WarenKorb erfolgreich geleert"));
 			context.getApplication().getNavigationHandler().handleNavigation(context, null,
 					"/Warenkorb.xhtml?faces-redirect=true");
+			context.addMessage(null,
+					new FacesMessage(FacesMessage.SEVERITY_INFO, "Warenkorb", "WarenKorb erfolgreich geleert"));
 		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
@@ -435,10 +424,11 @@ public class UserHandler implements Serializable {
 			entityManager.persist(user);
 			entityManager.persist(merkeArtikel);
 			userTransaction.commit();
-			
-			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"WARENKORB","Artikel erfolgreich vom Warenkorb gelöscht "));
+
 			context.getApplication().getNavigationHandler().handleNavigation(context, null,
 					"/Warenkorb.xhtml?faces-redirect=true");
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "WARENKORB",
+					"Artikel erfolgreich vom Warenkorb gelöscht "));
 
 		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
 				| HeuristicMixedException | HeuristicRollbackException e) {
@@ -462,16 +452,17 @@ public class UserHandler implements Serializable {
 				user = entityManager.merge(user);
 				entityManager.persist(user);
 				userTransaction.commit();
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO,"WARENKORB","Ihr Einkauf wurde Erfolgreich"));
 				context.getApplication().getNavigationHandler().handleNavigation(context, null,
 						"/home.xhtml?faces-redirect=true");
+				context.addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "WARENKORB", "Ihr Einkauf wurde Erfolgreich"));
 			} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException
 					| RollbackException | HeuristicMixedException | HeuristicRollbackException e) {
 				e.printStackTrace();
 			}
 		} else
-			context.addMessage(null,
-					new FacesMessage(FacesMessage.SEVERITY_WARN,"WARENKORB","Der Warenkorb ist leer, somit kann der Kauf nicht bestätigt werden !!"));
+			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "WARENKORB",
+					"Der Warenkorb ist leer, somit kann der Kauf nicht bestätigt werden !!"));
 	}
 
 	/**
@@ -482,7 +473,7 @@ public class UserHandler implements Serializable {
 		try {
 			userTransaction.begin();
 			for (Artikel artikel : user.getWarenkorb()) {
-//				artikel.setUser(null);
+				artikel.setUser(null);
 				artikel = entityManager.merge(artikel);
 				entityManager.persist(artikel);
 			}
@@ -504,6 +495,16 @@ public class UserHandler implements Serializable {
 			long artikelAnzahl = 0;
 			for (Artikel artikel : user.getWarenkorb()) {
 				artikelAnzahl = artikel.getAnzahl() - artikel.getKaufAnzahl();
+				if (artikelAnzahl < 0) {
+					context.addMessage(null,
+						new FacesMessage(FacesMessage.SEVERITY_INFO, "WARENKORB", "Der Anzahl des Artikel" + artikel.getName()+"wurde überschriten. Der aktuelle Bestand dieser Artikel ist:"+ artikel.getAnzahl()));
+				}
+				try {
+					Thread.sleep(3000);
+				} catch (InterruptedException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
 				artikel.setAnzahl(artikelAnzahl);
 				artikel = entityManager.merge(artikel);
 				entityManager.persist(artikel);
@@ -522,9 +523,18 @@ public class UserHandler implements Serializable {
 	public void addToCardShop() {
 		try {
 			if (merkeArtikel.getKaufAnzahl() < merkeArtikel.getAnzahl()) {
+				if (user.getWarenkorb().contains(merkeArtikel)) {
+					long tmpIndex = user.getWarenkorb().indexOf(merkeArtikel), tmpKaufAnzahl;
+
+					Artikel tmpArtikel = user.getWarenkorb().get((int) tmpIndex);
+					tmpKaufAnzahl = tmpArtikel.getKaufAnzahl();
+					merkeArtikel.setKaufAnzahl(merkeArtikel.getKaufAnzahl() + tmpKaufAnzahl);
+					user.getWarenkorb().remove(tmpArtikel);
+					user.getWarenkorb().add(merkeArtikel);
+				} else
+					user.getWarenkorb().add(merkeArtikel);
 				userTransaction.begin();
-				user.getWarenkorb().add(merkeArtikel);
-//				merkeArtikel.setUser(user);
+				merkeArtikel.setUser(user);
 				totalArtikelInsWarenkorb = user.getTotalArtikel();
 				totalPreisInsWarenkorb = user.getGesamtPreis();
 				user = entityManager.merge(user);
@@ -534,7 +544,8 @@ public class UserHandler implements Serializable {
 				userTransaction.commit();
 				context.addMessage(null, new FacesMessage("Artikel erfolgreich in Warenkorb hinzugefügt"));
 			} else
-				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN,"Artikel","Leider ist die gewünschte Anzahl nicht möglich"));
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "Artikel",
+						"Leider ist die gewünschte Anzahl nicht möglich"));
 		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
@@ -547,25 +558,25 @@ public class UserHandler implements Serializable {
 	 */
 	public void englischLang() {
 		context.getViewRoot().setLocale(new Locale("en"));
-		locale="en";
+		locale = "en";
 	}
-	
+
 	/**
 	 * Sprache auf Deutsch wechseln
 	 * 
 	 */
 	public void deutschLang() {
 		context.getViewRoot().setLocale(new Locale("de"));
-		locale="de";
+		locale = "de";
 	}
-	
+
 	/**
 	 * Sprache auf Französich wechseln
 	 * 
 	 */
 	public void frenchLang() {
 		context.getViewRoot().setLocale(new Locale("fr"));
-		locale="fr";
+		locale = "fr";
 	}
 
 //	private int getInteger(String string) {

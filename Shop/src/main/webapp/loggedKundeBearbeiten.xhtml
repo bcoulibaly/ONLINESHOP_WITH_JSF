@@ -280,13 +280,13 @@
 										styleClass="outputLabel" />
 								</p:panelGrid>
 							</p:panelGrid>
+							<b:commandButton value="#{msg.Abschicken}"
+							style="margin-top:10px 0px;" immediate="true"
+							action="#{loginHandler.bearbeitungSpeichern()}" look="success"/>
 						</p:panel>
-						<b:commandButton value="#{msg.Abschicken}"
-						style="margin-top:10px 0px;"
-						action="#{loginHandler.bearbeitungSpeichern()}" update="@form" look="success"/>
 					</p:tab>
 				</p:wizard>
-				<b:commandButton action="#{loginHandler.abbrechen}" style="float:left"
+				<b:commandButton action="#{loginHandler.abbrechen}" styleClass="vali-btn"
 					value="Abbrechen" immediate="true" look="primary" />
 
 			</b:container>
