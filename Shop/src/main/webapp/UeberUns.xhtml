@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
-<f:view locale="#{loginHandler.locale}"/>
+<f:view locale="#{loginHandler.locale}" />
 <h:head>
 	<title><ui:insert name="title">Belisso Shop - Ueber Uns</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/alleKunden.css"
@@ -17,8 +17,8 @@
 	<h:form>
 		<p:autoUpdate />
 		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
-			brand-img-style="width:100px; height:40px;padding-bottom:10px;" fluid="true" sticky="true"
-			look="primary">
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
+			fluid="true" sticky="true" look="primary">
 			<b:navbarLinks style="text-color:white;" pull="right">
 
 				<b:navCommandLink iconAwesome="group" value="#{msg.Kontakt}"
@@ -57,17 +57,18 @@
 				<h2>#{msg.UeberUns}</h2>
 			</b:jumbotron>
 
-			<div align="center" style="background-color: white; color: black; width: 55%;margin-left: 20%;">
+			<div align="center"
+				style="background-color: white; color: black; width: 55%; margin-left: 20%;">
 				<p>#{msg.UeberUnsText1}</p>
 				<br />
 				<p>#{msg.UeberUnsText2}</p>
 			</div>
-			
+
 
 		</b:container>
 	</h:form>
 
-	<div id="footer" style="margin-top:405px;">
+	<div id="footer" style="margin-top: 405px;">
 		<p:graphicImage style="width:200px;height:40px;"
 			value="resources/IMAGES/finallogo1.png" />
 		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF

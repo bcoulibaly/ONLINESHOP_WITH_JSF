@@ -4,7 +4,7 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
-<f:view locale="#{loginHandler.locale}"/>
+<f:view locale="#{loginHandler.locale}" />
 <h:head>
 	<title><ui:insert name="title">Belisso Shop - Warenkorb</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/alleKunden.css"
@@ -17,8 +17,7 @@
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
 
 	<h:form>
-		<b:navBar id="top"
-			brandImg="resources/IMAGES/finallogo1.png"
+		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
 			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
 			fluid="true" sticky="true">
 			<b:navbarLinks pull="right">
@@ -82,14 +81,14 @@
 						action="#{loginHandler.warenkorbLeeren()}" />
 				</div>
 				<br />
-				<p:messages showDetail="true"/>
+				<p:messages showDetail="true" closable="true" />
 				<p:dataTable id="artikels" value="#{loginHandler.user.warenkorb}"
 					style="background-color:white;" var="artikel" rows="5"
 					emptyMessage="#{msg.keineAufzeichnungen}" selectionMode="single"
 					selection="#{loginHandler.merkeArtikel}" rowKey="#{artikel.name}"
 					paginator="true">
-					
-					
+
+
 					<f:facet name="header">
 						<p:commandButton id="toggler" type="button" value="#{msg.Spalte}"
 							style="float:left" icon="pi pi-align-justify" />
@@ -110,14 +109,14 @@
 					</p:column>
 					<p:column>
 						<f:facet name="header">#{msg.preis}</f:facet>
-						<h:outputText value="#{artikel.preis}"> 
-							<f:convertNumber currencySymbol="€" pattern="#0.00"/>
+						<h:outputText value="#{artikel.preis}">
+							<f:convertNumber currencySymbol="€" pattern="#0.00" />
 						</h:outputText>
 					</p:column>
 					<p:column>
 						<f:facet name="header">#{msg.TotalPreis}</f:facet>
 						<h:outputText value="#{artikel.preisxnumber}">
-						<f:convertNumber currencySymbol="€" pattern="#0.00"/>
+							<f:convertNumber currencySymbol="€" pattern="#0.00" />
 						</h:outputText>
 					</p:column>
 					<p:column>
@@ -126,8 +125,8 @@
 							action="#{loginHandler.deleteFromCardShop()}" />
 					</p:column>
 				</p:dataTable>
-				
-				
+
+
 				<p:panel header="#{msg.KreditkarteDetails}" style="margin-top:20px;">
 					<p:panelGrid columns="2" columnClasses="label, value">
 						<h:outputText value="#{msg.ArtderKreditkarte}: " />
@@ -144,7 +143,8 @@
 						</p:inputText>
 
 						<h:outputText value="#{msg.SicherheitsPIN} : " />
-						<p:inputNumber value="#{loginHandler.kreditKarte.code}" maxValue="999" maxlength="3" minValue="0"/>
+						<p:inputNumber value="#{loginHandler.kreditKarte.code}"
+							maxValue="999" maxlength="3" minValue="0" />
 
 						<h:outputText value="#{msg.Gueltigbis} : " />
 						<p:calendar id="validCard" navigator="true" required="true"
@@ -153,7 +153,7 @@
 							mindate="#{loginHandler.maxDate}" />
 					</p:panelGrid>
 				</p:panel>
-				
+
 				<p:panelGrid id="warenkorbPanel" columns="5" layout="grid"
 					style="width:100%; background-color: white; margin-top: 50px;"
 					styleClass="showcase-text-align-center">
@@ -162,9 +162,10 @@
 						value="#{loginHandler.totalArtikelInsWarenkorb}" />
 
 					<h:outputLabel for="totalPreis" value="#{msg.TotalPreis} :" />
-					<h:outputText id="totalPreis" 
+					<h:outputText id="totalPreis"
 						value="#{loginHandler.totalPreisInsWarenkorb}">
-						<f:convertNumber  maxFractionDigits="2" currencySymbol="€" pattern="#0.00"/>
+						<f:convertNumber maxFractionDigits="2" currencySymbol="€"
+							pattern="#0.00" />
 					</h:outputText>
 				</p:panelGrid>
 

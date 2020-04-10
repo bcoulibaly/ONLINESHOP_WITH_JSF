@@ -100,7 +100,7 @@
 			<p:wizard flowListener="#{loginHandler.onFlowProcess}">
 				<p:tab id="personal" title="#{msg.tabs_name_persoenliches}">
 					<b:panel>
-						<b:messages />
+						<b:messages show-detail="true" autoUpdate="true" />
 
 						<b:panelGrid columns="2" columnClasses="label, value">
 
@@ -135,7 +135,7 @@
 							<h:outputText value="#{msg.Email} : *" />
 							<p:inputText value="#{loginHandler.merkeKunde.email}"
 								required="true" placeholder="Email"
-								requiredMessage="Email fehlt!!">
+								requiredMessage="#{msg.Email_fehlt}">
 								<f:validator validatorId="emailValidator" />
 							</p:inputText>
 
@@ -274,8 +274,8 @@
 							</p:panelGrid>
 						</p:panelGrid>
 						<b:commandButton value="#{msg.Abschicken}"
-							style="margin-top:10px 0px;"
-							action="#{loginHandler.speichern()}" look="success" process="kundenBearbeiten" />
+							style="margin-top:10px 0px;" action="#{loginHandler.speichern()}"
+							look="success" process="kundenBearbeiten" />
 					</p:panel>
 				</p:tab>
 			</p:wizard>

@@ -62,19 +62,19 @@
 		<hr width="80%" align="center" />
 
 		<div class="content-container">
-			
+
 			<p:growl placementFrom="top" show-detail="true" global-only="false"
 				show-summary="true" allow-dismiss="true"
 				animation-enter="animated bounceInDown"
 				animation-exit="animated flipOutX" />
-					
-			<p:messages />
 
+			<p:messages showDetail="true"/>
 			<b:commandButton action="#{loginHandler.neu()}"
 				value="#{msg.Neuer_Admin_Hinzufuegen}" iconAwesome="user-plus"
 				look="primary" />
 
 			<div style="margin: 10px 0px;">
+					<p:autoUpdate />
 				<p:dataTable id="users" value="#{loginHandler.kundenList}"
 					style="background-color:white;" var="kunde" rows="10"
 					paginator="true"
@@ -82,7 +82,6 @@
 					currentPageReportTemplate="{startRecord}-{endRecord} #{msg.von} {totalRecords} #{msg.Aufzeichnung}"
 					rowsPerPageTemplate="5,10,15,20">
 
-					<p:autoUpdate />
 					<f:facet name="header">
 						<p:commandButton id="toggler" type="button" value="#{msg.Spalte}"
 							style="float:left" icon="pi pi-align-justify" />
@@ -123,11 +122,6 @@
 						<h:outputFormat value="#{kunde.rolle}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg.Bearbeiten}</f:facet>
-						<p:commandButton icon="pi pi-pencil"
-							action="#{loginHandler.normaleKundeBearbeiten()}" />
-					</p:column>
-					<p:column>
 						<f:facet name="header">#{msg.kreditKarte}</f:facet>
 						<p:commandButton update="@none" process="@this" icon="pi pi-info"
 							oncomplete="PF('infoDialog').show()">
@@ -136,8 +130,13 @@
 						</p:commandButton>
 					</p:column>
 					<p:column>
+						<f:facet name="header">#{msg.Bearbeiten}</f:facet>
+						<p:commandButton icon="pi pi-pencil"
+							action="#{loginHandler.normaleKundeBearbeiten()}" />
+					</p:column>
+					<p:column>
 						<f:facet name="header">#{msg.Loeschen}</f:facet>
-						<p:commandButton icon="pi pi-user-minus" process="@this"
+						<p:commandButton icon="pi pi-user-minus" update="@form"
 							action="#{loginHandler.userLöschen()}" />
 					</p:column>
 				</p:dataTable>
@@ -148,13 +147,13 @@
 			<br />
 
 			<div style="margin: 5px 0px;">
+				<p:autoUpdate />
 				<p:dataTable id="artikelTable" var="artikel"
 					value="#{artikelHandler.artikelListe}" rowClasses="odd,even"
 					headerClass="header" paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="{startRecord}-{endRecord} #{msg.von} {totalRecords} #{msg.Aufzeichnung}"
 					rowsPerPageTemplate="5,10,15,20" rows="5">
-					<p:autoUpdate />
 					<f:facet name="header">
 						<p:commandButton id="toggler" type="button" value="#{msg.Spalte}"
 							style="float:left" icon="pi pi-align-justify" />
@@ -194,7 +193,7 @@
 					<p:column>
 						<f:facet name="header">#{msg.Loeschen}</f:facet>
 						<p:commandButton icon="pi pi-trash" icon-size="1x"
-							update="artikelTable" action="#{artikelHandler.löschen}" />
+							update="@form" action="#{artikelHandler.löschen}" />
 					</p:column>
 				</p:dataTable>
 			</div>

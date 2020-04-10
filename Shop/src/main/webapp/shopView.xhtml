@@ -8,7 +8,8 @@
 <h:head>
 	<title><ui:insert name="title">BelissoShop-ShopView</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
-	<link rel="icon" href="resources/IMAGES/finallogo1.png" type="image/png" sizes="32x32" />
+	<link rel="icon" href="resources/IMAGES/finallogo1.png"
+		type="image/png" sizes="32x32" />
 </h:head>
 
 <h:body>
@@ -77,7 +78,8 @@
 							<f:convertNumber pattern="#0.00" />
 						</h:outputText>
 					</b:panelGrid>
-					<p:commandButton value="#{msg.Infosanzeigen}" update="@none" process="@this" icon="pi pi-search"
+					<p:commandButton value="#{msg.Infosanzeigen}" update="@none"
+						process="@this" icon="pi pi-search"
 						oncomplete="PF('infoDialog').show()">
 						<f:setPropertyActionListener value="#{artikel}"
 							target="#{artikelHandler.merkeArtikel}" />
@@ -86,10 +88,10 @@
 			</p:dataGrid>
 
 			<p:dialog widgetVar="infoDialog"
-				header="#{msg.header_dialog_artikel_info}" dynamic="true" columns="3" rows="7"
-				closeOnEscape="true" fitViewport="true" width="400px" modal="true"
-				resizable="false" showEffect="clip" position="center, center"
-				hideEffect="clip">
+				header="#{msg.header_dialog_artikel_info}" dynamic="true"
+				columns="3" rows="7" closeOnEscape="true" fitViewport="true"
+				width="400px" modal="true" resizable="false" showEffect="clip"
+				position="center, center" hideEffect="clip">
 
 				<p:autoUpdate />
 				<p:outputPanel id="artikelDetail"

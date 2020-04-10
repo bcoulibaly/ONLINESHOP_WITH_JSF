@@ -15,6 +15,7 @@ Belisso Shop 0.0.1-SNAPSHOT or later with Java EE 7.
 - Primefaces: Framework required for JSF in version 7.0
 - Bootfaces: Framework for JSF in version 1.4.2
 - Blank archetyp Projekt Java EE 7
+- Selenium: For testing the app
 
 CURRENT TESTED PLATFORMS
 ------------------------
@@ -25,6 +26,7 @@ CURRENT TESTED PLATFORMS
 
 #### Platforms currently in progress:
 - Windows
+- Firefox for Selenium and the App
 
 INSTALLATION AND CONFIGURATION
 ------------------------------
@@ -37,6 +39,11 @@ INSTALLATION AND CONFIGURATION
 - Start Wildfly
 - Deployment und Test the shop.war on the server 
 - Testen Sie auch „undeploy“ 
+
+
+-Selenium 
+	- Follow the Step for download and install the WebDriver (https://www.javatpoint.com/selenium-webdriver-installation)
+	- visite the Link for download Gecko Driver for Firefox  (https://www.javatpoint.com/selenium-webdriver-running-test-on-firefox-browser-gecko-driver)
 
 #### Typical installation with eclipse-ide
 

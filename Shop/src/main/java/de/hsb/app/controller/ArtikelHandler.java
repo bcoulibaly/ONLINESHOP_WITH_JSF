@@ -57,17 +57,19 @@ public class ArtikelHandler {
 //		artikelListe.setWrappedData(entityManager.createNamedQuery("SelectArtikel").getResultList());
 //	}
 
-	public String neuArtikel() {
+	public void neuArtikel() {
 		merkeArtikel = new Artikel();
-		return "/neuerArtikel?faces-redirect=true";
+		FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null,
+				"/neuerArtikel.xhtml?faces-redirect=true");
 	}
 
-	public String artikelBearbeiten() {
+	public void artikelBearbeiten() {
 		merkeArtikel = artikelListe.getRowData();
-		return "/artikelBearbeiten?faces-redirect=true";
+		FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null,
+				"/artikelBearbeiten.xhtml?faces-redirect=true");
 	}
 
-	public String speichernArtikel() {
+	public void speichernArtikel() {
 		try {
 			
 			Path folder=Paths.get( FacesContext.getCurrentInstance().getExternalContext().getRealPath("/")+File.separator
@@ -84,10 +86,11 @@ public class ArtikelHandler {
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
-		return "/homePageAdmin?faces-redirect=true";
+		FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null,
+				"/homePageAdmin.xhtml?faces-redirect=true");
 	}
 
-	public String löschen() {
+	public void löschen() {
 		try {
 			merkeArtikel = artikelListe.getRowData();
 			artikelTransaction.begin();
@@ -99,7 +102,11 @@ public class ArtikelHandler {
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
-		return "/homePageAdmin.xhtml?faces-redirect=true";
+//		FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null,
+//				"/homePageAdmin.xhtml?faces-redirect=true");
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Artikeln",
+				"Artikel wurde erfolgreich geloscht"));
+		
 	}
 	
 	public void saveFileListener(FileUploadEvent event) {
@@ -210,6 +217,21 @@ public class ArtikelHandler {
 
 	public void setFileName(String fileName) {
 		this.fileName = fileName;
+	}
+	public UserTransaction getArtikelTransaction() {
+		return artikelTransaction;
+	}
+
+	public void setArtikelTransaction(UserTransaction artikelTransaction) {
+		this.artikelTransaction = artikelTransaction;
+	}
+
+	public InputStream getImageInput() {
+		return imageInput;
+	}
+
+	public void setImageInput(InputStream imageInput) {
+		this.imageInput = imageInput;
 	}
 
 }

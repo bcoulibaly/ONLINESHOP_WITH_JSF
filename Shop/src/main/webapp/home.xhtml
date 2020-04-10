@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
-<f:view locale="#{loginHandler.locale}"/>
+<f:view locale="#{loginHandler.locale}" />
 <h:head>
 	<title><ui:insert name="title">Beliso Shop| HOME</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
@@ -13,18 +13,21 @@
 
 <h:body>
 	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
-	<f:event listener="#{artikelHandler.updateArtikelnListen}" type="preRenderView" />
+	<f:event listener="#{artikelHandler.updateArtikelnListen}"
+		type="preRenderView" />
 	<b:form>
-		<b:navBar id="top"
-			brandImg="resources/IMAGES/finallogo1.png"
-			brand-img-style="width:100px; height:40px;padding-bottom:10px;" fluid="true"
-			sticky="true">
+		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
+			fluid="true" sticky="true">
 			<b:navbarLinks pull="right">
 
-				<b:navCommandLink  iconAwesome="group" value="#{msg.Kontakt}" href="kontakt.xhtml" />
-				<b:navCommandLink  iconAwesome="info" value="#{msg.Impressum}" href="Impressum.xhtml" />
-				<b:navCommandLink  iconAwesome="leaf" value="#{msg.UeberUns}" href="UeberUns.xhtml" />
-				
+				<b:navCommandLink iconAwesome="group" value="#{msg.Kontakt}"
+					href="kontakt.xhtml" />
+				<b:navCommandLink iconAwesome="info" value="#{msg.Impressum}"
+					href="Impressum.xhtml" />
+				<b:navCommandLink iconAwesome="leaf" value="#{msg.UeberUns}"
+					href="UeberUns.xhtml" />
+
 				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
 					<b:navCommandLink value="#{msg.deutsch} (DE)  "
 						action="#{loginHandler.deutschLang()}" immediate="true">
@@ -48,9 +51,10 @@
 						action="#{loginHandler.loggedKundeBearbeiten}" />
 					<b:navCommandLink iconAwesome="sign-out"
 						action="#{loginHandler.logout}" value="#{msg.Abmelden}">
-						<f:actionListener binding="#{shop.updateArtikelList(null)}"/>
-  						<f:actionListener binding="#{artikelHandler.updateArtikelnList(null)}"/>
-  					</b:navCommandLink>
+						<f:actionListener binding="#{shop.updateArtikelList(null)}" />
+						<f:actionListener
+							binding="#{artikelHandler.updateArtikelnList(null)}" />
+					</b:navCommandLink>
 					<b:navCommandLink></b:navCommandLink>
 					<b:navCommandLink iconAwesome="shopping-cart"
 						value="#{msg.Warenkorb}" action="#{loginHandler.goToShopCard()}" />
@@ -59,9 +63,8 @@
 		</b:navBar>
 
 		<b:container styleClass="content-container">
-			<p:growl placementFrom="top" show-detail="true" 
-				show-summary="true" allow-dismiss="true"
-				animation-enter="animated bounceInDown"
+			<p:growl placementFrom="top" show-detail="true" show-summary="true"
+				allow-dismiss="true" animation-enter="animated bounceInDown"
 				animation-exit="animated flipOutX" escape="true" />
 			<b:jumbotron style="widht:100%;">
 				<ui:insert>
@@ -70,36 +73,36 @@
 				</ui:insert>
 			</b:jumbotron>
 
-			
-			<p:messages showDetail="true"/>
-				<p:dataGrid var="ca" value="#{artikelHandler.artikelListe}"
-					columns="3" rows="9" paginator="true"
-					style="width:100%; margin-top: 50px;"
-					emptyMessage="#{msg.keineAufzeichnungen}"
-					currentPageReportTemplate="{startRecord}-{endRecord} #{msg.von} {totalRecords} #{msg.Aufzeichnung}"
-					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="9,12,15">
-	
-					<b:panel style="text-align:center;">
-						<b:panelGrid columns="1" style="width:100%;">
-						
-							<p:graphicImage style="width:200px;height:100px;"
-								value="/resources/IMAGES/ARTIKEL/#{ca.imgName}" />
-	
-							<h:outputText value="#{msg.Name} :		#{ca.name}" />
-							<h:outputText value="#{msg.preis} :		#{ca.preis} €" />
-							<br style="margin-top: 10px" />
-							<p:commandButton value="#{msg.Infosanzeigen}" update="@none"
-								process="@this" icon="pi pi-search"
-								oncomplete="PF('infoDialog').show()">
-								<f:setPropertyActionListener value="#{ca}"
-									target="#{artikelHandler.merkeArtikel}" />
-							</p:commandButton>
-	
-						</b:panelGrid>
-					</b:panel>
-				</p:dataGrid>
-			
+
+			<p:messages showDetail="true" />
+			<p:dataGrid var="ca" value="#{artikelHandler.artikelListe}"
+				columns="3" rows="9" paginator="true"
+				style="width:100%; margin-top: 50px;"
+				emptyMessage="#{msg.keineAufzeichnungen}"
+				currentPageReportTemplate="{startRecord}-{endRecord} #{msg.von} {totalRecords} #{msg.Aufzeichnung}"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="9,12,15">
+
+				<b:panel style="text-align:center;">
+					<b:panelGrid columns="1" style="width:100%;">
+
+						<p:graphicImage style="width:200px;height:100px;"
+							value="/resources/IMAGES/ARTIKEL/#{ca.imgName}" />
+
+						<h:outputText value="#{msg.Name} :		#{ca.name}" />
+						<h:outputText value="#{msg.preis} :		#{ca.preis} €" />
+						<br style="margin-top: 10px" />
+						<p:commandButton value="#{msg.Infosanzeigen}" update="@none"
+							process="@this" icon="pi pi-search"
+							oncomplete="PF('infoDialog').show()">
+							<f:setPropertyActionListener value="#{ca}"
+								target="#{artikelHandler.merkeArtikel}" />
+						</p:commandButton>
+
+					</b:panelGrid>
+				</b:panel>
+			</p:dataGrid>
+
 			<p:panelGrid id="warenkorbPanel" columns="5" layout="grid"
 				style="width:100%; background-color: white; margin-top: 50px;"
 				styleClass="showcase-text-align-center">
@@ -115,8 +118,8 @@
 			</p:panelGrid>
 
 			<p:dialog widgetVar="infoDialog"
-				header="#{msg.header_dialog_artikel_info}" modal="true" dynamic="true"
-				closeOnEscape="true" fitViewport="true" width="400px"
+				header="#{msg.header_dialog_artikel_info}" modal="true"
+				dynamic="true" closeOnEscape="true" fitViewport="true" width="400px"
 				resizable="false" showEffect="clip" hideEffect="explode">
 
 				<p:autoUpdate />
@@ -143,12 +146,9 @@
 							value="#{artikelHandler.merkeArtikel.anzahl}" />
 
 						<h:outputLabel for="spinner" value="#{msg.Anzahl} : " />
-						<p:outputPanel>
-							<p:spinner id="spinner" stepFactor="1" min="1"
+						<p:spinner id="spinner" stepFactor="1" min="1" converter="javax.faces.Long" validator="javax.faces.LongRange"
 								value="#{artikelHandler.merkeArtikel.kaufAnzahl}" />
-						</p:outputPanel>
-						<h:outputLabel />
-						<h:outputLabel />
+						<br />
 						<p:commandButton value="#{msg.Warenkorbhinzufuegen}"
 							update="@form" icon="pi pi-warenkorb"
 							action="#{loginHandler.addToCardShop()}">

@@ -358,8 +358,8 @@ public class UserHandler implements Serializable {
 				userTransaction.commit();
 				updateUserList();
 				merkeKunde = null;
-				context.getApplication().getNavigationHandler().handleNavigation(context, null,
-						"/homePageAdmin.xhtml?faces-redirect=true");
+//				context.getApplication().getNavigationHandler().handleNavigation(context, null,
+//						"/homePageAdmin.xhtml?faces-redirect=true");
 				context.addMessage(null,
 						new FacesMessage(FacesMessage.SEVERITY_INFO, "USER", "USER wurde erfolgreich gelöscht"));
 			} else
@@ -398,8 +398,8 @@ public class UserHandler implements Serializable {
 			user = entityManager.merge(user);
 			entityManager.persist(user);
 			userTransaction.commit();
-			context.getApplication().getNavigationHandler().handleNavigation(context, null,
-					"/Warenkorb.xhtml?faces-redirect=true");
+//			context.getApplication().getNavigationHandler().handleNavigation(context, null,
+//					"/Warenkorb.xhtml?faces-redirect=true");
 			context.addMessage(null,
 					new FacesMessage(FacesMessage.SEVERITY_INFO, "Warenkorb", "WarenKorb erfolgreich geleert"));
 		} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException | RollbackException
@@ -442,23 +442,28 @@ public class UserHandler implements Serializable {
 	 * 
 	 */
 	public void Kaufbestätigen() {
-		if (!user.getWarenkorb().isEmpty()) {
-			try {
-				totalArtikelInsWarenkorb = 0;
-				totalPreisInsWarenkorb = 0;
-				updateArtikelValue();
-				clearArtikels();
-				userTransaction.begin();
-				user = entityManager.merge(user);
-				entityManager.persist(user);
-				userTransaction.commit();
-				context.getApplication().getNavigationHandler().handleNavigation(context, null,
-						"/home.xhtml?faces-redirect=true");
-				context.addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, "WARENKORB", "Ihr Einkauf wurde Erfolgreich"));
-			} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException
-					| RollbackException | HeuristicMixedException | HeuristicRollbackException e) {
-				e.printStackTrace();
+		if ((!user.getWarenkorb().isEmpty())) {
+			if (updateArtikelValue()) {
+
+				try {
+					totalArtikelInsWarenkorb = 0;
+					totalPreisInsWarenkorb = 0;
+					clearArtikels();
+					userTransaction.begin();
+					user = entityManager.merge(user);
+					entityManager.persist(user);
+					userTransaction.commit();
+					context.getApplication().getNavigationHandler().handleNavigation(context, null,
+							"/home.xhtml?faces-redirect=true");
+					context.addMessage(null,
+							new FacesMessage(FacesMessage.SEVERITY_INFO, "WARENKORB", "Ihr Einkauf war Erfolgreich"));
+				} catch (NotSupportedException | SystemException | SecurityException | IllegalStateException
+						| RollbackException | HeuristicMixedException | HeuristicRollbackException e) {
+					e.printStackTrace();
+				}
+			} else {
+				context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "WARENKORB",
+						"Der Anzahl des Artikel ist überschriten. Der aktuelle Bestand dieser Artikel ist:"));
 			}
 		} else
 			context.addMessage(null, new FacesMessage(FacesMessage.SEVERITY_WARN, "WARENKORB",
@@ -489,22 +494,14 @@ public class UserHandler implements Serializable {
 	 * gekaufte Artikel vom Bestand abziehen
 	 * 
 	 */
-	public void updateArtikelValue() {
+	public boolean updateArtikelValue() {
 		try {
 			userTransaction.begin();
 			long artikelAnzahl = 0;
 			for (Artikel artikel : user.getWarenkorb()) {
 				artikelAnzahl = artikel.getAnzahl() - artikel.getKaufAnzahl();
-				if (artikelAnzahl < 0) {
-					context.addMessage(null,
-						new FacesMessage(FacesMessage.SEVERITY_INFO, "WARENKORB", "Der Anzahl des Artikel" + artikel.getName()+"wurde überschriten. Der aktuelle Bestand dieser Artikel ist:"+ artikel.getAnzahl()));
-				}
-				try {
-					Thread.sleep(3000);
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
+				if (artikelAnzahl < 0) 
+					return false;
 				artikel.setAnzahl(artikelAnzahl);
 				artikel = entityManager.merge(artikel);
 				entityManager.persist(artikel);
@@ -514,6 +511,7 @@ public class UserHandler implements Serializable {
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
+		return true;
 	}
 
 	/**

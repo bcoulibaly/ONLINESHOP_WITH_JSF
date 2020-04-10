@@ -12,8 +12,8 @@ body {
 
 * {
 	-webkit-box-sizing: border-box;
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
+	-moz-box-sizing: border-box;
+	box-sizing: border-box;
 }
 
 .knob-container {
@@ -48,14 +48,14 @@ body {
 }
 
 .ui-datagrid-content .ui-widget-content {
-	border:none;
-	background-color:rgba(0,0,255,0.2) !important;
+	border: none;
+	background-color: rgba(0, 0, 255, 0.2) !important;
 	text-align: center;
-	width:100%;
+	width: 100%;
 	margin-top: 50px;
 }
 
-.vali-btn{
+.vali-btn {
 	margin-top: 10px;
 }
 

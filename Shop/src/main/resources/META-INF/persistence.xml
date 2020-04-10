@@ -22,8 +22,8 @@
 		<class>de.hsb.app.Model.User</class>
 		<!-- If you are running in a production environment, add a managed data 
 			source, this example data source is just for development and testing! -->
-		<!-- The datasource is deployed as WEB-INF/BelissoShop-ds.xml, you can find it in 
-			the source at src/main/webapp/WEB-INF/BelissoShop-ds.xml -->
+		<!-- The datasource is deployed as WEB-INF/BelissoShop-ds.xml, you can 
+			find it in the source at src/main/webapp/WEB-INF/BelissoShop-ds.xml -->
 		<properties>
 			<!-- Properties for Hibernate -->
 			<property name="hibernate.hbm2ddl.auto" value="create-drop" />

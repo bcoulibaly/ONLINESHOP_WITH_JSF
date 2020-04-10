@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
-<f:view locale="#{loginHandler.locale}"/>
+<f:view locale="#{loginHandler.locale}" />
 <h:head>
 	<title><ui:insert name="title">BelissoShop-ShopView</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/alleKunden.css"
@@ -57,7 +57,7 @@
 			</b:jumbotron>
 
 			<div style="color: black; background-color: white; padding: 15px;">
-				<h4>#{msg.Angaben}</h4>
+				<h3>#{msg.Angaben}</h3>
 				<p>
 					Belisso Shop<br /> Stadtwerke Musterstadt<br /> 50829 Köln
 				</p>
@@ -72,7 +72,7 @@
 					<strong>#{msg.VertretenDurch}</strong><br /> Ben Inza Coulibaly
 				</p>
 
-				<h4>#{msg.Kontakt}</h4>
+				<h3>#{msg.Kontakt}</h3>
 				<p>
 					Telefon: +49 (0) 1542748596588<br />#{msg.Email}:
 					infos@beliso-shop.de
@@ -83,12 +83,12 @@
 					Coulibaly
 				</p>
 
-				<h2>#{msg.UmsatzsteuerID}</h2>
+				<h3>#{msg.UmsatzsteuerID}</h3>
 				<p>DE 999 999 999</p>
 
 				<p>#{msg.WebseiteKonzeptionText}</p>
 
-				<h4>#{msg.HaftungFuerInhalte}</h4>
+				<h3>#{msg.HaftungFuerInhalte}</h3>
 				<p>#{msg.HaftungInhaltText1}</p>
 				<p>#{msg.HaftungInhalttext2}</p>
 

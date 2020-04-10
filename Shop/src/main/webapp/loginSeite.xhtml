@@ -4,7 +4,7 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
-<f:view locale="#{loginHandler.locale}"/>
+<f:view locale="#{loginHandler.locale}" />
 <h:head>
 	<title><ui:insert name="title">Belisso Shop - LoginSeite</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
@@ -14,8 +14,7 @@
 <h:body>
 
 	<h:form>
-		<b:navBar id="top"
-			brandImg="resources/IMAGES/finallogo1.png"
+		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
 			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
 			fluid="true" sticky="true">
 			<b:navbarLinks style="text-color:white;" pull="right">
@@ -53,7 +52,7 @@
 		<ui:insert name="headPage">#{msg.Anmelden}</ui:insert>
 	</h2>
 	<hr width="80%" align="center" />
-	
+
 	<h:form id="loginForm">
 		<b:container styleClass="loginClass">
 			<b:panel style="width:50%;margin:auto;" title="#{msg.Einloggen}"
@@ -106,7 +105,7 @@
 		</b:container>
 	</h:form>
 
-	<div id="footer" style="margin-top:305px;">
+	<div id="footer" style="margin-top: 305px;">
 		<p:graphicImage style="width:200px;height:40px;"
 			value="resources/IMAGES/finallogo1.png" />
 		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF

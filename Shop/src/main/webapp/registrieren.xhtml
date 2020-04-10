@@ -4,12 +4,13 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
-<f:view locale="#{loginHandler.locale}"/>
+<f:view locale="#{loginHandler.locale}" />
 <h:head>
 
 	<title><ui:insert name="title">Belisso Shop - Registrieren</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
-	<link href="resources/IMAGES/finallogo1.png" rel="icon" type="image/png" />
+	<link href="resources/IMAGES/finallogo1.png" rel="icon"
+		type="image/png" />
 	<style type="text/css">
 .label {
 	width: 20%;
@@ -84,12 +85,12 @@
 		<ui:insert name="headPage"> #{msg.Registrieren}</ui:insert>
 	</h2>
 	<hr width="80%" align="center" />
-	
+
 	<h:form>
-	
+
 		<b:container class="content-container">
 			<p:growl id="growl" sticky="true" showDetail="true" />
-			
+
 			<p:messages showDetail="true" />
 
 			<p:wizard flowListener="#{loginHandler.onFlowProcess}">
@@ -178,7 +179,8 @@
 							</p:inputText>
 
 							<h:outputText value="#{msg.SicherheitsPIN} : " />
-							<p:inputNumber value="#{loginHandler.kreditKarte.code}" maxValue="999" maxlength="3" minValue="0"/>
+							<p:inputNumber value="#{loginHandler.kreditKarte.code}"
+								maxValue="999" maxlength="3" minValue="0" />
 
 							<h:outputText value="#{msg.Gueltigbis} : " />
 							<p:calendar id="validCard" navigator="true"
@@ -227,9 +229,9 @@
 
 								<h:outputText value="#{msg.Geburtsdatum} : " />
 								<h:outputText value="#{loginHandler.merkeKunde.geburtsdatum}"
-									styleClass="outputLabel" >
+									styleClass="outputLabel">
 									<f:convertDateTime locale="#{loginHandler.locale}"
-											pattern="dd/MM/yyyy" />
+										pattern="dd/MM/yyyy" />
 								</h:outputText>
 							</p:panelGrid>
 
@@ -262,9 +264,9 @@
 
 								<h:outputText value="#{msg.Gueltigbis} : " />
 								<h:outputText value="#{loginHandler.kreditKarte.endDate}"
-									styleClass="outputLabel" >
+									styleClass="outputLabel">
 									<f:convertDateTime locale="#{loginHandler.locale}"
-											pattern="MM/yyyy" />
+										pattern="MM/yyyy" />
 								</h:outputText>
 							</p:panelGrid>
 
@@ -279,13 +281,14 @@
 							</p:panelGrid>
 						</p:panelGrid>
 						<b:commandButton value="#{msg.Abschicken}" look="success"
-							style="margin-top:10px 0px;" action="#{loginHandler.registrierungSpeichern()}"
-							update="@form" />
+							style="margin-top:10px 0px;"
+							action="#{loginHandler.registrierungSpeichern()}" update="@form" />
 					</p:panel>
 				</p:tab>
 			</p:wizard>
-			<b:commandButton action="#{loginHandler.abbrechen}"  styleClass="vali-btn"
-					value="Abbrechen" immediate="true" look="primary" />
+			<b:commandButton action="#{loginHandler.abbrechen}"
+				styleClass="vali-btn" value="Abbrechen" immediate="true"
+				look="primary" />
 		</b:container>
 	</h:form>
 
