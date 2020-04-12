@@ -102,9 +102,7 @@ public class ArtikelHandler {
 				| HeuristicMixedException | HeuristicRollbackException e) {
 			e.printStackTrace();
 		}
-//		FacesContext.getCurrentInstance().getApplication().getNavigationHandler().handleNavigation(FacesContext.getCurrentInstance(), null,
-//				"/homePageAdmin.xhtml?faces-redirect=true");
-		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Artikeln",
+		FacesContext.getCurrentInstance().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_INFO, "Artikeln",
 				"Artikel wurde erfolgreich geloscht"));
 		
 	}

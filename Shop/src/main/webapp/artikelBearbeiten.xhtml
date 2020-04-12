@@ -94,17 +94,18 @@ grid {
 				animation-enter="animated bounceInDown"
 				animation-exit="animated flipOutX" escape="true" />
 
+				<p:messages id="msgs" showDetail="true" />
 			<h:panelGrid columns="2" headerClass="header" footerClass="footer"
 				style="background-color:DodgerBlue">
 
 				<h:outputLabel value="#{msg.Bild} :" for="bild" />
 				<p:graphicImage id="bild" width="80px" height="50px"
 					value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.imgName}" />
-
-				<p:messages id="msgs" showDetail="true" />
+					
+				<h:outputLabel for="fileName"  value="#{msg.Name}" />
 				<h:outputLabel id="fileName" value="#{artikelHandler.fileName}" />
 				<h:outputLabel value="#{msg.NeuesBildHochladen} :" for="img" />
-				<p:fileUpload id="img"
+				<p:fileUpload id="img" auto="TRUE"
 					fileUploadListener="#{artikelHandler.saveFileListener}"
 					allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="advanced"
 					update="msgs,fileName" />

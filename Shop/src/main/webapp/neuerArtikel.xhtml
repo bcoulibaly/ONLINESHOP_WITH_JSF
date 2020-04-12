@@ -64,17 +64,20 @@
 	<b:container styleClass="content-container" align="center">
 		<h:form id="neuArtikel">
 			<p:growl id="messages" showDetail="true" />
-			<p:panel>
+			
+			<p:panel header="#{msg.header_dialog_artikel_info}">
+				
+				<p:messages id="msgs" showDetail="true" />
 				<h:panelGrid value="#{artikelHandler.merkeArtikel}" columns="2"
 					headerClass="header" footerClass="footer">
 
 					<h:outputLabel value="#{msg.Bild}" for="img" />
-					<p:fileUpload id="img"
+					<p:fileUpload id="img" auto="true"
 						fileUploadListener="#{artikelHandler.saveFileListener}"
 						allowTypes="/(\.|\/)(gif|jpe?g|png)$/" mode="advanced"
 						update="messages,fileName" />
 
-					<p:messages id="msgs" showDetail="true" />
+					<h:outputLabel for="fileName" value="#{msg.Name}" />
 					<h:outputLabel id="fileName" value="#{artikelHandler.fileName}" />
 
 					<h:outputLabel value="#{msg.Name}:" for="name" />

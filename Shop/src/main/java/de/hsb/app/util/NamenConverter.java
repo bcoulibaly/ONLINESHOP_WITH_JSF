@@ -21,12 +21,15 @@ public class NamenConverter implements Converter {
 			return null;
 		else {
 			try {
-				
+				if (!(value.matches("([a-zA-Z]+|[a-zA-Z]+\\s[a-zA-Z]+)"))) 
+					throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error",
+							"Das eingegebene Daten enthält Nummer, Bitte keine Nummer in diesen Feld eingeben"));
+				else {
 				char newChar = value.charAt(0);
 				newChar = Character.toUpperCase(newChar);
 				value = value.replaceFirst(String.valueOf(value.charAt(0)), String.valueOf(newChar));
 				return (String) value;
-
+				}
 			} catch (NumberFormatException exception) {
 				throw new ConverterException(new FacesMessage(FacesMessage.SEVERITY_ERROR, "Conversion Error",
 						"Das eingegebene Daten enthält Nummer, Bitte keine Nummer in diesen Feld eingeben"));

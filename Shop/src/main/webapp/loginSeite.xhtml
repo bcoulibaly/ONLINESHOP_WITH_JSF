@@ -12,7 +12,8 @@
 </h:head>
 
 <h:body>
-
+	<f:event listener="#{shop.updateArtikelListen}"
+		type="preRenderView" />
 	<h:form>
 		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
 			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
@@ -55,20 +56,21 @@
 
 	<h:form id="loginForm">
 		<b:container styleClass="loginClass">
+			<p:growl placementFrom="top" show-detail="true" show-summary="true"
+				animation-enter="animated bounceInDown" showDetail="true"
+				animation-exit="animated flipOutX" escape="true" />
 			<b:panel style="width:50%;margin:auto;" title="#{msg.Einloggen}"
 				look="success" collapsible="false">
 				<b:row>
 					<b:column medium-screen="12">
-						<p:growl placementFrom="top" show-detail="true"
-							global-only="false" show-summary="true" allow-dismiss="true"
-							animation-enter="animated bounceInDown"
-							animation-exit="animated flipOutX" escape="true" />
+						<p:messages showIcon="true"  showDetail="true"/>
 					</b:column>
 					<b:column medium-screen="12">
 						<h:outputText value="#{msg.Benutzername} :" for="username" />
 					</b:column>
 					<b:column medium-screen="12">
 						<b:inputText placeholder="#{msg.BenutzernameEingeben}"
+							required="true" requiredMessage="#{msg.Benutzername_fehler}"
 							id="username" value="#{credential.username}" autocomplete="true">
 							<f:facet name="prepend">
 								<b:icon name="user" />
@@ -82,6 +84,7 @@
 					</b:column>
 					<b:column medium-screen="12">
 						<b:inputSecret placeholder="#{msg.PasswortEingeben}" id="password"
+							required="true" requiredMessage="#{msg.Passwort_fehler}"
 							value="#{credential.password}" autocomplete="true">
 							<f:facet name="prepend">
 								<b:iconAwesome name="key" />
@@ -92,7 +95,7 @@
 				<b:row>
 					<b:column span="4" offset="2">
 						<b:commandButton value="#{msg.Anmelden}" process="@all"
-							action="#{loginHandler.login}"
+							action="#{loginHandler.login}" update="@form"
 							style="width:100%; background-color:#00DBDE;" />
 					</b:column>
 					<b:column span="4">

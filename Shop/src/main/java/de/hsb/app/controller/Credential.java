@@ -4,13 +4,19 @@ import javax.enterprise.context.RequestScoped;
 import javax.inject.Named;
 import javax.validation.constraints.NotNull;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 @Named
 @RequestScoped
 public class Credential {
+	@NotNull
+	@NotEmpty
 	private String benutzername;
+	@NotNull
+	@NotEmpty
 	private String passwort;
 		
-	@NotNull
+	
 	public String getUsername() {
 		return benutzername;
 	}
@@ -19,7 +25,7 @@ public class Credential {
 		this.benutzername = username;
 	}
 
-	@NotNull
+	
 	public String getPassword() {
 		return passwort;
 	}

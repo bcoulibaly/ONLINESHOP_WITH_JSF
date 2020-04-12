@@ -74,13 +74,13 @@
 				look="primary" />
 
 			<div style="margin: 10px 0px;">
-					<p:autoUpdate />
+					
 				<p:dataTable id="users" value="#{loginHandler.kundenList}"
 					style="background-color:white;" var="kunde" rows="10"
 					paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="{startRecord}-{endRecord} #{msg.von} {totalRecords} #{msg.Aufzeichnung}"
-					rowsPerPageTemplate="5,10,15,20">
+					rowsPerPageTemplate="5,10,15">
 
 					<f:facet name="header">
 						<p:commandButton id="toggler" type="button" value="#{msg.Spalte}"
@@ -147,13 +147,12 @@
 			<br />
 
 			<div style="margin: 5px 0px;">
-				<p:autoUpdate />
 				<p:dataTable id="artikelTable" var="artikel"
 					value="#{artikelHandler.artikelListe}" rowClasses="odd,even"
 					headerClass="header" paginator="true"
 					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
 					currentPageReportTemplate="{startRecord}-{endRecord} #{msg.von} {totalRecords} #{msg.Aufzeichnung}"
-					rowsPerPageTemplate="5,10,15,20" rows="5">
+					rowsPerPageTemplate="5,10,15" rows="5">
 					<f:facet name="header">
 						<p:commandButton id="toggler" type="button" value="#{msg.Spalte}"
 							style="float:left" icon="pi pi-align-justify" />

@@ -66,7 +66,7 @@ public class User {
 	@Column(name = "PLZ")
 	private String plz;
 
-	@Size(min = 6, max = 100)
+	@Size(min = 2, max = 100)
 	@Column(name = "Ort")
 	private String ort;
 

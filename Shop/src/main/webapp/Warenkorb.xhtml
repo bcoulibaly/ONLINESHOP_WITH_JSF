@@ -77,10 +77,12 @@
 
 				<div>
 					<p:commandButton icon="pi pi-shopping-cart"
-						value="#{msg.WarenkorbLeeren}"
+						value="#{msg.WarenkorbLeeren}" update="@form"
 						action="#{loginHandler.warenkorbLeeren()}" />
 				</div>
 				<br />
+				
+				<p:staticMessage severity="warn" summary="#{msg.warnung}" detail="#{msg.infoWareLoeschen}" />
 				<p:messages showDetail="true" closable="true" />
 				<p:dataTable id="artikels" value="#{loginHandler.user.warenkorb}"
 					style="background-color:white;" var="artikel" rows="5"
@@ -108,27 +110,27 @@
 						<h:outputText value="#{artikel.kaufAnzahl}" />
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg.preis}</f:facet>
+						<f:facet name="header">#{msg.preis} €</f:facet>
 						<h:outputText value="#{artikel.preis}">
 							<f:convertNumber currencySymbol="€" pattern="#0.00" />
 						</h:outputText>
 					</p:column>
 					<p:column>
-						<f:facet name="header">#{msg.TotalPreis}</f:facet>
+						<f:facet name="header">#{msg.TotalPreis} €</f:facet>
 						<h:outputText value="#{artikel.preisxnumber}">
 							<f:convertNumber currencySymbol="€" pattern="#0.00" />
 						</h:outputText>
 					</p:column>
 					<p:column>
 						<f:facet name="header">#{msg.Loeschen}</f:facet>
-						<p:commandButton icon="pi pi-trash" update="artikels"
+						<p:commandButton icon="pi pi-trash" update="@form"
 							action="#{loginHandler.deleteFromCardShop()}" />
 					</p:column>
 				</p:dataTable>
 
 
 				<p:panel header="#{msg.KreditkarteDetails}" style="margin-top:20px;">
-					<p:panelGrid columns="2" columnClasses="label, value">
+					<h:panelGrid columns="2" style="color:black">
 						<h:outputText value="#{msg.ArtderKreditkarte}: " />
 						<b:selectOneMenu id="artKreditKarte"
 							value="#{loginHandler.kreditKarte.karteArt}">
@@ -137,21 +139,21 @@
 						</b:selectOneMenu>
 
 						<h:outputText value="#{msg.Nummer}. : " />
-						<p:inputText value="#{loginHandler.kreditKarte.nummer}">
+						<p:inputText value="#{loginHandler.kreditKarte.nummer}" required="true" requiredMessage="#{msg.NummerFehler}">
 							<f:converter converterId="kreditkartenConverter" />
 							<f:validator validatorId="kreditKarteValidator" />
 						</p:inputText>
 
 						<h:outputText value="#{msg.SicherheitsPIN} : " />
-						<p:inputNumber value="#{loginHandler.kreditKarte.code}"
-							maxValue="999" maxlength="3" minValue="0" />
+						<p:inputNumber value="#{loginHandler.kreditKarte.code}" required="true" requiredMessage="#{msg.Sicherheit_Pin_Fehler}"
+							maxValue="999" maxlength="3" minValue="1" />
 
 						<h:outputText value="#{msg.Gueltigbis} : " />
 						<p:calendar id="validCard" navigator="true" required="true"
-							requiredMessage="#{msg.Gueltigbis_fehler}"
-							value="#{loginHandler.kreditKarte.endDate}" pattern="MM/yyyy"
-							mindate="#{loginHandler.maxDate}" />
-					</p:panelGrid>
+							requiredMessage="#{msg.Gueltigbis_fehler}" mask="true"
+							value="#{loginHandler.kreditKarte.endDate}" pattern="MM/yyyy"/>
+							
+					</h:panelGrid>
 				</p:panel>
 
 				<p:panelGrid id="warenkorbPanel" columns="5" layout="grid"
@@ -161,19 +163,19 @@
 					<h:outputText id="size"
 						value="#{loginHandler.totalArtikelInsWarenkorb}" />
 
-					<h:outputLabel for="totalPreis" value="#{msg.TotalPreis} :" />
+					<h:outputLabel for="totalPreis" value="#{msg.TotalPreis} € :" />
 					<h:outputText id="totalPreis"
 						value="#{loginHandler.totalPreisInsWarenkorb}">
-						<f:convertNumber maxFractionDigits="2" currencySymbol="€"
+						<f:convertNumber maxFractionDigits="2"
 							pattern="#0.00" />
 					</h:outputText>
 				</p:panelGrid>
 
-				<p:commandButton id="shop" action="#{loginHandler.abbrechen()}"
+				<p:commandButton id="shop" action="#{loginHandler.abbrechen()}" styleClass="vali-btn"
 					value="#{msg.ZurueckZumShop}" immediate="true" />
 
-				<p:commandButton id="confirmShop" update="@form"
-					style="margin-left:600px" action="#{loginHandler.Kaufbestätigen()}"
+				<p:commandButton id="confirmShop" update="@form" icon="pi pi-check" styleClass="vali-btn"
+					style="margin-left:600px;background-color:green;" action="#{loginHandler.Kaufbestätigen()}"
 					value="#{msg.KaufBestaetigen}">
 					<f:actionListener
 						binding="#{artikelHandler.updateArtikelnList(null)}" />

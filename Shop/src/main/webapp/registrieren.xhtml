@@ -9,8 +9,8 @@
 
 	<title><ui:insert name="title">Belisso Shop - Registrieren</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
-	<link href="resources/IMAGES/finallogo1.png" rel="icon"
-		type="image/png" />
+	<link href="resources/IMAGES/finallogo1.png" rel="icon"	type="image/png" />
+	<h:outputScript name="resources/script/calendar_local.js" />
 	<style type="text/css">
 .label {
 	width: 20%;
@@ -123,13 +123,13 @@
 
 							<h:outputText value="#{msg.Geburtsdatum} : *" />
 							<p:calendar id="geburtsdatum"
-								value="#{loginHandler.merkeKunde.geburtsdatum}"
+								value="#{loginHandler.merkeKunde.geburtsdatum}" locale="#{loginHandler.locale}"
 								pattern="dd/MM/yyyy" maxdate="#{loginHandler.maxDate}"
 								required="true" requiredMessage="Geburtsdatum fehlt"
 								navigator="true" />
 
 							<h:outputText value="#{msg.Email} : *" />
-							<p:inputText value="#{loginHandler.merkeKunde.email}"
+							<p:inputText value="#{loginHandler.merkeKunde.email}" 
 								required="true" placeholder="Email"
 								requiredMessage="Email fehlt!!">
 								<f:validator validatorId="emailValidator" />
@@ -163,7 +163,7 @@
 				<p:tab id="kreditKarte" title="#{msg.tabs_name_KreditKarte}">
 					<p:panel>
 						<p:messages />
-						<p:panelGrid columns="2" columnClasses="label, value">
+						<h:panelGrid columns="2" columnClasses="label, value">
 
 							<h:outputText value="#{msg.ArtderKreditkarte} : " />
 							<b:selectOneMenu id="artKreditKarte"
@@ -183,13 +183,10 @@
 								maxValue="999" maxlength="3" minValue="0" />
 
 							<h:outputText value="#{msg.Gueltigbis} : " />
-							<p:calendar id="validCard" navigator="true"
-								value="#{loginHandler.kreditKarte.endDate}" pattern="MM/yyyy"
-								mindate="#{loginHandler.maxDate}">
-								<f:convertDateTime pattern="MM/yyyy" type="date" />
-							</p:calendar>
+							<p:calendar id="validCard" navigator="true" mask="true"
+								value="#{loginHandler.kreditKarte.endDate}" pattern="MM/yyyy"/>
 
-						</p:panelGrid>
+						</h:panelGrid>
 					</p:panel>
 				</p:tab>
 
@@ -216,9 +213,9 @@
 
 				<p:tab id="confirm" title="Confirmation">
 					<p:panel header="Confirmation">
-						<p:panelGrid id="confirmation" columns="3"
+						<h:panelGrid id="confirmation" columns="3"
 							columnClasses="grid,grid,grid">
-							<p:panelGrid columns="2" columnClasses="label, value">
+							<h:panelGrid columns="2" columnClasses="label, value">
 								<h:outputText value="Firstname: " />
 								<h:outputText value="#{loginHandler.merkeKunde.vorname}"
 									styleClass="outputLabel" />
@@ -233,9 +230,9 @@
 									<f:convertDateTime locale="#{loginHandler.locale}"
 										pattern="dd/MM/yyyy" />
 								</h:outputText>
-							</p:panelGrid>
+							</h:panelGrid>
 
-							<p:panelGrid columns="2" columnClasses="label, value">
+							<h:panelGrid columns="2" columnClasses="label, value">
 								<h:outputText value="#{msg.Strasse} : " />
 								<h:outputText value="#{loginHandler.merkeKunde.strasse}"
 									styleClass="outputLabel" />
@@ -247,9 +244,9 @@
 								<h:outputText value="#{msg.Stadt} : " />
 								<h:outputText value="#{loginHandler.merkeKunde.ort}"
 									styleClass="outputLabel" />
-							</p:panelGrid>
+							</h:panelGrid>
 
-							<p:panelGrid columns="2" columnClasses="label, value">
+							<h:panelGrid columns="2" columnClasses="label, value">
 								<h:outputText value="#{msg.ArtderKreditkarte} :" />
 								<h:outputText value="#{loginHandler.kreditKarte.karteArt}"
 									styleClass="outputLabel" />
@@ -268,9 +265,9 @@
 									<f:convertDateTime locale="#{loginHandler.locale}"
 										pattern="MM/yyyy" />
 								</h:outputText>
-							</p:panelGrid>
+							</h:panelGrid>
 
-							<p:panelGrid columns="2" columnClasses="label, value">
+							<h:panelGrid columns="2" columnClasses="label, value">
 								<h:outputText value="#{msg.Email} : " />
 								<h:outputText value="#{loginHandler.merkeKunde.email}"
 									styleClass="outputLabel" />
@@ -278,15 +275,18 @@
 								<h:outputText value="#{msg.Benutzername} : " />
 								<h:outputText value="#{loginHandler.merkeKunde.benutzername}"
 									styleClass="outputLabel" />
-							</p:panelGrid>
-						</p:panelGrid>
-						<b:commandButton value="#{msg.Abschicken}" look="success"
+								<h:outputText value="#{msg.Passwort} : " />
+								<h:outputText value="#{loginHandler.merkeKunde.passwort}"
+									styleClass="outputLabel" />
+							</h:panelGrid>
+						</h:panelGrid>
+						<b:commandButton value="#{msg.Abschicken}" look="success" iconAwesome="save"
 							style="margin-top:10px 0px;"
 							action="#{loginHandler.registrierungSpeichern()}" update="@form" />
 					</p:panel>
 				</p:tab>
 			</p:wizard>
-			<b:commandButton action="#{loginHandler.abbrechen}"
+			<b:commandButton action="#{loginHandler.abbrechen}" iconAwesome="caret-left"
 				styleClass="vali-btn" value="Abbrechen" immediate="true"
 				look="primary" />
 		</b:container>

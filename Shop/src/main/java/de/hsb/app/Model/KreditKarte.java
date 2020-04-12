@@ -1,8 +1,6 @@
 package de.hsb.app.Model;
 
-import java.time.LocalDate;
 import java.util.Date;
-import java.util.GregorianCalendar;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -56,7 +54,6 @@ public class KreditKarte {
 		this.nummer = nummer;
 		this.code = code;
 		this.karteArt = art;
-		this.endDate = getEndDate();
 	}
 	
 	public String getNummer() {
@@ -88,12 +85,10 @@ public class KreditKarte {
 	}
 
 	/**
-	 * Setzt den min Datum, ab wann ein Kreditkarte gueltig ist.
+	 * Setzt den max Datum, bis wann ein Kreditkarte gueltig ist.
 	 * @return
 	 */
 	public Date getEndDate() {
-		LocalDate date = LocalDate.now().plusYears(10);
-		this.endDate = new GregorianCalendar(date.getYear(), date.getMonthValue()+1, date.getDayOfMonth()).getTime();
 		return endDate;
 	}
 
