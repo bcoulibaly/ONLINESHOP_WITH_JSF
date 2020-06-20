@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+<f:view locale="#{loginHandler.locale}" />
+<h:head>
+	<title><ui:insert name="title">BelissoShop-ShopView</ui:insert></title>
+	<link rel="stylesheet" href="resources/CSS/alleKunden.css"
+		type="text/css" />
+	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
+	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.png" />
+</h:head>
+
+<h:body style="background-color:white; background-image:none;">
+	<h:form>
+		<p:autoUpdate />
+		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
+			fluid="true" sticky="true">
+			<b:navbarLinks style="text-color:white;" pull="right">
+				<b:navCommandLink iconAwesome="group" value="#{msg.Kontakt}"
+					href="kontakt.xhtml" />
+				<b:navCommandLink iconAwesome="info" value="#{msg.Impressum}"
+					href="Impressum.xhtml" />
+				<b:navCommandLink iconAwesome="leaf" value="#{msg.UeberUns}"
+					href="UeberUns.xhtml" />
+
+				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
+					<b:navCommandLink value="#{msg.deutsch} (DE)  "
+						action="#{loginHandler.deutschLang()}" immediate="true">
+						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="#{msg.englisch} (EN)  "
+						action="#{loginHandler.englischLang()}" immediate="true">
+						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="#{msg.franzoesich} (FR)  "
+						action="#{loginHandler.frenchLang()}" immediate="true">
+						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
+					</b:navCommandLink>
+				</b:dropMenu>
+
+				<b:navCommandLink value="Home" iconAwesome="home"
+					action="#{loginHandler.abbrechen()}" />
+			</b:navbarLinks>
+		</b:navBar>
+	</h:form>
+
+	<h:form>
+
+		<b:container styleClass="content-container">
+
+			<b:jumbotron>
+				<h3>#{msg.Impressum}</h3>
+			</b:jumbotron>
+
+			<div style="color: black; background-color: white; padding: 15px;">
+				<h3>#{msg.Angaben}</h3>
+				<p>
+					Belisso Shop<br /> Stadtwerke Musterstadt<br /> 50829 Köln
+				</p>
+
+
+				<p>
+					#{msg.OnlineShopsregister} : HRK 999999<br />
+					#{msg.Registergericht}: #{msg.Amtsgericht} Köln
+				</p>
+
+				<p>
+					<strong>#{msg.VertretenDurch}</strong><br /> Ben Inza Coulibaly
+				</p>
+
+				<h3>#{msg.Kontakt}</h3>
+				<p>
+					Telefon: +49 (0) 1542748596588<br />#{msg.Email}:
+					infos@beliso-shop.de
+				</p>
+
+				<p>
+					<strong>#{msg.WebseiteKonzeption}</strong><br /> Ben Inza
+					Coulibaly
+				</p>
+
+				<h3>#{msg.UmsatzsteuerID}</h3>
+				<p>DE 999 999 999</p>
+
+				<p>#{msg.WebseiteKonzeptionText}</p>
+
+				<h3>#{msg.HaftungFuerInhalte}</h3>
+				<p>#{msg.HaftungInhaltText1}</p>
+				<p>#{msg.HaftungInhalttext2}</p>
+
+				<h3>#{msg.HaftungFuerLinks}</h3>
+				<p>#{msg.HaftungLinksText1}</p>
+				<p>#{msg.HaftungLinksText2}</p>
+
+				<h3>#{msg.Urheberrecht}</h3>
+				<p>#{msg.UrheberrechtText1}</p>
+				<p>#{msg.UrheberrechtText2}</p>
+			</div>
+		</b:container>
+	</h:form>
+
+	<div id="footer">
+		<p:graphicImage style="width:200px;height:40px;"
+			value="resources/IMAGES/finallogo1.png" />
+		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
+			WEB-APPLICATION </span>
+	</div>
+
+</h:body>
+
+</html>

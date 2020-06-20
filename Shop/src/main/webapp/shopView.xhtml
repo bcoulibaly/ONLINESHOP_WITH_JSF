@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+<f:view locale="#{loginHandler.locale}" />
+<h:head>
+	<title><ui:insert name="title">BelissoShop-ShopView</ui:insert></title>
+	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
+	<link rel="icon" href="resources/IMAGES/finallogo1.png"
+		type="image/png" sizes="32x32" />
+</h:head>
+
+<h:body>
+	<f:event listener="#{shop.updateArtikelListen}" type="preRenderView" />
+	<h:form>
+		<p:autoUpdate />
+		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
+			brand-img-style="width:150px;height:40px;padding-bottom:10px;"
+			fluid="true" sticky="true">
+			<b:navbarLinks style="text-color:white;" pull="right">
+
+				<b:navCommandLink iconAwesome="group" value="#{msg.Kontakt}"
+					href="kontakt.xhtml" />
+				<b:navCommandLink iconAwesome="info" value="#{msg.Impressum}"
+					href="Impressum.xhtml" />
+				<b:navCommandLink iconAwesome="leaf" value="#{msg.UeberUns}"
+					href="UeberUns.xhtml" />
+
+				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
+					<b:navCommandLink value="#{msg.deutsch} (DE)  "
+						action="#{loginHandler.deutschLang()}" immediate="true">
+						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="#{msg.englisch} (EN)  "
+						action="#{loginHandler.englischLang()}" immediate="true">
+						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="#{msg.franzoesich} (FR)  "
+						action="#{loginHandler.frenchLang()}" immediate="true">
+						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
+					</b:navCommandLink>
+				</b:dropMenu>
+
+				<b:navCommandLink value="#{msg.Einloggen}"
+					action="#{loginHandler.redirectToLoginPage()}" />
+			</b:navbarLinks>
+		</b:navBar>
+	</h:form>
+
+	<h:form>
+
+		<b:container styleClass="content-container">
+			<b:jumbotron>
+
+				<h3>#{msg.jumbotron_welcome}</h3>
+				<p>
+					#{msg.jumbotron_welcometext2}. <i class="pi pi-thumbs-up"></i>
+				</p>
+			</b:jumbotron>
+
+
+			<p:dataGrid id="artikelTable" var="artikel"
+				value="#{shop.artikelList}" columns="3" rows="9" paginator="true"
+				paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="9,12,15">
+
+				<b:panel style="text-align:center;">
+					<p:graphicImage style="width:200px;height:100px;"
+						value="/resources/IMAGES/ARTIKEL/#{artikel.imgName}" />
+					<b:panelGrid columns="2">
+
+						<h:outputText value=" #{msg.Name}: " />
+						<h:outputText value="#{artikel.name}" />
+						<h:outputText value="#{msg.preis}: " />
+						<h:outputText value="#{artikel.preis} €">
+							<f:convertNumber pattern="#0.00" />
+						</h:outputText>
+					</b:panelGrid>
+					<p:commandButton value="#{msg.Infosanzeigen}" update="@none"
+						process="@this" icon="pi pi-search"
+						oncomplete="PF('infoDialog').show()">
+						<f:setPropertyActionListener value="#{artikel}"
+							target="#{artikelHandler.merkeArtikel}" />
+					</p:commandButton>
+				</b:panel>
+			</p:dataGrid>
+
+			<p:dialog widgetVar="infoDialog"
+				header="#{msg.header_dialog_artikel_info}" dynamic="true"
+				columns="3" rows="7" closeOnEscape="true" fitViewport="true"
+				width="400px" modal="true" resizable="false" showEffect="clip"
+				position="center, center" hideEffect="clip">
+
+				<p:autoUpdate />
+				<p:outputPanel id="artikelDetail"
+					style="text-align:center; word-break:keep-all; width:100%">
+					<div style="width: 350px;">
+						<p:graphicImage
+							value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.imgName}"
+							width="300" />
+					</div>
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel for="Name" value="#{msg.Name} : " />
+						<h:outputText id="Name"
+							value="#{artikelHandler.merkeArtikel.name}" />
+
+						<h:outputLabel for="Preis" value="#{msg.preis} :" />
+						<h:outputText id="Preis"
+							value="#{artikelHandler.merkeArtikel.preis} €">
+							<f:convertNumber pattern="#0.00" />
+						</h:outputText>
+
+						<h:outputLabel for="anzahl" value="#{msg.Verfuegbar} :" />
+						<h:outputText id="anzahl"
+							value="#{artikelHandler.merkeArtikel.anzahl}" />
+
+						<h:outputLabel for="beschreibung" value="#{msg.Beschreibung} :" />
+						<h:outputText id="beschreibung"
+							value="#{artikelHandler.merkeArtikel.beschreibung}" />
+
+					</h:panelGrid>
+				</p:outputPanel>
+
+			</p:dialog>
+		</b:container>
+	</h:form>
+
+	<div id="footer">
+		<p:graphicImage style="width:200px;height:40px;"
+			value="resources/IMAGES/finallogo1.png" />
+		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
+			WEB-APPLICATION </span>
+	</div>
+</h:body>
+
+</html>

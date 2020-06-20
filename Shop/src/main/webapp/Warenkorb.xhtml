@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+<f:view locale="#{loginHandler.locale}" />
+<h:head>
+	<title><ui:insert name="title">Belisso Shop - Warenkorb</ui:insert></title>
+	<link rel="stylesheet" href="resources/CSS/alleKunden.css"
+		type="text/css" />
+	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
+	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.png" />
+</h:head>
+
+<h:body>
+	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
+
+	<h:form>
+		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
+			fluid="true" sticky="true">
+			<b:navbarLinks pull="right">
+
+				<b:navCommandLink iconAwesome="group" value="#{msg.Kontakt}"
+					href="kontakt.xhtml" />
+				<b:navCommandLink iconAwesome="info" value="#{msg.Impressum}"
+					href="Impressum.xhtml" />
+				<b:navCommandLink iconAwesome="leaf" value="#{msg.UeberUns}"
+					href="UeberUns.xhtml" />
+
+				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
+					<b:navCommandLink value="#{msg.deutsch} (DE)  "
+						action="#{loginHandler.deutschLang()}" immediate="true">
+						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="#{msg.englisch} (EN)  "
+						action="#{loginHandler.englischLang()}" immediate="true">
+						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="#{msg.franzoesich} (FR)  "
+						action="#{loginHandler.frenchLang()}" immediate="true">
+						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
+					</b:navCommandLink>
+				</b:dropMenu>
+
+				<b:dropMenu iconAwesome="user-circle"
+					value="#{loginHandler.user.benutzername}">
+
+					<b:navCommandLink iconAwesome="pencil"
+						value="#{msg.ProfilBearbeiten}"
+						action="#{loginHandler.loggedKundeBearbeiten()}" />
+					<b:navCommandLink iconAwesome="sign-out"
+						action="#{loginHandler.logout}" value="#{msg.Abmelden}" />
+					<b:navCommandLink></b:navCommandLink>
+					<b:navCommandLink iconAwesome="shopping-cart"
+						value="#{msg.Warenkorb}" disabled="true"
+						action="#{loginHandler.goToShopCard()}" />
+				</b:dropMenu>
+			</b:navbarLinks>
+		</b:navBar>
+
+		<hr width="80%" align="center" />
+		<h2 id="headPage" style="color: white;" align="center">
+			<ui:insert name="headPage">#{msg.Warenkorb}</ui:insert>
+		</h2>
+		<hr width="80%" align="center" />
+
+		<div class="content-container">
+			<p:growl placementFrom="top" show-detail="true" global-only="false"
+				show-summary="true" allow-dismiss="true"
+				animation-enter="animated bounceInDown"
+				animation-exit="animated flipOutX" />
+
+
+			<div style="margin: 5px 0px 50px 0px;">
+
+				<div>
+					<p:commandButton icon="pi pi-shopping-cart"
+						value="#{msg.WarenkorbLeeren}" update="@form"
+						action="#{loginHandler.warenkorbLeeren()}" />
+				</div>
+				<br />
+				
+				<p:staticMessage severity="warn" summary="#{msg.warnung}" detail="#{msg.infoWareLoeschen}" />
+				<p:messages showDetail="true" closable="true" />
+				<p:dataTable id="artikels" value="#{loginHandler.user.warenkorb}"
+					style="background-color:white;" var="artikel" rows="5"
+					emptyMessage="#{msg.keineAufzeichnungen}" selectionMode="single"
+					selection="#{loginHandler.merkeArtikel}" rowKey="#{artikel.name}"
+					paginator="true">
+
+
+					<f:facet name="header">
+						<p:commandButton id="toggler" type="button" value="#{msg.Spalte}"
+							style="float:left" icon="pi pi-align-justify" />
+						<p:columnToggler datasource="artikels" trigger="toggler" />
+					</f:facet>
+					<p:column>
+						<f:facet name="header">#{msg.Name}</f:facet>
+						<h:outputText value="#{artikel.name}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.Bild}</f:facet>
+						<p:graphicImage width="80px" height="50px"
+							value="/resources/IMAGES/ARTIKEL/#{artikel.imgName}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.Anzahl}</f:facet>
+						<h:outputText value="#{artikel.kaufAnzahl}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.preis} €</f:facet>
+						<h:outputText value="#{artikel.preis}">
+							<f:convertNumber currencySymbol="€" pattern="#0.00" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.TotalPreis} €</f:facet>
+						<h:outputText value="#{artikel.preisxnumber}">
+							<f:convertNumber currencySymbol="€" pattern="#0.00" />
+						</h:outputText>
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.Loeschen}</f:facet>
+						<p:commandButton icon="pi pi-trash" update="@form"
+							action="#{loginHandler.deleteFromCardShop()}" />
+					</p:column>
+				</p:dataTable>
+
+
+				<p:panel header="#{msg.KreditkarteDetails}" style="margin-top:20px;">
+					<h:panelGrid columns="2" style="color:black">
+						<h:outputText value="#{msg.ArtderKreditkarte}: " />
+						<b:selectOneMenu id="artKreditKarte"
+							value="#{loginHandler.kreditKarte.karteArt}">
+							<f:selectItems value="#{loginHandler.karteArtValues}"
+								var="status" itemValue="#{status}" itemLabel="#{status.label}" />
+						</b:selectOneMenu>
+
+						<h:outputText value="#{msg.Nummer}. : " />
+						<p:inputText value="#{loginHandler.kreditKarte.nummer}" required="true" requiredMessage="#{msg.NummerFehler}">
+							<f:converter converterId="kreditkartenConverter" />
+							<f:validator validatorId="kreditKarteValidator" />
+						</p:inputText>
+
+						<h:outputText value="#{msg.SicherheitsPIN} : " />
+						<p:inputNumber value="#{loginHandler.kreditKarte.code}" required="true" requiredMessage="#{msg.Sicherheit_Pin_Fehler}"
+							maxValue="999" maxlength="3" minValue="1" />
+
+						<h:outputText value="#{msg.Gueltigbis} : " />
+						<p:calendar id="validCard" navigator="true" required="true"
+							requiredMessage="#{msg.Gueltigbis_fehler}" mask="true"
+							value="#{loginHandler.kreditKarte.endDate}" pattern="MM/yyyy"/>
+							
+					</h:panelGrid>
+				</p:panel>
+
+				<p:panelGrid id="warenkorbPanel" columns="5" layout="grid"
+					style="width:100%; background-color: white; margin-top: 50px;"
+					styleClass="showcase-text-align-center">
+					<h:outputLabel for="size" value="#{msg.Anzahl} :" />
+					<h:outputText id="size"
+						value="#{loginHandler.totalArtikelInsWarenkorb}" />
+
+					<h:outputLabel for="totalPreis" value="#{msg.TotalPreis} € :" />
+					<h:outputText id="totalPreis"
+						value="#{loginHandler.totalPreisInsWarenkorb}">
+						<f:convertNumber maxFractionDigits="2"
+							pattern="#0.00" />
+					</h:outputText>
+				</p:panelGrid>
+
+				<p:commandButton id="shop" action="#{loginHandler.abbrechen()}" styleClass="vali-btn"
+					value="#{msg.ZurueckZumShop}" immediate="true" />
+
+				<p:commandButton id="confirmShop" update="@form" icon="pi pi-check" styleClass="vali-btn"
+					style="margin-left:600px;background-color:green;" action="#{loginHandler.Kaufbestätigen()}"
+					value="#{msg.KaufBestaetigen}">
+					<f:actionListener
+						binding="#{artikelHandler.updateArtikelnList(null)}" />
+				</p:commandButton>
+
+			</div>
+		</div>
+	</h:form>
+
+	<div id="footer">
+		<p:graphicImage style="width:200px;height:40px;"
+			value="resources/IMAGES/finallogo1.png" />
+		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
+			WEB-APPLICATION </span>
+	</div>
+
+
+</h:body>
+</html>

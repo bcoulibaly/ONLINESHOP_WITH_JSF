@@ -17,8 +17,8 @@
 	<groupId>de.hsb.app</groupId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<name>Web Shop Belisso mit Java EE</name>
-	<description>Eine Enterprise-webanwendung für eine Web-Shop namens Beliso</description>
+	<name>Belisso Shop mit Java EE</name>
+	<description>Eine Enterprise-webanwendung für eine Web-Shop namens Belisso Shop</description>
 
 	<licenses>
 		<license>
@@ -50,6 +50,7 @@
 		<!-- maven-compiler-plugin -->
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
+		<maven.test.skip>true</maven.test.skip>
 	</properties>
 
 
@@ -79,6 +80,14 @@
 			</dependency>
 		</dependencies>
 	</dependencyManagement>
+
+	<repositories>
+		<repository>
+			<id>prime-repo</id>
+			<name>Prime Repo</name>
+			<url>http://repository.primefaces.org</url>
+		</repository>
+	</repositories>
 
 	<dependencies>
 
@@ -205,7 +214,6 @@
 			<groupId>net.bootsfaces</groupId>
 			<artifactId>bootsfaces</artifactId>
 			<version>1.4.2</version>
-			<scope>compile</scope>
 		</dependency>
 
 		<dependency>
@@ -213,6 +221,22 @@
 			<artifactId>primefaces</artifactId>
 			<version>7.0</version>
 		</dependency>
+
+		 <dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-java</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>htmlunit-driver</artifactId>
+			<version>2.33.2</version>
+		</dependency>
+<!-- 
+
+		<dependency>
+			<groupId>org.seleniumhq.selenium</groupId>
+			<artifactId>selenium-server</artifactId>
+		</dependency> -->
 
 
 	</dependencies>

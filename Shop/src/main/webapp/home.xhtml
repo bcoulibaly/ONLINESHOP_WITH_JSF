@@ -1,94 +1,177 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml"
-      xmlns:ui="http://java.sun.com/jsf/facelets"
-      xmlns:f="http://java.sun.com/jsf/core"
-      xmlns:h="http://java.sun.com/jsf/html"
-      xmlns:b="http://bootsfaces.net/ui"
-      xmlns:p="http://primefaces.org/ui">
-      
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+<f:view locale="#{loginHandler.locale}" />
 <h:head>
-	<title><ui:insert name="title">Kundenverwaltung</ui:insert></title>
-	<link rel="stylesheet" href="resources/CSS/alleKunden.css" type="text/css" />
+	<title><ui:insert name="title">Beliso Shop| HOME</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
-	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
+	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.png" />
 </h:head>
 
 <h:body>
-	
-		<b:navBar id="top" brand="BELISO SHOP"
-			brandImg="resources/IMAGES/logo1.png"
-			brand-img-style="width:60px;
-				height:30px" fluid="true"
-			sticky="true">
+	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
+	<f:event listener="#{artikelHandler.updateArtikelnListen}"
+		type="preRenderView" />
+	<b:form>
+		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
+			fluid="true" sticky="true">
 			<b:navbarLinks pull="right">
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="group" spin="true"/>
-					<h:outputLabel value="	Contact" />
-				</b:navCommandLink>
-				<b:navCommandLink href="#">
-					<h:outputLabel value="Impressum" />
-					<b:iconAwesome name="info" />
-				</b:navCommandLink>
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="leaf" />
-					<h:outputLabel value="Ueber uns" />
-				</b:navCommandLink>
-				<b:navCommandLink style="margin-left:50px;">
-					<b:iconAwesome name="user" />
-					<h:outputLabel value="#{loginHandler.user.benutzername}" />
-				</b:navCommandLink>
+
+				<b:navCommandLink iconAwesome="group" value="#{msg.Kontakt}"
+					href="kontakt.xhtml" />
+				<b:navCommandLink iconAwesome="info" value="#{msg.Impressum}"
+					href="Impressum.xhtml" />
+				<b:navCommandLink iconAwesome="leaf" value="#{msg.UeberUns}"
+					href="UeberUns.xhtml" />
+
+				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
+					<b:navCommandLink value="#{msg.deutsch} (DE)  "
+						action="#{loginHandler.deutschLang()}" immediate="true">
+						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="#{msg.englisch} (EN)  "
+						action="#{loginHandler.englischLang()}" immediate="true">
+						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="#{msg.franzoesich} (FR)  "
+						action="#{loginHandler.frenchLang()}" immediate="true">
+						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
+					</b:navCommandLink>
+				</b:dropMenu>
+
+				<b:dropMenu iconAwesome="user-circle"
+					value="#{loginHandler.user.benutzername}">
+
+					<b:navCommandLink iconAwesome="pencil"
+						value="#{msg.ProfilBearbeiten}"
+						action="#{loginHandler.loggedKundeBearbeiten}" />
+					<b:navCommandLink iconAwesome="sign-out"
+						action="#{loginHandler.logout}" value="#{msg.Abmelden}">
+						<f:actionListener binding="#{shop.updateArtikelList(null)}" />
+						<f:actionListener
+							binding="#{artikelHandler.updateArtikelnList(null)}" />
+					</b:navCommandLink>
+					<b:navCommandLink></b:navCommandLink>
+					<b:navCommandLink iconAwesome="shopping-cart"
+						value="#{msg.Warenkorb}" action="#{loginHandler.goToShopCard()}" />
+				</b:dropMenu>
 			</b:navbarLinks>
 		</b:navBar>
-	
-	<b:jumbotron >
-		<ui:insert>
-			<h3>Willkommen auf BELISO SHOP</h3>
-			<p>hier finden Sie alles was Sie suchen. Wenn sie noch keine Kunde bei uns seid also registrieren Sie sich um tolle Angebotte zu erhalten.</p>
-		</ui:insert>
-	</b:jumbotron>
-	
-	<b:container id="content" style="width:100%;">
-		<p:dataGrid var="ca" value="#{artikelHandler.artikelListe}" columns="3"
-					rows="12" paginator="true"
-					paginatorTemplate="{CurrentPageReport}  {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
-					rowsPerPageTemplate="9,12,15">
+
+		<b:container styleClass="content-container">
+			<p:growl placementFrom="top" show-detail="true" show-summary="true"
+				allow-dismiss="true" animation-enter="animated bounceInDown"
+				animation-exit="animated flipOutX" escape="true" />
+			<b:jumbotron style="widht:100%;">
+				<ui:insert>
+					<h3>#{msg.jumbotron_welcome}</h3>
+					<p>#{msg.jumbotron_welcometext2}</p>
+				</ui:insert>
+			</b:jumbotron>
 
 
+			<p:messages showDetail="true" />
+			<p:dataGrid var="ca" value="#{artikelHandler.artikelListe}"
+				columns="3" rows="9" paginator="true"
+				style="width:100%; margin-top: 50px;"
+				emptyMessage="#{msg.keineAufzeichnungen}"
+				currentPageReportTemplate="{startRecord}-{endRecord} #{msg.von} {totalRecords} #{msg.Aufzeichnung}"
+				paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+				rowsPerPageTemplate="9,12,15">
 
-					<p:panel header="#{ca.beschreibung}" style="text-align:center">
-						<h:panelGrid columns="1" style="width:80%">
-							<p:graphicImage class="imgArt" value="/resources/#{ca.image}" />
+				<b:panel style="text-align:center;">
+					<b:panelGrid columns="1" style="width:100%;">
 
-							<h:outputText value="preis: #{ca.preis} €;" />
+						<p:graphicImage style="width:200px;height:100px;"
+							value="/resources/IMAGES/ARTIKEL/#{ca.imgName}" />
 
-							<p:commandLink value="info"
-								oncomplete="PF('carDialog').show()" title="View Detail">
-								<h:outputText styleClass="ui-icon ui-icon-search"
-									style="margin:0 auto;" />
-								<f:setPropertyActionListener value="#{ca}"
-									target="#{artikelHandler.merkeArtikel}" />
-							</p:commandLink>
+						<h:outputText value="#{msg.Name} :		#{ca.name}" />
+						<h:outputText value="#{msg.preis} :		#{ca.preis} €" />
+						<br style="margin-top: 10px" />
+						<p:commandButton value="#{msg.Infosanzeigen}" update="@none"
+							process="@this" icon="pi pi-search"
+							oncomplete="PF('infoDialog').show()">
+							<f:setPropertyActionListener value="#{ca}"
+								target="#{artikelHandler.merkeArtikel}" />
+						</p:commandButton>
 
-							<p:commandLink value="kaufen"
-								oncomplete="PF('Dialog').show()" title="View Detail">
-								<h:outputText styleClass="ui-icon ui-icon-search"
-									style="margin:0 auto;" />
-								<f:setPropertyActionListener value="#{ca}"
-									target="#{artikelHandler.merkeArtikel}" />
-							</p:commandLink>
+					</b:panelGrid>
+				</b:panel>
+			</p:dataGrid>
 
-						</h:panelGrid>
-					</p:panel>
+			<p:panelGrid id="warenkorbPanel" columns="5" layout="grid"
+				style="width:100%; background-color: white; margin-top: 50px;"
+				styleClass="showcase-text-align-center">
+				<h:outputLabel for="size" value="#{msg.ArtikelanzahlImWarenkorb} :" />
+				<h:outputText id="size"
+					value="#{loginHandler.totalArtikelInsWarenkorb}" />
 
-				</p:dataGrid>
-	</b:container>
+				<h:outputLabel for="totalPreis" value="#{msg.TotalPreis} : €" />
+				<h:outputText id="totalPreis"
+					value="#{loginHandler.totalPreisInsWarenkorb}">
+					<f:convertNumber maxFractionDigits="2" pattern="#0.00" />
+				</h:outputText>
+			</p:panelGrid>
 
-	<div id="footer">
-		<ui:insert name="footer">
-			<span>© Copyright 2019 | Ben Inza Coulibaly | Amadou Sow |
-				Lionel Babou</span>
-		</ui:insert>
-	</div>
+			<p:dialog widgetVar="infoDialog"
+				header="#{msg.header_dialog_artikel_info}" modal="true"
+				dynamic="true" closeOnEscape="true" fitViewport="true" width="400px"
+				resizable="false" showEffect="clip" hideEffect="explode">
+
+				<p:autoUpdate />
+				<p:outputPanel style="text-align:center;">
+					<p:graphicImage
+						value="/resources/IMAGES/ARTIKEL/#{artikelHandler.merkeArtikel.imgName}"
+						width="250" />
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel for="Name" value="#{msg.Name} :" />
+						<h:outputText id="Name"
+							value="#{artikelHandler.merkeArtikel.name}" />
+
+						<h:outputLabel for="Preis" value="#{msg.preis} :" />
+						<h:outputText id="Preis"
+							value="#{artikelHandler.merkeArtikel.preis} €" />
+
+						<h:outputLabel for="beschreibungartikel"
+							value="#{msg.Beschreibung}: " />
+						<h:outputText id="beschreibungartikel"
+							value="#{artikelHandler.merkeArtikel.beschreibung}" />
+
+						<h:outputLabel for="anzahl" value="#{msg.Verfuegbar} :" />
+						<h:outputText id="anzahl"
+							value="#{artikelHandler.merkeArtikel.anzahl}" />
+
+						<h:outputLabel for="spinner" value="#{msg.Anzahl} : " />
+						<p:spinner id="spinner" stepFactor="1" min="1" converter="javax.faces.Long" validator="javax.faces.LongRange"
+								value="#{artikelHandler.merkeArtikel.kaufAnzahl}" />
+						<br />
+						<p:commandButton value="#{msg.Warenkorbhinzufuegen}"
+							update="@form" icon="pi pi-warenkorb"
+							action="#{loginHandler.addToCardShop()}">
+							<f:setPropertyActionListener
+								value="#{artikelHandler.merkeArtikel}"
+								target="#{loginHandler.merkeArtikel}" />
+						</p:commandButton>
+
+					</h:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+
+		</b:container>
+
+		<div id="footer">
+			<p:graphicImage style="width:200px;height:40px;"
+				value="resources/IMAGES/finallogo1.png" />
+			<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
+				WEB-APPLICATION </span>
+		</div>
+
+
+	</b:form>
 </h:body>
-		
+
 </html>

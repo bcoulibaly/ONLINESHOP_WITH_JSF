@@ -1,0 +1,313 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
+<f:view locale="#{loginHandler.locale}" />
+<h:head>
+
+	<title><ui:insert name="title">BelissoShop-UserBearbeiten</ui:insert></title>
+	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
+	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.png" />
+	<h:outputScript name="resources/script/calendar_local.js" />
+	<style type="text/css">
+.label {
+	width: 20%;
+	padding: 4px;
+	color: black;
+}
+
+.value {
+	width: 80%;
+	padding: 4px;
+}
+
+.grid {
+	width: 100%;
+}
+
+.error {
+	color: red;
+}
+
+.outputLabel {
+	font-weight: bold;
+}
+
+.grid {
+	width: 33%;
+	padding: 4px;
+}
+</style>
+
+</h:head>
+<h:body>
+	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
+
+	<h:form id="kundenBearbeiten">
+		<b:navBar brandImg="resources/IMAGES/finallogo1.png"
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
+			fluid="true" sticky="true">
+			<b:navbarLinks pull="right">
+
+				<b:navCommandLink iconAwesome="group" value="#{msg.Kontakt}"
+					href="kontakt.xhtml" />
+				<b:navCommandLink iconAwesome="info" value="#{msg.Impressum}"
+					href="Impressum.xhtml" />
+				<b:navCommandLink iconAwesome="leaf" value="#{msg.UeberUns}"
+					href="UeberUns.xhtml" />
+
+				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
+					<b:navCommandLink value="#{msg.deutsch} (DE)  "
+						action="#{loginHandler.deutschLang()}" immediate="true">
+						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="#{msg.englisch} (EN)  "
+						action="#{loginHandler.englischLang()}" immediate="true">
+						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="#{msg.franzoesich} (FR)  "
+						action="#{loginHandler.frenchLang()}" immediate="true">
+						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
+					</b:navCommandLink>
+				</b:dropMenu>
+
+				<b:dropMenu iconAwesome="user"
+					value="#{loginHandler.user.benutzername}">
+					<b:navCommandLink icon-awesome="sign-out-alt"
+						action="#{loginHandler.logout()}" value="#{msg.Abmelden}" />
+					<b:navCommandLink icon-awesome="pen" disabled="true"
+						action="#{loginHandler.loggedKundeBearbeiten()}"
+						value="#{msg.ProfilBearbeiten}"></b:navCommandLink>
+				</b:dropMenu>
+			</b:navbarLinks>
+		</b:navBar>
+
+		<hr width="80%" align="center" />
+		<h2 id="headPage" align="center" style="color: white;">
+			<ui:insert name="headPage"> #{msg.ProfilBearbeiten}</ui:insert>
+		</h2>
+		<hr width="80%" align="center" />
+
+		<h:form>
+
+			<b:container class="content-container">
+				<p:growl id="growl" sticky="true" showDetail="true" />
+
+				<b:commandButton icon-awesome="home" style="margin:10px 0px;"
+					immediate="true" action="#{loginHandler.abbrechen()}"
+					value="#{msg.ZurueckZumShop}" />
+
+				<p:wizard flowListener="#{loginHandler.onFlowProcess}">
+					<p:tab id="personal" title="#{msg.tabs_name_persoenliches}">
+						<b:panel>
+							<b:messages />
+
+							<b:panelGrid columns="2" columnClasses="label, value">
+
+								<h:outputLabel value="#{msg.Anrede} :" for="anrede" />
+
+								<b:selectOneMenu id="anrede" value="#{loginHandler.user.anrede}">
+									<f:selectItems value="#{loginHandler.anredeValues}"
+										var="status" itemValue="#{status}" itemLabel="#{status.label}" />
+								</b:selectOneMenu>
+
+
+								<h:outputText value="#{msg.Vorname} : *" />
+								<b:inputText value="#{loginHandler.user.vorname}"
+									required="true">
+									<f:converter converterId="namenConverter" />
+								</b:inputText>
+
+								<h:outputText value="#{msg.Nachname} : *" />
+								<b:inputText value="#{loginHandler.user.name}" required="true">
+									<f:converter converterId="namenConverter" />
+								</b:inputText>
+
+								<h:outputText value="#{msg.Geburtsdatum} : " />
+								<p:calendar id="geburtsdatum"
+									value="#{loginHandler.user.geburtsdatum}" pattern="dd/MM/yyyy"
+									maxdate="#{loginHandler.maxDate}" required="true"
+									requiredMessage="Geburtsdatum fehlt" navigator="true" />
+
+								<h:outputText value="#{msg.Email} : *" />
+								<p:inputText value="#{loginHandler.user.email}" required="true"
+									placeholder="Email" requiredMessage="Email fehlt!!">
+									<f:validator validatorId="emailValidator" />
+								</p:inputText>
+								<h:outputText value="#{msg.skip} : " />
+                    			<h:selectBooleanCheckbox value="#{loginHandler.skip}" />
+							</b:panelGrid>
+						</b:panel>
+					</p:tab>
+
+					<p:tab id="address" title="#{msg.tabs_name_Adresse}">
+						<b:panel>
+							<b:messages />
+							<b:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="#{msg.Strasse}: " />
+								<b:inputText value="#{loginHandler.user.strasse}" />
+
+								<h:outputText value="#{msg.PLZ} : " />
+								<b:inputText value="#{loginHandler.user.plz}">
+									<f:converter converterId="kreditkartenConverter" />
+									<f:validator validatorId="nummerValidator" />
+								</b:inputText>
+
+								<h:outputText value="#{msg.Stadt} : " />
+								<b:inputText value="#{loginHandler.user.ort}">
+									<f:converter converterId="namenConverter" />
+								</b:inputText>
+								<h:outputText value="#{msg.skip} : " />
+                    			<h:selectBooleanCheckbox value="#{loginHandler.skip}" />
+							</b:panelGrid>
+						</b:panel>
+					</p:tab>
+
+					<p:tab id="kreditKarte" title="#{msg.tabs_name_KreditKarte}">
+						<p:panel>
+							<p:messages />
+							<h:panelGrid columns="2" columnClasses="label, value">
+
+								<h:outputText value="#{msg.ArtderKreditkarte} : " />
+								<b:selectOneMenu id="artKreditKarte"
+									value="#{loginHandler.kreditKarte.karteArt}">
+									<f:selectItems value="#{loginHandler.karteArtValues}"
+										var="status" itemValue="#{status}" itemLabel="#{status.label}" />
+								</b:selectOneMenu>
+
+								<h:outputText value="#{msg.Nummer} : " />
+								<p:inputText value="#{loginHandler.kreditKarte.nummer}">
+									<f:converter converterId="kreditkartenConverter" />
+									<f:validator validatorId="kreditKarteValidator" />
+								</p:inputText>
+
+								<h:outputText value="#{msg.SicherheitsPIN} : " />
+								<p:inputNumber value="#{loginHandler.kreditKarte.code}"
+									maxValue="999" maxlength="3" minValue="0" />
+
+								<h:outputText value="#{msg.Gueltigbis} : " />
+								<p:calendar id="validCard" navigator="true"
+									value="#{loginHandler.kreditKarte.endDate}" pattern="MM/yyyy">
+									<f:convertDateTime pattern="MM/yyyy" type="date" />
+								</p:calendar>
+								<h:outputText value="#{msg.skip} : " />
+                    			<h:selectBooleanCheckbox value="#{loginHandler.skip}" />
+							</h:panelGrid>
+						</p:panel>
+					</p:tab>
+
+					<p:tab id="loginData" title="#{msg.tabs_name_AnmeldeDaten}">
+						<b:panel>
+							<b:messages />
+							<b:panelGrid columns="2" columnClasses="label, value">
+								<h:outputText value="#{msg.Benutzername} : *" />
+								<b:inputText value="#{loginHandler.user.benutzername}"
+									required="true" requiredMessage="#{msg.Benutzername_fehler}!!" />
+
+								<h:outputText value="#{msg.Passwort} : *" />
+								<p:password id="pwd1" value="#{loginHandler.user.passwort}"
+									match="pwd2" feedback="true"
+									requiredMessage="#{msg.Passwort_fehler}" />
+
+								<h:outputText value="#{msg.Passwortwiederholen} : *" />
+								<p:password id="pwd2"
+									value="#{loginHandler.user.passwortWiederholen}"
+									feedback="true" requiredMessage="#{msg.Passwortwiederholen}" />                    			
+							</b:panelGrid>
+						</b:panel>
+					</p:tab>
+
+					<p:tab id="confirm" title="Confirmation">
+						<p:panel header="Confirmation">
+							<h:panelGrid id="confirmation" columns="4"
+								columnClasses="grid,grid,grid,grid">
+								<h:panelGrid columns="2" columnClasses="label, value">
+									<h:outputText value="Firstname: " />
+									<h:outputText value="#{loginHandler.user.vorname}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="#{msg.Vorname}: " />
+									<h:outputText value="#{loginHandler.user.name}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="#{msg.Geburtsdatum} : " />
+									<h:outputText value="#{loginHandler.user.geburtsdatum}"
+										styleClass="outputLabel">
+										<f:convertDateTime locale="#{loginHandler.locale}"
+											pattern="dd/MM/yyyy" />
+									</h:outputText>
+								</h:panelGrid>
+
+								<h:panelGrid columns="2" columnClasses="label, value">
+									<h:outputText value="#{msg.Strasse} : " />
+									<h:outputText value="#{loginHandler.user.strasse}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="#{msg.PLZ} : " />
+									<h:outputText value="#{loginHandler.user.plz}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="#{msg.Stadt} : " />
+									<h:outputText value="#{loginHandler.user.ort}"
+										styleClass="outputLabel" />
+								</h:panelGrid>
+
+								<h:panelGrid columns="2" columnClasses="label, value">
+									<h:outputText value="#{msg.ArtderKreditkarte} :" />
+									<h:outputText value="#{loginHandler.kreditKarte.karteArt}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="#{msg.Nummer} : " />
+									<h:outputText value="#{loginHandler.kreditKarte.nummer}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="#{msg.SicherheitsPIN} : " />
+									<h:outputText value="#{loginHandler.kreditKarte.code}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="#{msg.Gueltigbis} : " />
+									<h:outputText value="#{loginHandler.kreditKarte.endDate}"
+										styleClass="outputLabel">
+										<f:convertDateTime locale="#{loginHandler.locale}"
+											pattern="MM/yyyy" />
+									</h:outputText>
+								</h:panelGrid>
+
+								<h:panelGrid columns="2" columnClasses="label, value">
+									<h:outputText value="#{msg.Email} : " />
+									<h:outputText value="#{loginHandler.user.email}"
+										styleClass="outputLabel" />
+
+									<h:outputText value="#{msg.Benutzername} : " />
+									<h:outputText value="#{loginHandler.user.benutzername}"
+										styleClass="outputLabel" />
+									
+									<h:outputText value="#{msg.Passwort}" />
+                    				<h:outputText value="#{loginHandler.user.passwort}" />
+								</h:panelGrid>
+							</h:panelGrid>
+							<b:commandButton value="#{msg.Abschicken}"
+								style="margin-top:10px 0px;" immediate="true" iconAwesome="save"
+								action="#{loginHandler.bearbeitungSpeichern()}" look="success" />
+						</p:panel>
+					</p:tab>
+				</p:wizard>
+				<b:commandButton action="#{loginHandler.abbrechen}"
+					styleClass="vali-btn" value="Abbrechen" immediate="true"
+					look="primary" />
+
+			</b:container>
+		</h:form>
+
+		<div id="footer" style="margin-top: 325px;">
+			<p:graphicImage style="width:200px;height:40px;"
+				value="resources/IMAGES/finallogo1.png" />
+			<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
+				WEB-APPLICATION </span>
+		</div>
+
+	</h:form>
+</h:body>
+</html>

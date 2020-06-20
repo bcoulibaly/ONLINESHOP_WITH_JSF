@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:b="http://bootsfaces.net/ui" xmlns:p="http://primefaces.org/ui">
+<f:view locale="#{loginHandler.locale}" />
+<h:head>
+	<title><ui:insert name="title">Belisso Shop - Ueber Uns</ui:insert></title>
+	<link rel="stylesheet" href="resources/CSS/alleKunden.css"
+		type="text/css" />
+	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
+	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.png" />
+</h:head>
+
+<h:body style="background-color:white; background-image:none;">
+	<h:form>
+		<p:autoUpdate />
+		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
+			fluid="true" sticky="true" look="primary">
+			<b:navbarLinks style="text-color:white;" pull="right">
+
+				<b:navCommandLink iconAwesome="group" value="#{msg.Kontakt}"
+					href="kontakt.xhtml" />
+				<b:navCommandLink iconAwesome="info" value="#{msg.Impressum}"
+					href="Impressum.xhtml" />
+				<b:navCommandLink iconAwesome="leaf" value="#{msg.UeberUns}"
+					href="UeberUns.xhtml" />
+
+				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
+					<b:navCommandLink value="#{msg.deutsch} (DE)  "
+						action="#{loginHandler.deutschLang()}" immediate="true">
+						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="#{msg.englisch} (EN)  "
+						action="#{loginHandler.englischLang()}" immediate="true">
+						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="#{msg.franzoesich} (FR)  "
+						action="#{loginHandler.frenchLang()}" immediate="true">
+						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
+					</b:navCommandLink>
+				</b:dropMenu>
+
+				<b:navCommandLink value="Home" iconAwesome="home"
+					action="#{loginHandler.abbrechen()}" />
+			</b:navbarLinks>
+		</b:navBar>
+	</h:form>
+
+	<h:form>
+
+		<b:container styleClass="content-container">
+			<b:jumbotron>
+
+				<h2>#{msg.UeberUns}</h2>
+			</b:jumbotron>
+
+			<div align="center"
+				style="background-color: white; color: black; width: 55%; margin-left: 20%;">
+				<p>#{msg.UeberUnsText1}</p>
+				<br />
+				<p>#{msg.UeberUnsText2}</p>
+			</div>
+
+
+		</b:container>
+	</h:form>
+
+	<div id="footer" style="margin-top: 405px;">
+		<p:graphicImage style="width:200px;height:40px;"
+			value="resources/IMAGES/finallogo1.png" />
+		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
+			WEB-APPLICATION </span>
+	</div>
+</h:body>
+
+</html>

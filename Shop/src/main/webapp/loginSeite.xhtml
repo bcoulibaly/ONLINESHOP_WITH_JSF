@@ -4,94 +4,117 @@
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
-
+<f:view locale="#{loginHandler.locale}" />
 <h:head>
-	<title><ui:insert name="title">LoginSeite</ui:insert></title>
+	<title><ui:insert name="title">Belisso Shop - LoginSeite</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
-	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
+	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.png" />
 </h:head>
 
 <h:body>
+	<f:event listener="#{shop.updateArtikelListen}"
+		type="preRenderView" />
+	<h:form>
+		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
+			fluid="true" sticky="true">
+			<b:navbarLinks style="text-color:white;" pull="right">
 
-		<b:navBar id="top" brand="BELISO SHOP"
-			brandImg="resources/IMAGES/logo1.png"
-			brand-img-style="width:60px;
-				height:30px" fluid="true"
-			sticky="true">
-			<b:navbarLinks pull="right">
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="fa-group" spin="true"/>
-					<h:outputLabel value="	Contact" />
-				</b:navCommandLink>
-				<b:navCommandLink href="#">
-					<h:outputLabel value="Impressum" />
-					<b:iconAwesome name="fa-info" />
-				</b:navCommandLink>
-				<b:navCommandLink href="#">
-					<b:iconAwesome name="fa-leaf" />
-					<h:outputLabel value="Ueber uns" />
-				</b:navCommandLink>
+				<b:navCommandLink iconAwesome="group" value="#{msg.Kontakt}"
+					href="kontakt.xhtml" />
+				<b:navCommandLink iconAwesome="info" value="#{msg.Impressum}"
+					href="Impressum.xhtml" />
+				<b:navCommandLink iconAwesome="leaf" value="#{msg.UeberUns}"
+					href="UeberUns.xhtml" />
+
+				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
+					<b:navCommandLink value="#{msg.deutsch} (DE)  "
+						action="#{loginHandler.deutschLang()}" immediate="true">
+						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="#{msg.englisch} (EN)  "
+						action="#{loginHandler.englischLang()}" immediate="true">
+						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="#{msg.franzoesich} (FR)  "
+						action="#{loginHandler.frenchLang()}" immediate="true">
+						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
+					</b:navCommandLink>
+				</b:dropMenu>
+
+				<b:navCommandLink iconAwesome="home"
+					href="shopView.xhtml?redirect=true" />
 			</b:navbarLinks>
 		</b:navBar>
+	</h:form>
 
+	<hr width="80%" align="center" />
+	<h2 id="headPage" align="center" style="color: white;">
+		<ui:insert name="headPage">#{msg.Anmelden}</ui:insert>
+	</h2>
+	<hr width="80%" align="center" />
 
-	<b:container style=" text-align:center; margin:auto; margin-top:100px;margin-bottom:100px; background-color:white; width:80%;">
-			<h1>Willkommen auf BELISO SHOP</h1>
-			<p>hier finden Sie alles was Sie suchen. Wenn sie noch keine Kunde bei uns seid also registrieren Sie sich um tolle Angebotte zu erhalten.</p>
-	</b:container>
-
-	<b:container  id="content" style="width:100%; margin:auto;">
-		<b:container style="width:40%;margin:auto;">
-			<h:form id="loginForm">
-				<b:panel style="margin-x:auto;" title="LOGIN" look="success" collapsible="false">
-					<b:row>
-						<b:column medium-screen="12">
-							<h:outputText value="Username:" for="username" />
-						</b:column>
-						<b:column medium-screen="12">
-							<b:inputText placeholder="Username" id="username"
-								value="#{loginHandler.benutzername}" autocomplete="false">
-								<f:facet name="prepend">
-									<b:icon name="user" />
-								</f:facet>
-							</b:inputText>
-						</b:column>
-					</b:row>
-					<b:row>
-						<b:column medium-screen="12">
-							<h:outputText value="Password:" />
-						</b:column>
-						<b:column medium-screen="12">
-							<b:inputSecret placeholder="Password" id="password"
-								value="#{loginHandler.passwort}" autocomplete="false">
-								<f:facet name="prepend">
-									<b:iconAwesome name="key" />
-								</f:facet>
-							</b:inputSecret>
-						</b:column>
-					</b:row>
-					<b:row>
-						<b:column span="4" offset="2">
-							<h:commandButton value="login" action="#{loginHandler.login}"
-								 style="width:100%; background-color:#80ff80;"/>
-						</b:column>
-						<b:column span="4">
-							<h:commandButton value="Registrieren"
-								action="/Registrieren.xhtml"  look="primary"
-								style="width:100%; background-color:#0080ff;" />
-						</b:column>
-					</b:row>
-				</b:panel>
-			</h:form>
+	<h:form id="loginForm">
+		<b:container styleClass="loginClass">
+			<p:growl placementFrom="top" show-detail="true" show-summary="true"
+				animation-enter="animated bounceInDown" showDetail="true"
+				animation-exit="animated flipOutX" escape="true" />
+			<b:panel style="width:50%;margin:auto;" title="#{msg.Einloggen}"
+				look="success" collapsible="false">
+				<b:row>
+					<b:column medium-screen="12">
+						<p:messages showIcon="true"  showDetail="true"/>
+					</b:column>
+					<b:column medium-screen="12">
+						<h:outputText value="#{msg.Benutzername} :" for="username" />
+					</b:column>
+					<b:column medium-screen="12">
+						<b:inputText placeholder="#{msg.BenutzernameEingeben}"
+							required="true" requiredMessage="#{msg.Benutzername_fehler}"
+							id="username" value="#{credential.username}" autocomplete="true">
+							<f:facet name="prepend">
+								<b:icon name="user" />
+							</f:facet>
+						</b:inputText>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column medium-screen="12">
+						<h:outputText value="#{msg.Passwort}:" />
+					</b:column>
+					<b:column medium-screen="12">
+						<b:inputSecret placeholder="#{msg.PasswortEingeben}" id="password"
+							required="true" requiredMessage="#{msg.Passwort_fehler}"
+							value="#{credential.password}" autocomplete="true">
+							<f:facet name="prepend">
+								<b:iconAwesome name="key" />
+							</f:facet>
+						</b:inputSecret>
+					</b:column>
+				</b:row>
+				<b:row>
+					<b:column span="4" offset="2">
+						<b:commandButton value="#{msg.Anmelden}" process="@all"
+							action="#{loginHandler.login}" update="@form"
+							style="width:100%; background-color:#00DBDE;" />
+					</b:column>
+					<b:column span="4">
+						<b:commandButton value="#{msg.Registrieren}" immediate="true"
+							action="#{loginHandler.registrieren}"
+							style="width:100%; background-color:#2E64FE;" />
+					</b:column>
+				</b:row>
+			</b:panel>
 		</b:container>
-	</b:container>
+	</h:form>
 
-	<div id="footer">
-		<ui:insert name="footer">
-			<span>Copyright 2019 | Ben Inza Coulibaly | Amadou Sow |
-				Lionel Babou</span>
-		</ui:insert>
+	<div id="footer" style="margin-top: 305px;">
+		<p:graphicImage style="width:200px;height:40px;"
+			value="resources/IMAGES/finallogo1.png" />
+		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
+			WEB-APPLICATION </span>
 	</div>
+
 </h:body>
 
 </html>

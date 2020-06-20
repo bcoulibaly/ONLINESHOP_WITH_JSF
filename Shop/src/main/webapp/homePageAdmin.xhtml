@@ -4,147 +4,235 @@
 	xmlns:h="http://java.sun.com/jsf/html"
 	xmlns:f="http://java.sun.com/jsf/core"
 	xmlns:p="http://primefaces.org/ui" xmlns:b="http://bootsfaces.net/ui">
-
+<f:view locale="#{loginHandler.locale}" />
 <h:head>
-	<title><ui:insert name="title">Kundenverwaltung</ui:insert></title>
+	<title><ui:insert name="title">Belisso Shop - Home Page Admin</ui:insert></title>
 	<link rel="stylesheet" href="resources/CSS/alleKunden.css"
 		type="text/css" />
 	<link rel="stylesheet" href="resources/CSS/general.css" type="text/css" />
-	<link rel="shortcut icon" href="resources/IMAGES/logo1.jpg" />
+	<link rel="shortcut icon" href="resources/IMAGES/finallogo1.png" />
 </h:head>
 
 <h:body>
+	<f:event listener="#{loginHandler.checkLoggedIn}" type="preRenderView" />
 
-	<b:navBar brand="BELISO SHOP" brandImg="resources/IMAGES/logo1.png"
-		brand-img-style="width:60px;
-				height:30px" fluid="true"
-		sticky="true">
-		<b:navbarLinks pull="right">
-			<b:navCommandLink href="#">
-				<b:iconAwesome name="fa-group" spin="true" />
-				<h:outputLabel value="	Contact" />
-			</b:navCommandLink>
-			<b:navCommandLink href="#">
-				<h:outputLabel value="Impressum" />
-				<b:iconAwesome name="fa-info" spin="true" />
-			</b:navCommandLink>
-			<b:navCommandLink href="#">
-				<b:iconAwesome name="fa-leaf" spin="true" />
-				<h:outputLabel value="Ueber uns" />
-			</b:navCommandLink>
-			
-			
-			<b:dropButton value="#{loginHandler.user.benutzername}">
-				<b:iconAwesome name="user" />
-				<b:navLink value="Profil editieren" href="#"></b:navLink>
-				<b:navLink></b:navLink>
-				<b:navLink onclick="#{loginHandler.loggout()}" value="Abmelden" ></b:navLink>
-			</b:dropButton>
-		</b:navbarLinks>
-	</b:navBar>
+	<h:form>
+		<b:navBar id="top" brandImg="resources/IMAGES/finallogo1.png"
+			brand-img-style="width:100px; height:40px;padding-bottom:10px;"
+			fluid="true" sticky="true">
+			<b:navbarLinks pull="right">
 
-	<hr width="80%" align="center" />
-	<h2 id="headPage" align="center">
-		<ui:insert name="headPage">HomePage Admin</ui:insert>
-	</h2>
-	<hr width="80%" align="center" />
-	<div id="content" align="center">
-		<h:form>
-			<ui:insert name="content">
-				<h4 style="color: white;">
-					<ui:insert>Alle Kunden</ui:insert>
-				</h4>
-				<h:commandButton action="#{kundenHandler.neu()}"
-					value="Neuer Kunde anlegen" />
-				<h:dataTable var="kunde" value="#{kundenHandler.kundenListe}"
-					rowClasses="odd,even" headerClass="header" cellspacing="5px">
-					<!-- 					<f:facet name="header">Alle Kunden</f:facet> -->
-					<h:column>
-						<f:facet name="header">Anrede</f:facet>
-						<h:outputText value="#{kunde.anrede}" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">Vorname</f:facet>
-						<h:outputText value="#{kunde.vorname}" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">Nachname</f:facet>
-						<h:outputText value="#{kunde.name}" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">Benutzername</f:facet>
-						<h:outputText value="#{kunde.benutzername}" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">Password</f:facet>
-						<h:outputText value="#{kunde.passwort}" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">Strasse</f:facet>
-						<h:outputText value="#{kunde.strasse}" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">Geburtsdatum</f:facet>
-						<h:outputFormat value="#{kunde.geburtsdatum}">
-							<f:convertDateTime pattern="dd.MM.yy" />
-						</h:outputFormat>
-					</h:column>
-					<h:column>
-						<f:facet name="header">Rolle</f:facet>
-						<h:outputFormat value="#{kunde.rolle}" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">bearbeiten</f:facet>
-						<h:commandButton value="bearbeiten" />
-					</h:column>
+				<b:navCommandLink iconAwesome="group" value="#{msg.Kontakt}"
+					href="kontakt.xhtml" />
+				<b:navCommandLink iconAwesome="info" value="#{msg.Impressum}"
+					href="Impressum.xhtml" />
+				<b:navCommandLink iconAwesome="leaf" value="#{msg.UeberUns}"
+					href="UeberUns.xhtml" />
+
+				<b:dropMenu iconAwesome="globe" value="#{msg.Sprache}">
+					<b:navCommandLink value="#{msg.deutsch} (DE)  "
+						action="#{loginHandler.deutschLang()}" immediate="true">
+						<b:image value="resources/IMAGES/de.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="#{msg.englisch} (EN)  "
+						action="#{loginHandler.englischLang()}" immediate="true">
+						<b:image value="resources/IMAGES/en.png" width="20" height="20" />
+					</b:navCommandLink>
+					<b:navCommandLink value="#{msg.franzoesich} (FR)  "
+						action="#{loginHandler.frenchLang()}" immediate="true">
+						<b:image value="resources/IMAGES/fr.jpg" width="20" height="20" />
+					</b:navCommandLink>
+				</b:dropMenu>
+
+				<b:dropMenu iconAwesome="user"
+					value="#{loginHandler.user.benutzername}">
+					<b:navCommandLink icon-awesome="pencil"
+						action="#{loginHandler.loggedKundeBearbeiten()}"
+						value="#{msg.ProfilBearbeiten}"></b:navCommandLink>
+					<b:navCommandLink icon-awesome="sign-out"
+						action="#{loginHandler.logout()}" value="#{msg.Abmelden}" />
+				</b:dropMenu>
+			</b:navbarLinks>
+		</b:navBar>
+
+		<hr width="80%" align="center" />
+		<h2 id="headPage" style="color: white;" align="center">
+			<ui:insert name="headPage">#{msg.HomePageAdmin}</ui:insert>
+		</h2>
+		<hr width="80%" align="center" />
+
+		<div class="content-container">
+
+			<p:growl placementFrom="top" show-detail="true" global-only="false"
+				show-summary="true" allow-dismiss="true"
+				animation-enter="animated bounceInDown"
+				animation-exit="animated flipOutX" />
+
+			<p:messages showDetail="true"/>
+			<b:commandButton action="#{loginHandler.neu()}"
+				value="#{msg.Neuer_Admin_Hinzufuegen}" iconAwesome="user-plus"
+				look="primary" />
+
+			<div style="margin: 10px 0px;">
+					
+				<p:dataTable id="users" value="#{loginHandler.kundenList}"
+					style="background-color:white;" var="kunde" rows="10"
+					paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="{startRecord}-{endRecord} #{msg.von} {totalRecords} #{msg.Aufzeichnung}"
+					rowsPerPageTemplate="5,10,15">
+
+					<f:facet name="header">
+						<p:commandButton id="toggler" type="button" value="#{msg.Spalte}"
+							style="float:left" icon="pi pi-align-justify" />
+						<p:columnToggler datasource="users" trigger="toggler" />
+					</f:facet>
 					<p:column>
-						<f:facet name="header">löschen</f:facet>
-						<h:commandButton value="löschen" />
-						<b:iconAwesome />
+						<f:facet name="header">ID</f:facet>
+						<h:outputText value="#{kunde.id}" />
 					</p:column>
-				</h:dataTable>
+					<p:column>
+						<f:facet name="header">#{msg.Anrede}</f:facet>
+						<h:outputText value="#{kunde.anrede}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.Vorname}</f:facet>
+						<h:outputText value="#{kunde.vorname}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.Nachname}</f:facet>
+						<h:outputText value="#{kunde.name}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.Benutzername}</f:facet>
+						<h:outputText value="#{kunde.benutzername}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.tabs_name_Adresse}</f:facet>
+						<h:outputText value="#{kunde.strasse}, #{kunde.plz} #{kunde.ort}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.Geburtsdatum}</f:facet>
+						<h:outputFormat value="#{kunde.geburtsdatum}">
+							<f:convertDateTime pattern="MM/dd/yyyy" />
+						</h:outputFormat>
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.Rolle}</f:facet>
+						<h:outputFormat value="#{kunde.rolle}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.kreditKarte}</f:facet>
+						<p:commandButton update="@none" process="@this" icon="pi pi-info"
+							oncomplete="PF('infoDialog').show()">
+							<f:setPropertyActionListener value="#{kunde.kreditKarte}"
+								target="#{loginHandler.kreditKarte}" />
+						</p:commandButton>
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.Bearbeiten}</f:facet>
+						<p:commandButton icon="pi pi-pencil"
+							action="#{loginHandler.normaleKundeBearbeiten()}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.Loeschen}</f:facet>
+						<p:commandButton icon="pi pi-user-minus" update="@form"
+							action="#{loginHandler.userLöschen()}" />
+					</p:column>
+				</p:dataTable>
 
-				<br />
-				<h4 style="color: white;">
-					<ui:insert>Alle Artikeln</ui:insert>
-				</h4>
-				<p:commandButton action="#{artikelHandler.neuArtikel}"
-					value="Neues Artikel anlegen" />
-				<h:dataTable var="artikel" value="#{artikelHandler.artikelListe}"
-					rowClasses="odd,even" headerClass="header">
-					<h:column>
-						<f:facet name="header">Name</f:facet>
+			</div>
+			<b:commandButton id="addButton" action="#{artikelHandler.neuArtikel}"
+				value="#{msg.NeuenArtikelAnlegen}" look="primary" />
+			<br />
+
+			<div style="margin: 5px 0px;">
+				<p:dataTable id="artikelTable" var="artikel"
+					value="#{artikelHandler.artikelListe}" rowClasses="odd,even"
+					headerClass="header" paginator="true"
+					paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown}"
+					currentPageReportTemplate="{startRecord}-{endRecord} #{msg.von} {totalRecords} #{msg.Aufzeichnung}"
+					rowsPerPageTemplate="5,10,15" rows="5">
+					<f:facet name="header">
+						<p:commandButton id="toggler" type="button" value="#{msg.Spalte}"
+							style="float:left" icon="pi pi-align-justify" />
+						<p:columnToggler datasource="artikelTable" trigger="toggler" />
+					</f:facet>
+
+					<p:column>
+						<f:facet name="header">#{msg.Name}</f:facet>
 						<h:outputText value="#{artikel.name}" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">Beschreibung</f:facet>
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.Beschreibung}</f:facet>
 						<h:outputText value="#{artikel.beschreibung}" />
-					</h:column>
-					<h:column>
-						<f:facet name="header">Preis</f:facet>
-						<h:outputLabel value="#{artikel.preis}">€</h:outputLabel>
-					</h:column>
-					<h:column>
-						<f:facet name="header">Image</f:facet>
-						<h:graphicImage width="80px" height="50px"
-							url="/resources/IMAGES/ARTIKEL/#{artikel.image}" />
-					</h:column>
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.preis}</f:facet>
+						<h:outputLabel value="#{artikel.preis} €">
+							<f:convertNumber pattern="#0.00" />
+						</h:outputLabel>
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.Bild}</f:facet>
+						<p:graphicImage width="80px" height="50px"
+							value="/resources/IMAGES/ARTIKEL/#{artikel.imgName}" />
+					</p:column>
 
-					<h:column>
-						<f:facet name="header">Anzahl</f:facet>
+					<p:column>
+						<f:facet name="header">#{msg.Anzahl}</f:facet>
 						<h:outputFormat value="#{artikel.anzahl}" />
-					</h:column>
-				</h:dataTable>
-			</ui:insert>
-		</h:form>
-	</div>
+					</p:column>
+
+					<p:column>
+						<f:facet name="header">#{msg.Bearbeiten}</f:facet>
+						<p:commandButton icon="pi pi-pencil"
+							action="#{artikelHandler.artikelBearbeiten}" />
+					</p:column>
+					<p:column>
+						<f:facet name="header">#{msg.Loeschen}</f:facet>
+						<p:commandButton icon="pi pi-trash" icon-size="1x"
+							update="@form" action="#{artikelHandler.löschen}" />
+					</p:column>
+				</p:dataTable>
+			</div>
+
+			<p:dialog widgetVar="infoDialog" header="#{msg.KreditkarteDetails}"
+				modal="true" resizable="false" showEffect="clip"
+				hideEffect="explode">
+
+				<p:autoUpdate />
+				<p:outputPanel style="text-align:center;">
+					<h:panelGrid columns="2" cellpadding="5">
+						<h:outputLabel for="Name" value="#{msg.ArtderKreditkarte} :" />
+						<h:outputText id="Name"
+							value="#{loginHandler.kreditKarte.karteArt}" />
+
+						<h:outputLabel for="Nummer" value="#{msg.Nummer} :" />
+						<h:outputText id="Nummer"
+							value="#{loginHandler.kreditKarte.nummer}" />
+
+						<h:outputLabel for="endDate" value="#{msg.Gueltigbis} :" />
+						<h:outputText id="endDate"
+							value="#{loginHandler.kreditKarte.endDate}">
+							<f:convertDateTime locale="#{loginHandler.locale}"
+								pattern="MM/yyy" />
+						</h:outputText>
+					</h:panelGrid>
+				</p:outputPanel>
+			</p:dialog>
+
+		</div>
+	</h:form>
+
 
 	<div id="footer">
-		<ui:insert name="footer">
-			<span>Copyright 2019 | Ben Inza Coulibaly | Amadou Sow |
-				Lionel Babou</span>
-		</ui:insert>
+		<p:graphicImage style="width:200px;height:40px;"
+			value="resources/IMAGES/finallogo1.png" />
+		<span>© Copyright 2019 BELISSO SHOP | Ben Inza Coulibaly | JSF
+			WEB-APPLICATION </span>
 	</div>
+
 </h:body>
 
 </html>
